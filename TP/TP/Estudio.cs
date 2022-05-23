@@ -25,7 +25,7 @@ namespace TP
 			get{return this.expedientes;}
 		}
 
-		public public void AgregarAbogado(Abogado abogado)
+		public void AgregarAbogado(Abogado abogado)
 		{
 			abogados.Add(abogado);
 		}
