@@ -1,22 +1,33 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Martin
- * Date: 23/05/2022
- * Time: 19:12
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
+using System.Collections;
 
 namespace TP
 {
 	/// <summary>
-	/// Description of Estudio.
+	/// Estudio de abogados.
 	/// </summary>
 	public class Estudio
 	{
+		private ArrayList expedientes;
+		private ArrayList abogados;
+		
 		public Estudio()
 		{
+		}
+		
+		public ArrayList Abogados {
+			
+			get{return this.abogados;}
+		}
+		
+		public ArrayList Expedientes{
+			
+			get{return this.expedientes;}
+		}
+
+		public public void AgregarAbogado(Abogado abogado)
+		{
+			abogados.Add(abogado);
 		}
 	}
 }
