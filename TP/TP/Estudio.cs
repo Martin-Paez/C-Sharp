@@ -29,5 +29,12 @@ namespace TP
 		{
 			abogados.Add(abogado);
 		}
+		
+		public void EliminarAbogado(string dni) {
+			int i = -1;
+			while ( ++i<=abogados.Count()-1 & abogados[i].Dni != dni );
+			if (i<=abogados.Count()-1)
+				abogados.Remove(abogados[i]);
+		}
 	}
 }
