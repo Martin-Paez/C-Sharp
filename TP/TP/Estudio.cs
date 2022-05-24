@@ -56,8 +56,8 @@ namespace TP
 		
 		private int existeAbogado(string dni){
 			int i = -1;
-			while ( (++i<=abogados.Count-1) && ((Abogado)abogados[i]).Dni != dni );
-			if ( i > abogados.Count-1)
+			while ( (++i<abogados.Count) && ((Abogado)abogados[i]).Dni != dni );
+			if ( i > abogados.Count)
 				i = 0;
 			return i-1;
 		}
