@@ -16,17 +16,61 @@ namespace TP
 		public static void Main(string[] args)
 		{
 			Estudio e = initWorld();
-			string item;
-			do {
-				item="0";
-				imprimirMenu();
-				Console.Write("> Numero de Opcion: ");
-				item = Console.ReadLine();
-				resolverItem(item, e);
-			} while( item != "9" );
-		
+			while( resolverItem( elegirItem() , e) );
 		}
 		
+		private static bool resolverItem(string item, Estudio e){
+			Console.Clear();
+			string exit = "\nPresiona una tecla para volver al menu. . . ";
+			switch(item.Trim()){
+				case "1":
+					AgregarAbogado(e);
+					break;
+				case "2":
+					EliminarAbogado(e);
+					break;
+				case "3":
+					ImprimirAbogados(e);
+					break;
+				case "4":
+					ImprimirExpedientes(e);
+					break;
+				case "5":
+					AgregarExpediente(e);
+					break;
+				case "6":
+					break;
+				case "7":
+					break;
+				case "8":
+					break;
+				case"9":
+					exit = "Programa terminado con exito";
+					return false;
+				default:
+					exit = "Opcion invalida";
+					break;
+			}
+			Console.Write(exit);
+			Console.ReadKey(true);
+			return true;
+		}
+		
+		public static string elegirItem(){
+			Console.Clear();
+			Console.WriteLine("1) Agregar abogado");
+			Console.WriteLine("2) Eliminar abogado");
+			Console.WriteLine("3) Listado de abogados");
+			Console.WriteLine("4) Listado de expedientes");
+			Console.WriteLine("5) Agregar expediente");
+			Console.WriteLine("6) Modificar el estado de un expediente");
+			Console.WriteLine("7) Eliminar expediente por numero ");
+			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
+			Console.WriteLine("9) Salir \n");
+			Console.Write("> Numero de Opcion: ");
+			return Console.ReadLine();
+		}
+
 		public static Persona crearPersona(){
 			Console.Write("Nombre: ");
 			string nombre = Console.ReadLine();
@@ -140,55 +184,6 @@ namespace TP
 					Console.WriteLine("");
 				}
 		}
-		
-		public static void imprimirMenu(){
-			Console.Clear();
-			Console.WriteLine("1) Agregar abogado");
-			Console.WriteLine("2) Eliminar abogado");
-			Console.WriteLine("3) Listado de abogados");
-			Console.WriteLine("4) Listado de expedientes");
-			Console.WriteLine("5) Agregar expediente");
-			Console.WriteLine("6) Modificar el estado de un expediente");
-			Console.WriteLine("7) Eliminar expediente por numero ");
-			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
-			Console.WriteLine("9) Salir \n");
-		}
-		
-		private static void resolverItem(string item, Estudio e){
-			Console.Clear();
-			string exit = "\nPresiona una tecla para volver al menu. . . ";
-			switch(item.Trim()){
-				case "1":
-					AgregarAbogado(e);
-					break;
-				case "2":
-					EliminarAbogado(e);
-					break;
-				case "3":
-					ImprimirAbogados(e);
-					break;
-				case "4":
-					ImprimirExpedientes(e);
-					break;
-				case "5":
-					AgregarExpediente(e);
-					break;
-				case "6":
-					break;
-				case "7":
-					break;
-				case "8":
-					break;
-				case "9":
-					exit = "Programa terminado con exito";
-					break;
-				default:
-					exit = "Opcion invalida";
-					break;
-			}
-			Console.Write(exit);
-			Console.ReadKey(true);
-		}
-	
+			
 	}
 }
