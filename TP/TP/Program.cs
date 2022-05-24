@@ -179,7 +179,7 @@ namespace TP
 					break;
 				case "8":
 					break;
-				case"9":
+				case "9":
 					exit = "Programa terminado con exito";
 					break;
 				default:
