@@ -51,6 +51,7 @@
     <Compile Include="Abogado.cs" />
     <Compile Include="Estudio.cs" />
     <Compile Include="Expediente.cs" />
+    <Compile Include="Manejador.cs" />
     <Compile Include="Persona.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,7 +16,7 @@ namespace TP
 	public class Abogado : Persona
 	{
 		private string espec;
-		private static int cantExpedientes = 0;
+		private int cantExpedientes = 0;
 		
 		public Abogado(string nombre, string apellido, string dni, string espec):base(nombre, apellido, dni)
 		{
