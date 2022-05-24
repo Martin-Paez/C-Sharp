@@ -27,20 +27,45 @@ namespace TP
 			get{return this.expedientes;}
 		}
 
+		public Abogado GetAbogado(string dni) {
+			int i = this.existeAbogado(dni);
+			if ( i == -1 )
+				return null;
+			return (Abogado) abogados[i];
+		}
+		
 		public void AgregarAbogado(Abogado abogado)
 		{
+			if (this.existeAbogado(abogado.Dni) > -1)
+				throw new Exception("El dni ya esta registrado");
 			abogados.Add(abogado);
 		}
 		
 		public void AgregarExpediente(Expediente e)
 		{
+			if (this.existeExpediente(e.Numero))
+				throw new Exception("El numero de expediente ya esta registrado");
 			expedientes.Add(e);
 		}
 		
+		private bool existeExpediente(string numero){
+			int i = -1;
+			while ( (++i<=expedientes.Count-1) && ((Expediente)expedientes[i]).Numero != numero);
+			return i<=abogados.Count-1;
+		}
+		
+		private int existeAbogado(string dni){
+			int i = -1;
+			while ( (++i<=abogados.Count-1) && ((Abogado)abogados[i]).Dni != dni );
+			if ( i > abogados.Count-1)
+				i = 0;
+			return i-1;
+		}
+		
 		public bool EliminarAbogado(string dni) {
-			int i = -1, j = -1;
-			bool existe=false;
-			while ( (existe = (++i<=abogados.Count-1)) && ((Abogado)abogados[i]).Dni != dni );
+			int i = this.existeAbogado(dni);
+			int j = -1;
+			bool existe= i > -1;
 			if (existe) {
 				Abogado abogado = ((Abogado)abogados[i]);
 				while ( abogado.CantExpedientes > 0 && ++j<=expedientes.Count-1 ) {

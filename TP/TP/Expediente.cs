@@ -29,7 +29,8 @@ namespace TP
 			this.tipo = tipo;
 			this.estado = estado;
 			this.abogado = abogado;
-			abogado.CantExpedientes++;
+			if (abogado != null)
+				abogado.CantExpedientes++;
 			this.fechaCreacion = fechaCreacion;
 		}
 		

@@ -44,6 +44,7 @@ namespace TP
 					ImprimirExpedientes(e);
 					break;
 				case "5":
+					AgregarExpediente(e);
 					break;
 				case "6":
 					break;
@@ -62,18 +63,46 @@ namespace TP
 			Console.ReadKey(true);
 		}
 		
+		public static void AgregarExpediente(Estudio estudio) {
+			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
+			Console.Write("Numero: ");
+			string numero = Console.ReadLine();
+			Console.Write("Titular: \n");
+			Persona p = crearPersona();
+			Console.Write("Dni del Abogado: ");
+			Abogado a = estudio.GetAbogado(Console.ReadLine());
+			Console.Write("Tipo: ");
+			string tipo = Console.ReadLine();
+			Console.Write("Estado: ");
+			string estado = Console.ReadLine();
+			Expediente e = new Expediente(numero, p, tipo, estado, a, DateTime.Today);
+			try {
+				estudio.AgregarExpediente( e );
+			} catch (Exception err) {
+				Manejador.resolver(err.Message);
+			}
+		}
 		
 		public static void AgregarAbogado(Estudio e){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
+			Persona p = crearPersona();
+			Console.Write("Especializacion: ");
+			string espec = Console.ReadLine();
+			try {
+				e.AgregarAbogado( new Abogado(p.Nombre, p.Apellido, p.Dni, espec));
+			} catch (Exception err) {
+				Manejador.resolver(err.Message);
+			}
+		}
+		
+		public static Persona crearPersona(){
 			Console.Write("Nombre: ");
 			string nombre = Console.ReadLine();
 			Console.Write("Apellido: ");
 			string apellido = Console.ReadLine();
 			Console.Write("DNI: ");
 			string dni = Console.ReadLine();
-			Console.Write("Especializacion: ");
-			string espec = Console.ReadLine();
-			e.AgregarAbogado( new Abogado(nombre, apellido, dni, espec));
+			return new Persona(nombre, apellido, dni);
 		}
 	
 		public static void EliminarAbogado(Estudio e){
@@ -147,15 +176,15 @@ namespace TP
 		
 		public static void imprimirMenu(){
 			Console.Clear();
-			Console.WriteLine("1)	Agregar abogado");
-			Console.WriteLine("2)	Eliminar abogado");
-			Console.WriteLine("3)	Listado de abogados");
-			Console.WriteLine("4)	Listado de expedientes");
-			Console.WriteLine("5)	Agregar expediente");
-			Console.WriteLine("6)	Modificar el estado de un expediente");
-			Console.WriteLine("7)	Eliminar expediente por numero ");
-			Console.WriteLine("8)	Listado de expedientes de tipo ‘audiencia'");
-			Console.WriteLine("9)	Salir \n");
+			Console.WriteLine("1) Agregar abogado");
+			Console.WriteLine("2) Eliminar abogado");
+			Console.WriteLine("3) Listado de abogados");
+			Console.WriteLine("4) Listado de expedientes");
+			Console.WriteLine("5) Agregar expediente");
+			Console.WriteLine("6) Modificar el estado de un expediente");
+			Console.WriteLine("7) Eliminar expediente por numero ");
+			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
+			Console.WriteLine("9) Salir \n");
 		}
 	
 	}
