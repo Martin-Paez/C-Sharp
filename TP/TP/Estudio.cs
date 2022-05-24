@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 
 namespace TP
@@ -13,6 +13,8 @@ namespace TP
 		
 		public Estudio()
 		{
+			this.abogados = new ArrayList();
+			this.expedientes = new ArrayList();
 		}
 		
 		public ArrayList Abogados {
@@ -30,11 +32,27 @@ namespace TP
 			abogados.Add(abogado);
 		}
 		
-		public void EliminarAbogado(string dni) {
-			int i = -1;
-			while ( ++i<=abogados.Count()-1 & abogados[i].Dni != dni );
-			if (i<=abogados.Count()-1)
-				abogados.Remove(abogados[i]);
+		public void AgregarExpediente(Expediente e)
+		{
+			expedientes.Add(e);
 		}
+		
+		public bool EliminarAbogado(string dni) {
+			int i = -1, j = -1;
+			bool existe=false;
+			while ( (existe = (++i<=abogados.Count-1)) && ((Abogado)abogados[i]).Dni != dni );
+			if (existe) {
+				Abogado abogado = ((Abogado)abogados[i]);
+				while ( abogado.CantExpedientes > 0 && ++j<=expedientes.Count-1 ) {
+					if ( ((Expediente)expedientes[j]).Abogado.Dni == abogado.Dni ) {
+						((Expediente)expedientes[j]).Abogado = null;
+						abogado.CantExpedientes--;
+					}
+				}
+				abogados.Remove(abogado);
+			}
+			return existe;
+		}
+
 	}
 }
