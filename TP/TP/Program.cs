@@ -44,8 +44,7 @@ namespace TP
 					break;
 				case "8":
 					break;
-				case"9":
-					exit = "Programa terminado con exito";
+				case "9":
 					return false;
 				default:
 					exit = "Opcion invalida";
@@ -71,22 +70,46 @@ namespace TP
 			return Console.ReadLine();
 		}
 
-		public static Persona crearPersona(){
+		public static void AgregarAbogado(Estudio e){
+			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
+			string nombre="", apellido="", dni="";
+			crearPersona(ref nombre, ref apellido, ref dni);
+			Console.Write("Especializacion: ");
+			string espec = Console.ReasdLine();
+			try {
+				e.AgregarAbogado( new Abogado(nombre, apellido, dni, espec) );
+			} catch (Exception err) {
+				Manejador.resolver(err.Message);
+			}
+		}
+		
+		public static Persona crearPersona(ref string nombre, ref string apellido, ref string dni){
 			Console.Write("Nombre: ");
-			string nombre = Console.ReadLine();
+			nombre = Console.ReadLine();
 			Console.Write("Apellido: ");
-			string apellido = Console.ReadLine();
+			apellido = Console.ReadLine();
 			Console.Write("DNI: ");
-			string dni = Console.ReadLine();
+			dni = Console.ReadLine();
 			return new Persona(nombre, apellido, dni);
 		}
 	
+		public static void EliminarAbogado(Estudio e){
+			Console.WriteLine("Opcion: ELIMINAR ABOGADO \n");
+			Console.Write("DNI del abogado: ");
+			if ( e.EliminarAbogado(Console.ReadLine()) )
+				Console.WriteLine("Eliminado");
+			else
+				Console.WriteLine("No encontrado");
+		}
+		
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			Console.Write("Numero: ");
 			string numero = Console.ReadLine();
 			Console.Write("Titular: \n");
-			Persona p = crearPersona();
+			string nombre="", apellido="", dni="";
+			crearPersona(ref nombre, ref apellido, ref dni);
+			Persona p = new Persona(nombre, apellido, dni);
 			Console.Write("Dni del Abogado: ");
 			Abogado a = estudio.GetAbogado(Console.ReadLine());
 			Console.Write("Tipo: ");
@@ -99,27 +122,6 @@ namespace TP
 			} catch (Exception err) {
 				Manejador.resolver(err.Message);
 			}
-		}
-		
-		public static void AgregarAbogado(Estudio e){
-			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
-			Persona p = crearPersona();
-			Console.Write("Especializacion: ");
-			string espec = Console.ReadLine();
-			try {
-				e.AgregarAbogado( new Abogado(p.Nombre, p.Apellido, p.Dni, espec));
-			} catch (Exception err) {
-				Manejador.resolver(err.Message);
-			}
-		}
-		
-		public static void EliminarAbogado(Estudio e){
-			Console.WriteLine("Opcion: ELIMINAR ABOGADO \n");
-			Console.Write("DNI del abogado: ");
-			if ( e.EliminarAbogado(Console.ReadLine()) )
-				Console.WriteLine("Eliminado");
-			else
-				Console.WriteLine("No encontrado");
 		}
 		
 		private static void modifExpediente(string numero){
