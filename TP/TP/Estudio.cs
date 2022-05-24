@@ -50,16 +50,17 @@ namespace TP
 		
 		private bool existeExpediente(string numero){
 			int i = -1;
-			while ( (++i<=expedientes.Count-1) && ((Expediente)expedientes[i]).Numero != numero);
+			while ( (++i<=expedientes.Count-1) && ((Expediente)expedientes[i]).Numero != numero); 
+			//if()
 			return i<=abogados.Count-1;
 		}
 		
 		private int existeAbogado(string dni){
 			int i = -1;
 			while ( (++i<abogados.Count) && ((Abogado)abogados[i]).Dni != dni );
-			if ( i > abogados.Count)
-				i = 0;
-			return i-1;
+			if ( i >= abogados.Count)
+				i = -1;
+			return i;
 		}
 		
 		public bool EliminarAbogado(string dni) {
