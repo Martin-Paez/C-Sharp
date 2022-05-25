@@ -105,8 +105,7 @@ namespace TP
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			Console.Write("Titular: \n");
 			string nombre="", apellido="", dni="";
-			crearPersona(ref nombre, ref apellido, ref dni);
-			Persona p = new Persona(nombre, apellido, dni);
+			Persona p = crearPersona(ref nombre, ref apellido, ref dni);
 			Console.Write("Dni del Abogado: ");
 			Abogado a = estudio.GetAbogado(Console.ReadLine());
 			Console.Write("Tipo: ");
