@@ -102,16 +102,27 @@ namespace TP
 		
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			Console.Write("Titular: \n");
-			string nombre="", apellido="", dni="";
-			LeerPersona(ref nombre, ref apellido, ref dni);
-			Persona p = new Persona(nombre, apellido, dni);
-			Console.Write("Dni del Abogado: ");
-			Abogado a = estudio.GetAbogado(Console.ReadLine());
 			Console.Write("Tipo: ");
 			string tipo = Console.ReadLine();
 			Console.Write("Estado: ");
 			string estado = Console.ReadLine();
+
+			Console.Write("Titular: \n");
+			string nombre="", apellido="", dni="";
+			LeerPersona(ref nombre, ref apellido, ref dni);
+			Persona p = new Persona(nombre, apellido, dni);
+			
+			string rta="N";
+			do {
+				Console.Write("Dni del Abogado: ");
+				Abogado a = estudio.GetAbogado(Console.ReadLine());
+				if ( a == null )
+					do {
+						Console.WriteLine("No se encontro abogado. Desea dejar el expediente sin asignar. S/N");
+						rta = Console.ReadLine().ToUpper();
+					} while ( rta != "S" & rta != "N" );
+			} while ( rta != "N");
+			
 			bool ok;
 			do {
 				ok = false;
