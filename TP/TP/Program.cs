@@ -73,7 +73,7 @@ namespace TP
 		public static void AgregarAbogado(Estudio e){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string nombre="", apellido="", dni="";
-			crearPersona(ref nombre, ref apellido, ref dni);
+			LeerPersona(ref nombre, ref apellido, ref dni);
 			try {
 				Console.Write("Especializacion: ");
 				e.AgregarAbogado( new Abogado(nombre, apellido, dni, Console.ReadLine()) );
@@ -83,11 +83,11 @@ namespace TP
 		}
 		
 		public static void LeerPersona(ref string nombre, ref string apellido, ref string dni){
-			Console.Write("Nombre: ");
+			Console.Write("  Nombre: ");
 			nombre = Console.ReadLine();
-			Console.Write("Apellido: ");
+			Console.Write("  Apellido: ");
 			apellido = Console.ReadLine();
-			Console.Write("DNI: ");
+			Console.Write("  DNI: ");
 			dni = Console.ReadLine();
 		}
 	
@@ -107,15 +107,16 @@ namespace TP
 			Console.Write("Estado: ");
 			string estado = Console.ReadLine();
 
-			Console.Write("Titular: \n");
+			Console.Write("\nTITULAR \n");
 			string nombre="", apellido="", dni="";
 			LeerPersona(ref nombre, ref apellido, ref dni);
 			Persona p = new Persona(nombre, apellido, dni);
 			
 			string rta="N";
+			Abogado a;
 			do {
-				Console.Write("Dni del Abogado: ");
-				Abogado a = estudio.GetAbogado(Console.ReadLine());
+				Console.Write("\nDni del Abogado: ");
+				a = estudio.GetAbogado(Console.ReadLine());
 				if ( a == null )
 					do {
 						Console.WriteLine("No se encontro abogado. Desea dejar el expediente sin asignar. S/N");
