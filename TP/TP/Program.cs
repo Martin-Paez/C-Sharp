@@ -82,14 +82,13 @@ namespace TP
 			}
 		}
 		
-		public static Persona crearPersona(ref string nombre, ref string apellido, ref string dni){
+		public static void LeerPersona(ref string nombre, ref string apellido, ref string dni){
 			Console.Write("Nombre: ");
 			nombre = Console.ReadLine();
 			Console.Write("Apellido: ");
 			apellido = Console.ReadLine();
 			Console.Write("DNI: ");
 			dni = Console.ReadLine();
-			return new Persona(nombre, apellido, dni);
 		}
 	
 		public static void EliminarAbogado(Estudio e){
@@ -105,7 +104,8 @@ namespace TP
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			Console.Write("Titular: \n");
 			string nombre="", apellido="", dni="";
-			Persona p = crearPersona(ref nombre, ref apellido, ref dni);
+			LeerPersona(ref nombre, ref apellido, ref dni);
+			Persona p = new Persona(nombre, apellido, dni);
 			Console.Write("Dni del Abogado: ");
 			Abogado a = estudio.GetAbogado(Console.ReadLine());
 			Console.Write("Tipo: ");
