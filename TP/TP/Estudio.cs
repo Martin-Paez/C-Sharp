@@ -37,7 +37,7 @@ namespace TP
 		public void AgregarAbogado(Abogado abogado)
 		{
 			if (this.existeAbogado(abogado.Dni) > -1)
-				throw new Exception("El dni ya esta registrado");
+				throw new Exception("E1");
 			abogados.Add(abogado);
 		}
 		
@@ -45,13 +45,17 @@ namespace TP
 		{
 			if (this.existeExpediente(e.Numero))
 				throw new Exception("El numero de expediente ya esta registrado");
+			if (e.Abogado != null) { // Se puede asignar despues el abogado. Situacion idem al despedir un abogado.
+				if ( e.Abogado.CantExpedientes >= 6 ) //Es mas seguro preguntar por >= , que por ==
+					throw new Exception("El abogado ya tiene demasiados expedientes asignados");
+				e.Abogado.CantExpedientes++;
+			}
 			expedientes.Add(e);
 		}
 		
 		private bool existeExpediente(string numero){
 			int i = -1;
-			while ( (++i<=expedientes.Count-1) && ((Expediente)expedientes[i]).Numero != numero); 
-			//if()
+			while ( (++i<=expedientes.Count-1) && ((Expediente)expedientes[i]).Numero != numero);
 			return i<=abogados.Count-1;
 		}
 		

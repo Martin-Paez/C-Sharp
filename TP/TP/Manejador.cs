@@ -19,10 +19,16 @@ namespace TP
 		{
 		}
 		
-		public static void resolver(string err){
-			Console.WriteLine();
-			Console.WriteLine(err);
-			Console.WriteLine();
+		public static void resolver(string codigo){
+			switch(codigo) {
+				case "E1":
+					msg = "El dni ya esta registrado";
+					break;
+				default:
+					msg = "Surgio un error inesperado";
+					break;
+			}
+			Console.WriteLine("\n"+msg);
 		}
 	}
 }

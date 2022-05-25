@@ -1,0 +1,7 @@
+sacar hora del datetime
+chequear numero de expediente antes de pedir mas datos
+avisar que el dni del abogado es incorrecto al ingresar expediente
+chequear numero maximos de expedientes por abogado
+Opcion, asignar abogado a un expediente
+Opcional, iterar sobre expedientes del abogado despedido, y preguntar por cada uno de ellos a que otro abogado DISPONIBLE se le asigne.
+Opcion, mostrar expedientes sin abogado
