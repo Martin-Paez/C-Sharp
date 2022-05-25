@@ -74,10 +74,9 @@ namespace TP
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string nombre="", apellido="", dni="";
 			crearPersona(ref nombre, ref apellido, ref dni);
-			Console.Write("Especializacion: ");
-			string espec = Console.ReasdLine();
 			try {
-				e.AgregarAbogado( new Abogado(nombre, apellido, dni, espec) );
+				Console.Write("Especializacion: ");
+				e.AgregarAbogado( new Abogado(nombre, apellido, dni, Console.ReadLine()) );
 			} catch (Exception err) {
 				Manejador.resolver(err.Message);
 			}
@@ -104,8 +103,6 @@ namespace TP
 		
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			Console.Write("Numero: ");
-			string numero = Console.ReadLine();
 			Console.Write("Titular: \n");
 			string nombre="", apellido="", dni="";
 			crearPersona(ref nombre, ref apellido, ref dni);
@@ -116,12 +113,20 @@ namespace TP
 			string tipo = Console.ReadLine();
 			Console.Write("Estado: ");
 			string estado = Console.ReadLine();
-			Expediente e = new Expediente(numero, p, tipo, estado, a, DateTime.Today);
-			try {
-				estudio.AgregarExpediente( e );
-			} catch (Exception err) {
-				Manejador.resolver(err.Message);
-			}
+			bool ok;
+			do {
+				ok = false;
+				Console.Write("Numero: ");
+				string numero = Console.ReadLine();
+				Expediente e = new Expediente(numero, p, tipo, estado, a, DateTime.Today); // Lo creamos aca porque pidio la Profe
+				try {
+					estudio.AgregarExpediente( e );
+				} catch (Exception err) {
+					Manejador.resolver(err.Message);
+					Console.WriteLine("");
+					ok=true;
+				}
+			} while(ok);
 		}
 		
 		private static void modifExpediente(string numero){
@@ -181,9 +186,9 @@ namespace TP
 					if (e.Abogado != null) {
 						Console.WriteLine("\nDatos del abogado: ");
 						ImprimirAbogado(e.Abogado);
+						Console.WriteLine("");
 					} else 
-						Console.WriteLine("\nNo tiene un abogado asignado");
-					Console.WriteLine("");
+						Console.WriteLine("\nNo tiene un abogado asignado \n");
 				}
 		}
 			
