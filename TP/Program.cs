@@ -92,7 +92,7 @@ namespace TP
 			else if (t=="expediente")
 				ok = e.EliminarExpediente(id);
 			else
-				throw new Exception("Esta clase no almacena " + t);
+				throw new Exception("No se reconoce: " + t);
 			return ok;
 		}
 

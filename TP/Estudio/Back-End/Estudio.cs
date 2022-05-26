@@ -16,15 +16,17 @@ namespace EstudioNS
 			this.abogados = new ArrayList();
 			this.exps = new ArrayList();
 		}
-		
-		public ArrayList Abogados {
-			
-			get{return this.abogados;}
+
+		private int posicion(string id, ArrayList list){
+			int i = -1;
+			while ( (++i<list.Count) && ((Identificable)list[i]).Id != id );
+			if ( i >= list.Count)
+				i = -1;
+			return i;
 		}
-		
-		public ArrayList Expedientes{
-			
-			get{return this.exps;}
+
+		private bool existe(string id, ArrayList list){
+			return posicion(id, list) > -1;
 		}
 
 		public Abogado GetAbogado(string dni) {
@@ -45,30 +47,19 @@ namespace EstudioNS
 		{
 			if ( existe(e.Numero,exps) )
 				throw new NumExpedienteRepetido();
-			if (e.Abogado != null) // Se puede asignar despues. Idem al despedir un abogado.
-				e.Abogado.CantExps++; // cant>6 => throw
+			if (e.Abogado != null) // Se permite asignar despues. Idem al despedir un abogado.
+				e.Abogado.CantExps++; // Excepcion por cant>6
 			exps.Add(e);
-		}
-
-		private int posicion(string id, ArrayList list){
-			int i = -1;
-			while ( (++i<list.Count) && ((Identificable)list[i]).Id != id );
-			if ( i >= list.Count)
-				i = -1;
-			return i;
-		}
-
-		private bool existe(string id, ArrayList list){
-			return posicion(id, list) > -1;
 		}
 
 		public bool EliminarExpediente(string numero) {
 			int i = posicion(numero, exps);
 			if ( i==-1 )
 				return false;
+			((Expediente)exps[i]).Abogado.CantExps--;
 			exps.RemoveAt(i);
 			return true;
-		}	
+		}
 
 		public bool EliminarAbogado(string dni) {
 			int i = posicion(dni, abogados);
@@ -85,6 +76,16 @@ namespace EstudioNS
 			abogados.Remove(a);
 			return true;
 		}
-
+		
+		public ArrayList Abogados {
+			
+			get{return this.abogados;}
+		}
+		
+		public ArrayList Expedientes{
+			
+			get{return this.exps;}
+		}
+		
 	}
 }

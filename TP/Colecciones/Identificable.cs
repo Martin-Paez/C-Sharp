@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace EstudioNS
+namespace ListaIdNS
 {
 	public class Identificable
 	{
