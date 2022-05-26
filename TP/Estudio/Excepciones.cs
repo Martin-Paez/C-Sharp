@@ -10,24 +10,26 @@ using System;
 
 namespace EstudioNS
 {
-	/// <summary>
-	/// Description of Manejador.
-	/// </summary>
 	
-	public class ExcepcionEstudio:Exception {
-		private const string MSG="";
-		
-		public void Msg() {
-			Console.WriteLine(MSG);
-		}
-	}
-
 	public class DatoInvalido:Excepcion {
 		private const string MSG = "\nNo hay datos registrados para esa entrada";
-		private const string ENTRADA = "Ingrese otro: "
+		private const string ENTRADA = "Ingrese otro: ";
+
 		public string resolver(){
-			Console.Write(MSG +"\n  "+ENTRADA+": ");
-			return Console.ReadLine();
+			string rta="";
+			while ( rta != "S" & rta != "N" ) {
+				Console.WriteLine("\n¿Desea intentar nuevamente? S/N");
+				rta = Console.ReadLine().ToUpper();
+			}
+			if(rta=="S") {
+				Console.Write(MSG +"\n  "+ENTRADA+": ");
+				return Console.ReadLine();
+			}
+			return "";
+		}
+
+		public _MSG {
+			get{return this.MSG;}
 		}
 	}
 
@@ -35,11 +37,11 @@ namespace EstudioNS
 		private const string MSG = "\nHay un expediente registrado con el mismo numero";
 	}
 
-	public class DemasiadosExpedientes:ExcepcionEstudio{
+	public class DemasiadosExpedientes:DatoInvalido{
 		private const string MSG = "\nEl abogado ya tiene demasiados expedientes asignados";
 	}
 
-	public class FaltanExpedientes:ExcepcionEstudio{
+	public class FaltanExpedientes:DatoInvalido{
 		private const string MSG = "\nEl abogado ya no tiene mas expedientes asignados";
 	}
 

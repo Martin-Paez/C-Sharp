@@ -9,6 +9,7 @@
 using System;
 using System.Collections;
 using EstudioNS;
+using ListaIdNS;
 
 namespace TP
 {
@@ -29,7 +30,7 @@ namespace TP
 					AgregarAbogado(e);
 					break;
 				case "2":
-					Eliminar(e,"abogado","DNI");
+					Eliminar("abogado","DNI", e.Abogados);
 					break;
 				case "3":
 					ImprimirLista(e.Abogados, "abogados");
@@ -43,7 +44,7 @@ namespace TP
 				case "6":
 					break;
 				case "7":
-					Eliminar(e,"expediente","Numero");
+					Eliminar("expediente","Numero", e.Expedientes);
 					break;
 				case "8":
 					break;
@@ -76,24 +77,20 @@ namespace TP
 			return Console.ReadLine();
 		}
 
-		public static void Eliminar(Estudio e, string nombre, string tipoId){
-			Console.WriteLine("Opcion: ELIMINAR " + nombre.ToUpper() + " \n");
-			Console.Write(tipoId + " del " + nombre + ": ");
-			if ( Eliminar(Console.ReadLine(), nombre, e) )
-				Console.WriteLine("Eliminado");
-			else
-				Console.WriteLine("No encontrado");
-		}
-
-		public static bool Eliminar(string id, string t, Estudio e) {
-			bool ok;
-			if(t=="abogado")
-				ok = e.EliminarAbogado(id);
-			else if (t=="expediente")
-				ok = e.EliminarExpediente(id);
-			else
-				throw new Exception("No se reconoce: " + t);
-			return ok;
+		public static void Eliminar(string tipo, string id, ListId lista){
+			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
+			Console.Write("\n" + id + " del " + tipo + ": ");
+			id = Console.ReadLine();
+			bool repetir=true;
+			while(repetir) {
+				try{
+					lista.Eliminar(id);
+					repetir = false;
+				} catch (DatoInvalido err) {
+					id = err.resolver();
+					repetir = id!="";
+				}
+			}
 		}
 
 		public static string[] LeerDatos(string nombres){
@@ -108,13 +105,14 @@ namespace TP
 		public static void AgregarAbogado(Estudio e){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			bool ok=true;
-			while(ok){
+			bool repetir=true;
+			while(repetir){
 				try{
 					e.AgregarAbogado( new Abogado(d[0],d[1],d[2],d[3]) );
-					ok = false;
+					repetir = false;
 				}catch(DniRepetido err){
 					d[2] = err.resolver(); 
+					repetir = d[2]!="";
 				}}
 		}
 		
