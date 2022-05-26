@@ -41,7 +41,7 @@ namespace EstudioNS
 		}
 
 		public override string ToString() {
-			return "Nombre y apellido: " + this.nombre + " " + this.apellido + "\nDNI: " + this.dni;
+			return "Nombre y apellido: " + this.nombre + " " + this.apellido + "\nDNI: " + this.id;
 		}
 	}
 }

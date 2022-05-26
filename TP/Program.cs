@@ -29,7 +29,7 @@ namespace TP
 					AgregarAbogado(e);
 					break;
 				case "2":
-					EliminarAbogado(e);
+					Eliminar(e,"abogado","DNI");
 					break;
 				case "3":
 					ImprimirLista(e.Abogados, "abogados");
@@ -43,6 +43,7 @@ namespace TP
 				case "6":
 					break;
 				case "7":
+					Eliminar(e,"expediente","Numero");
 					break;
 				case "8":
 					break;
@@ -75,15 +76,26 @@ namespace TP
 			return Console.ReadLine();
 		}
 
-		public static void EliminarAbogado(Estudio e){
-			Console.WriteLine("Opcion: ELIMINAR ABOGADO \n");
-			Console.Write("DNI del abogado: ");
-			if ( e.EliminarAbogado(Console.ReadLine()) )
+		public static void Eliminar(Estudio e, string nombre, string tipoId){
+			Console.WriteLine("Opcion: ELIMINAR " + nombre.ToUpper() + " \n");
+			Console.Write(tipoId + " del " + nombre + ": ");
+			if ( Eliminar(Console.ReadLine(), nombre, e) )
 				Console.WriteLine("Eliminado");
 			else
 				Console.WriteLine("No encontrado");
 		}
-		
+
+		public static bool Eliminar(string id, string t, Estudio e) {
+			bool ok;
+			if(t=="abogado")
+				ok = e.EliminarAbogado(id);
+			else if (t=="expediente")
+				ok = e.EliminarExpediente(id);
+			else
+				throw new Exception("Esta clase no almacena " + t);
+			return ok;
+		}
+
 		public static string[] LeerDatos(string nombres){
 			string[] split = nombres.Split('/');
 			for(int i=0; i<split.Length; i++) {

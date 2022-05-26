@@ -28,7 +28,7 @@ namespace EstudioNS
 		}
 
 		public Abogado GetAbogado(string dni) {
-			int i = posicion(a.Dni, abogados);
+			int i = posicion(dni, abogados);
 			if ( i == -1 )
 				return null;
 			return (Abogado) abogados[i];
@@ -61,22 +61,29 @@ namespace EstudioNS
 		private bool existe(string id, ArrayList list){
 			return posicion(id, list) > -1;
 		}
-		
+
+		public bool EliminarExpediente(string numero) {
+			int i = posicion(numero, exps);
+			if ( i==-1 )
+				return false;
+			exps.RemoveAt(i);
+			return true;
+		}	
+
 		public bool EliminarAbogado(string dni) {
-			int i = existe(a.Dni, abogados);
+			int i = posicion(dni, abogados);
+			if ( i==-1 )
+				return false;
+			Abogado a = ((Abogado)abogados[i]);
 			int j = -1;
-			bool existe= i > -1;
-			if (existe) {
-				Abogado a = ((Abogado)abogados[i]);
-				while ( a.CantExps > 0 && ++j<=exps.Count-1 ) {
-					if ( ((Expediente)exps[j]).Abogado.Dni == a.Dni ) {
-						((Expediente)exps[j]).Abogado = null;
-						a.CantExps--;
-					}
+			while ( a.CantExps > 0 && ++j<=exps.Count-1 ) {
+				if ( ((Expediente)exps[j]).Abogado.Dni == a.Dni ) {
+					((Expediente)exps[j]).Abogado = null;
+					a.CantExps--;
 				}
-				abogados.Remove(a);
 			}
-			return existe;
+			abogados.Remove(a);
+			return true;
 		}
 
 	}

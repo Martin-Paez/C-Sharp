@@ -13,7 +13,7 @@ namespace EstudioNS
 	/// <summary>
 	/// Description of Expediente.
 	/// </summary>
-	public class Expediente
+	public class Expediente:Identificable
 	{
 		private Persona titular;
 		private string tipo;
@@ -62,7 +62,7 @@ namespace EstudioNS
 		}
 
 		public override string ToString() {
-			string str = "Numero de expediente: " + this.numero;
+			string str = "Numero de expediente: " + this.id;
 			str += "\nEstado: " + this.estado;
 			str += "\nTipo: " + this.tipo;
 			str += "\nFecha de creacion: " + this.fechaCreacion.ToString("d");

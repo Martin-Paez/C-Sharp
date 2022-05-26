@@ -31,7 +31,7 @@ namespace EstudioNS
 		
 		public int CantExps{
 			set{
-				if ( this.cantExps + value > maxExp ) 
+				if ( value>maxExp || value<0 ) 
 					throw new DemasiadosExpedientes();
 				this.cantExps=value;
 			}
