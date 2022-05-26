@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace TP
+namespace EstudioNS
 {
 	/// <summary>
 	/// Description of Abogado.
@@ -17,6 +17,7 @@ namespace TP
 	{
 		private string espec;
 		private int cantExpedientes = 0;
+		private const int MAX_EXPEDIENTES = 6;
 		
 		public Abogado(string nombre, string apellido, string dni, string espec):base(nombre, apellido, dni)
 		{
@@ -29,7 +30,11 @@ namespace TP
 		}
 		
 		public int CantExpedientes{
-			set{this.cantExpedientes=value;}
+			set{
+				if ( this.CantExpedientes + value > MAX_EXPEDIENTES ) 
+					throw new DemasiadosExpedientes();
+				this.cantExpedientes=value;
+			}
 			get{return this.cantExpedientes;}
 		}
 		

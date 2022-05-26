@@ -48,16 +48,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abogado.cs" />
-    <Compile Include="Estudio.cs" />
-    <Compile Include="Expediente.cs" />
-    <Compile Include="Manejador.cs" />
-    <Compile Include="Persona.cs" />
+    <Compile Include="Estudio\Back-End\Abogado.cs" />
+    <Compile Include="Estudio\Back-End\Estudio.cs" />
+    <Compile Include="Estudio\Back-End\Expediente.cs" />
+    <Compile Include="Estudio\Back-End\Persona.cs" />
+    <Compile Include="Estudio\Excepciones.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Estudio" />
+    <Folder Include="Estudio\Back-End" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

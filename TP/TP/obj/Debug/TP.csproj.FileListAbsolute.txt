@@ -4,3 +4,9 @@ C:\Users\54911\Documents\SharpDevelop Projects\TP\TP\bin\Debug\TP.exe
 C:\Users\54911\Documents\SharpDevelop Projects\TP\TP\bin\Debug\TP.pdb
 C:\Users\54911\Documents\SharpDevelop Projects\TP\TP\obj\Debug\TP.exe
 C:\Users\54911\Documents\SharpDevelop Projects\TP\TP\obj\Debug\TP.pdb
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\TP\obj\Debug\TP.csprojResolveAssemblyReference.cache
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\TP\obj\Debug\TP.exe
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\TP\bin\Debug\TP.exe.config
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\TP\bin\Debug\TP.exe
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\TP\bin\Debug\TP.pdb
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\TP\obj\Debug\TP.pdb

@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using EstudioNS;
 
 namespace TP
 {
@@ -46,6 +47,9 @@ namespace TP
 					break;
 				case "9":
 					return false;
+				case "devMode":
+					exit = "Modo desarrollador deshabilitado";
+					break;
 				default:
 					exit = "Opcion invalida";
 					break;
@@ -72,23 +76,24 @@ namespace TP
 
 		public static void AgregarAbogado(Estudio e){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
-			string nombre="", apellido="", dni="";
-			LeerPersona(ref nombre, ref apellido, ref dni);
-			try {
-				Console.Write("Especializacion: ");
-				e.AgregarAbogado( new Abogado(nombre, apellido, dni, Console.ReadLine()) );
-			} catch (Exception err) {
-				Manejador.resolver(err.Message);
-			}
+			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
+			bool ok=true;
+			while(ok){
+				try{
+					e.AgregarAbogado( new Abogado(d[0],d[1],d[2],d[3]) );
+					ok = false;
+				}catch(DniRepetido err){
+					d[2] = err.resolver(); 
+				}}
 		}
 		
-		public static void LeerPersona(ref string nombre, ref string apellido, ref string dni){
-			Console.Write("  Nombre: ");
-			nombre = Console.ReadLine();
-			Console.Write("  Apellido: ");
-			apellido = Console.ReadLine();
-			Console.Write("  DNI: ");
-			dni = Console.ReadLine();
+		public static string[] LeerDatos(string nombres){
+			string[] split = nombres.Split('/');
+			for(int i=0; i<split.Length; i++) {
+				Console.Write("  "+split[i]+": ");
+				split[i] = Console.ReadLine();
+			}
+			return split;
 		}
 	
 		public static void EliminarAbogado(Estudio e){
@@ -102,38 +107,36 @@ namespace TP
 		
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			Console.Write("Tipo: ");
-			string tipo = Console.ReadLine();
-			Console.Write("Estado: ");
-			string estado = Console.ReadLine();
-
-			Console.Write("\nTITULAR \n");
-			string nombre="", apellido="", dni="";
-			LeerPersona(ref nombre, ref apellido, ref dni);
-			Persona p = new Persona(nombre, apellido, dni);
+			string[] d = LeerDatos("Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
+			Persona p = new Persona(d[2],d[3],d[4]);
 			
-			string rta="N";
+			string rta;
 			Abogado a;
 			do {
+				rta="";
 				Console.Write("\nDni del Abogado: ");
 				a = estudio.GetAbogado(Console.ReadLine());
 				if ( a == null )
-					do {
-						Console.WriteLine("No se encontro abogado. Desea dejar el expediente sin asignar. S/N");
-						rta = Console.ReadLine().ToUpper();
-					} while ( rta != "S" & rta != "N" );
+					Console.WriteLine("No se encontro abogado");
+				else if(a.CantExpedientes>=6)
+					Console.WriteLine("El abogado tiene demasiados expedientes asignados");
+				else
+					rta="S"; //Cargado con Exito
+				while ( rta != "S" & rta != "N" ) {
+					Console.WriteLine("¿Desea dejar el expediente sin asignar? S/N");
+					rta = Console.ReadLine().ToUpper();
+				} 					
 			} while ( rta != "N");
 			
 			bool ok;
 			do {
 				ok = false;
 				Console.Write("Numero: ");
-				string numero = Console.ReadLine();
-				Expediente e = new Expediente(numero, p, tipo, estado, a, DateTime.Today); // Lo creamos aca porque pidio la Profe
+				Expediente e = new Expediente(Console.ReadLine(),p,d[0],d[1],a,DateTime.Today); // Lo creamos aca porque pidio la Profe
 				try {
 					estudio.AgregarExpediente( e );
 				} catch (Exception err) {
-					Manejador.resolver(err.Message);
+					//ManejadorDeEstudio.resolver(err.Message);
 					Console.WriteLine("");
 					ok=true;
 				}
