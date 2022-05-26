@@ -15,7 +15,6 @@ namespace EstudioNS
 	/// </summary>
 	public class Expediente
 	{
-		private string numero;
 		private Persona titular;
 		private string tipo;
 		private string estado;
@@ -24,7 +23,7 @@ namespace EstudioNS
 		
 		public Expediente(string numero, Persona titular, string tipo, string estado, Abogado abogado, DateTime fechaCreacion)
 		{
-			this.numero = numero;
+			this.id = numero;
 			this.titular = titular;
 			this.tipo = tipo;
 			this.estado = estado;
@@ -33,8 +32,8 @@ namespace EstudioNS
 		}
 		
 		public string Numero {
-			set{this.numero=value;}
-			get{return this.numero;}
+			set{this.id=value;}
+			get{return this.id;}
 		}
 		
 		public Persona Titular {
