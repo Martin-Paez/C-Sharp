@@ -3,11 +3,11 @@ using ListaIdNS;
 
 namespace EstudioNS {
 
-    public class ListaExpedientes:ListId{
+    public class ListaExpedientes:ListaId{
 
         // Excepcion "DemasiadosExpedientes"
         // No puedo reutilizar el del padre, por el orden de chequeos
-        public override void Agregar(Expediente e)
+        public void Agregar(Expediente e)
 		{
 			if ( base.existe(e.Numero) )
 				throw new NumExpedienteRepetido();
@@ -18,7 +18,7 @@ namespace EstudioNS {
 
         //Excepcion "FaltanExpedientes"
         //Excepcion "DatoInvalido"
-        public override void Eliminar(string numero) {
+        public new void Eliminar(string numero) {
 			Expediente e = (Expediente) base.Eliminar(numero); //Excepcion "DatoInvalido"
             e.Abogado.CantExps--; // Excepcion "FaltanExpedientes" 
 		}

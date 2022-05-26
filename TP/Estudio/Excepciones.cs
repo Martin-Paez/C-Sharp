@@ -11,7 +11,7 @@ using System;
 namespace EstudioNS
 {
 	
-	public class DatoInvalido:Excepcion {
+	public class DatoInvalido:Exception {
 		private const string MSG = "\nNo hay datos registrados para esa entrada";
 		private const string ENTRADA = "Ingrese otro: ";
 
@@ -28,9 +28,13 @@ namespace EstudioNS
 			return "";
 		}
 
-		public _MSG {
+		public string _MSG {
 			get{return this.MSG;}
 		}
+	}
+
+	public class Repetido:DatoInvalido{
+		private const string MSG = "\nYa hay existe";
 	}
 
 	public class NumExpedienteRepetido:DatoInvalido{

@@ -77,7 +77,7 @@ namespace TP
 			return Console.ReadLine();
 		}
 
-		public static void Eliminar(string tipo, string id, ListId lista){
+		public static void Eliminar(string tipo, string id, ListaId lista){
 			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
 			Console.Write("\n" + id + " del " + tipo + ": ");
 			id = Console.ReadLine();

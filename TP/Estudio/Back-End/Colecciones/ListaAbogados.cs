@@ -12,7 +12,7 @@ namespace EstudioNS {
         }
 
         // Excepcion DatoInvalido()
-		public override void Eliminar(string dni) {
+		public new void Eliminar(string dni) {
 			Abogado a = (Abogado) base.Eliminar(dni); //Excepcion DatoInvalido()
             int j = -1;
             ListaExpedientes exps = this.estudio.Expedientes;

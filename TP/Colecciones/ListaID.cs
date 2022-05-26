@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using EstudioNS;
 
 namespace ListaIdNS
 {
@@ -24,11 +25,16 @@ namespace ListaIdNS
                 throw new DatoInvalido();
             return (Identificable) this.lista[i];
         }
+        
+        // IndexOutOfRangeException
+        protected Identificable Get(int i){
+        	return (Identificable) this.lista[i];
+        }
 
-        public void Agregar(Identificable e){
-			if ( base.existe(a.Dni) )
+        protected void Agregar(Identificable e){
+			if ( this.existe(e.Id) )
 				throw new Repetido();
-			this.lista.Add(a);
+			this.lista.Add(e);
 		}
 
         // Excepcion DatoInvalido()
@@ -38,10 +44,16 @@ namespace ListaIdNS
             return e;
 		}
 
-        public override void ToString(){
-            foreach(Identificable e in this.lista) {
-                Console.WriteLine("\n"+e+"\n");
+        public override string ToString(){
+        	string str = "";
+        	foreach(Identificable e in this.lista) {
+            	str += "\n"+e+"\n";
             }
+        	return str;
+        }
+        
+        public int Count{
+        	get {return this.lista.Count;}
         }
     }
 }
