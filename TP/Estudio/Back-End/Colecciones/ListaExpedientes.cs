@@ -13,7 +13,7 @@ namespace EstudioNS {
 				throw new NumExpedienteRepetido();
 			if (e.Abogado != null) // Se permite asignar despues. Idem al despedir un abogado.
 				e.Abogado.CantExps++; 
-			this.list.Add(e);
+			this.lista.Add(e);
 		}
 
         //Excepcion "FaltanExpedientes"
@@ -22,10 +22,6 @@ namespace EstudioNS {
 			Expediente e = (Expediente) base.Eliminar(numero); //Excepcion "DatoInvalido"
             e.Abogado.CantExps--; // Excepcion "FaltanExpedientes" 
 		}
-
-        public Expediente Get(string id){
-            return (Expediente) base.Get(id)
-        }
 
     }
 

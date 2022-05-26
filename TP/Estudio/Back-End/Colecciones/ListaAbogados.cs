@@ -23,10 +23,7 @@ namespace EstudioNS {
 				}
 			}
         }
-
-        public Abogado Get(string id){
-            return (Abogado) base.Get(id);
-        }
+        
     }  
 
 }

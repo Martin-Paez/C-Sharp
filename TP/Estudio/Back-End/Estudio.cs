@@ -9,21 +9,21 @@ namespace EstudioNS
 	/// </summary>
 	public class Estudio
 	{
-		private ArrayList exps;
-		private ArrayList abogados;
+		private ListaExpedientes exps;
+		private ListaAbogados abogados;
 		
 		public Estudio()
 		{
-			this.abogados = new ArrayList(this);
-			this.exps = new ArrayList();
+			this.abogados = new ListaAbogados(this);
+			this.exps = new ListaExpedientes();
 		}
 
-		public ArrayList Abogados {
+		public ListaAbogados Abogados {
 			
 			get{return this.abogados;}
 		}
 		
-		public ArrayList Expedientes{
+		public ListaExpedientes Expedientes{
 			
 			get{return this.exps;}
 		}
