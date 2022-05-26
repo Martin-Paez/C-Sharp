@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections;
 using EstudioNS;
 
 namespace TP
@@ -74,19 +75,6 @@ namespace TP
 			return Console.ReadLine();
 		}
 
-		public static void AgregarAbogado(Estudio e){
-			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
-			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			bool ok=true;
-			while(ok){
-				try{
-					e.AgregarAbogado( new Abogado(d[0],d[1],d[2],d[3]) );
-					ok = false;
-				}catch(DniRepetido err){
-					d[2] = err.resolver(); 
-				}}
-		}
-		
 		public static void EliminarAbogado(Estudio e){
 			Console.WriteLine("Opcion: ELIMINAR ABOGADO \n");
 			Console.Write("DNI del abogado: ");
@@ -105,6 +93,19 @@ namespace TP
 			return split;
 		}
 	
+		public static void AgregarAbogado(Estudio e){
+			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
+			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
+			bool ok=true;
+			while(ok){
+				try{
+					e.AgregarAbogado( new Abogado(d[0],d[1],d[2],d[3]) );
+					ok = false;
+				}catch(DniRepetido err){
+					d[2] = err.resolver(); 
+				}}
+		}
+		
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			string[] d = LeerDatos("Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
@@ -147,8 +148,20 @@ namespace TP
 			
 		}
 		
-/*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
+/*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
 		
+		public static void ImprimirLista(ArrayList list, string t) {
+			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
+			if ( list.Count == 0 )
+				Console.WriteLine("No hay " + t);
+			else
+				foreach(Object e in list) {
+					Console.WriteLine(e);
+				}
+		}
+		
+/*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
+
 		public static Estudio initWorld(){
 			Estudio estudio = new Estudio();
 			string nombre = "maxi";
@@ -161,18 +174,6 @@ namespace TP
 			estudio.AgregarExpediente(expediente);
 			estudio.AgregarAbogado(abogado);
 			return estudio;
-		}
-		
-/*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
-		
-		public static void ImprimirLista(ArrayList list, string t) {
-			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
-			if ( list.Count == 0 )
-				Console.WriteLine("No hay " + t);
-			else
-				foreach(Expediente e in list) {
-					Consol.WriteLine(e);
-				}
 		}
 			
 	}

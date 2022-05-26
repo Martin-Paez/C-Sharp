@@ -51,6 +51,7 @@
     <Compile Include="Estudio\Back-End\Abogado.cs" />
     <Compile Include="Estudio\Back-End\Estudio.cs" />
     <Compile Include="Estudio\Back-End\Expediente.cs" />
+    <Compile Include="Estudio\Back-End\Identificable.cs" />
     <Compile Include="Estudio\Back-End\Persona.cs" />
     <Compile Include="Estudio\Excepciones.cs" />
     <Compile Include="Program.cs" />

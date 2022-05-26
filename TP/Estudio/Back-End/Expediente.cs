@@ -63,18 +63,18 @@ namespace EstudioNS
 		}
 
 		public override string ToString() {
-			Console.WriteLine("Numero de expediente: " + e.Numero);
-			Console.WriteLine("Estado: " + e.Estado);
-			Console.WriteLine("Tipo: " + e.Tipo);
-			Console.WriteLine("Fecha de creacion: " + e.FechaCreacion.ToString("d"));
-			Console.WriteLine("\nDatos del titular: ");
-			Console.WriteLine(e.Titular);
-			if (e.Abogado != null) {
-				Console.WriteLine("\nDatos del abogado: ");
-				Console.WriteLine(e.Abogado);
-				Console.WriteLine("");
+			string str = "Numero de expediente: " + this.numero;
+			str += "\nEstado: " + this.estado;
+			str += "\nTipo: " + this.tipo;
+			str += "\nFecha de creacion: " + this.fechaCreacion.ToString("d");
+			str += "\n\nDatos del titular: ";
+			str += "\n"+this.titular.ToString();
+			if (this.abogado != null) {
+				str += "\n\nDatos del abogado: ";
+				str += "\n" + this.abogado.ToString() + "\n";
 			} else 
-				Console.WriteLine("\nNo tiene un abogado asignado \n");
+				str += "\n\nNo tiene un abogado asignado \n";
+			return str;
 		}
 
 	}
