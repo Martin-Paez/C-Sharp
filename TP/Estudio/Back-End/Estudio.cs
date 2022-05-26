@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ListaIdNS;
 
 namespace EstudioNS
 {
@@ -17,25 +18,6 @@ namespace EstudioNS
 			this.exps = new ArrayList();
 		}
 
-		private int posicion(string id, ArrayList list){
-			int i = -1;
-			while ( (++i<list.Count) && ((Identificable)list[i]).Id != id );
-			if ( i >= list.Count)
-				i = -1;
-			return i;
-		}
-
-		private bool existe(string id, ArrayList list){
-			return posicion(id, list) > -1;
-		}
-
-		public Abogado GetAbogado(string dni) {
-			int i = posicion(dni, abogados);
-			if ( i == -1 )
-				return null;
-			return (Abogado) abogados[i];
-		}
-		
 		public void AgregarAbogado(Abogado a)
 		{
 			if ( existe(a.Dni, abogados) )
@@ -86,6 +68,6 @@ namespace EstudioNS
 			
 			get{return this.exps;}
 		}
-		
+
 	}
 }
