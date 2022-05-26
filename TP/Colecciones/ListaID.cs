@@ -5,7 +5,7 @@ using EstudioNS;
 namespace ListaIdNS
 {
     public abstract class ListaId {
-        private ArrayList lista = new ArrayList();
+        protected ArrayList lista = new ArrayList();
 
         public int posicion(string id){
             int i = -1;
@@ -27,11 +27,11 @@ namespace ListaIdNS
         }
         
         // IndexOutOfRangeException
-        protected Identificable Get(int i){
+        public Identificable Get(int i){
         	return (Identificable) this.lista[i];
         }
 
-        protected void Agregar(Identificable e){
+        public void Agregar(Identificable e){
 			if ( this.existe(e.Id) )
 				throw new Repetido();
 			this.lista.Add(e);

@@ -29,7 +29,7 @@ namespace EstudioNS
 		}
 
 		public string _MSG {
-			get{return this.MSG;}
+			get{return MSG;}
 		}
 	}
 

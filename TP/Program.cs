@@ -27,7 +27,7 @@ namespace TP
 			string exit = "\nPresiona una tecla para volver al menu. . . ";
 			switch(item.Trim()){
 				case "1":
-					AgregarAbogado(e);
+					AgregarAbogado(e.Abogados);
 					break;
 				case "2":
 					Eliminar("abogado","DNI", e.Abogados);
@@ -102,15 +102,15 @@ namespace TP
 			return split;
 		}
 	
-		public static void AgregarAbogado(Estudio e){
+		public static void AgregarAbogado(ListaAbogados e){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
 			bool repetir=true;
 			while(repetir){
 				try{
-					e.AgregarAbogado( new Abogado(d[0],d[1],d[2],d[3]) );
+					e.Agregar( new Abogado(d[0],d[1],d[2],d[3]) );
 					repetir = false;
-				}catch(DniRepetido err){
+				}catch(Repetido err){
 					d[2] = err.resolver(); 
 					repetir = d[2]!="";
 				}}
@@ -160,7 +160,7 @@ namespace TP
 		
 /*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
 		
-		public static void ImprimirLista(ArrayList list, string t) {
+		public static void ImprimirLista(ListaId list, string t) {
 			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
 			if ( list.Count == 0 )
 				Console.WriteLine("No hay " + t);
