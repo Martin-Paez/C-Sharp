@@ -24,24 +24,6 @@ namespace EstudioNS
 				throw new DniRepetido();
 			abogados.Add(a);
 		}
-		
-		public void AgregarExpediente(Expediente e)
-		{
-			if ( existe(e.Numero,exps) )
-				throw new NumExpedienteRepetido();
-			if (e.Abogado != null) // Se permite asignar despues. Idem al despedir un abogado.
-				e.Abogado.CantExps++; // Excepcion por cant>6
-			exps.Add(e);
-		}
-
-		public bool EliminarExpediente(string numero) {
-			int i = posicion(numero, exps);
-			if ( i==-1 )
-				return false;
-			((Expediente)exps[i]).Abogado.CantExps--;
-			exps.RemoveAt(i);
-			return true;
-		}
 
 		public bool EliminarAbogado(string dni) {
 			int i = posicion(dni, abogados);

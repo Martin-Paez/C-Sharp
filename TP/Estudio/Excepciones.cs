@@ -39,4 +39,8 @@ namespace EstudioNS
 		private const string MSG = "\nEl abogado ya tiene demasiados expedientes asignados";
 	}
 
+	public class FaltanExpedientes:ExcepcionEstudio{
+		private const string MSG = "\nEl abogado ya no tiene mas expedientes asignados";
+	}
+
 }
