@@ -16,8 +16,8 @@ namespace EstudioNS
 	public class Abogado : Persona
 	{
 		private string espec;
-		private int cantExpedientes = 0;
-		private const int MAX_EXPEDIENTES = 6;
+		private int cantExps = 0;
+		private const int MAX_EXP = 6;
 		
 		public Abogado(string nombre, string apellido, string dni, string espec):base(nombre, apellido, dni)
 		{
@@ -29,15 +29,19 @@ namespace EstudioNS
 			get{return this.espec;}
 		}
 		
-		public int CantExpedientes{
+		public int CantExps{
 			set{
-				if ( this.CantExpedientes + value > MAX_EXPEDIENTES ) 
+				if ( this.nExps + value > MAX_EXPEDIENTES ) 
 					throw new DemasiadosExpedientes();
-				this.cantExpedientes=value;
+				this.nExps=value;
 			}
-			get{return this.cantExpedientes;}
+			get{return this.nExps;}
 		}
 
+		public string MAX_EXPEDIENTES{
+			get{return this.MAX_EXP;}
+		}
+		
 		public override string ToString() {
 			return base.ToString() + "\nEspecializacion: " + this.espec + "\n";
 		}

@@ -61,5 +61,21 @@ namespace EstudioNS
 			set{this.fechaCreacion=value;}
 			get{return this.fechaCreacion;}
 		}
+
+		public override string ToString() {
+			Console.WriteLine("Numero de expediente: " + e.Numero);
+			Console.WriteLine("Estado: " + e.Estado);
+			Console.WriteLine("Tipo: " + e.Tipo);
+			Console.WriteLine("Fecha de creacion: " + e.FechaCreacion.ToString("d"));
+			Console.WriteLine("\nDatos del titular: ");
+			Console.WriteLine(e.Titular);
+			if (e.Abogado != null) {
+				Console.WriteLine("\nDatos del abogado: ");
+				Console.WriteLine(e.Abogado);
+				Console.WriteLine("");
+			} else 
+				Console.WriteLine("\nNo tiene un abogado asignado \n");
+		}
+
 	}
 }

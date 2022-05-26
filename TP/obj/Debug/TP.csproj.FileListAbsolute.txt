@@ -16,3 +16,9 @@ C:\Users\ahcde\Documents\GitHub\Estudio-Abogados\TP\bin\Debug\TP.pdb
 C:\Users\ahcde\Documents\GitHub\Estudio-Abogados\TP\obj\Debug\TP.csprojResolveAssemblyReference.cache
 C:\Users\ahcde\Documents\GitHub\Estudio-Abogados\TP\obj\Debug\TP.exe
 C:\Users\ahcde\Documents\GitHub\Estudio-Abogados\TP\obj\Debug\TP.pdb
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\obj\Debug\TP.csprojResolveAssemblyReference.cache
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\obj\Debug\TP.exe
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\bin\Debug\TP.exe.config
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\bin\Debug\TP.exe
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\bin\Debug\TP.pdb
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\TP\obj\Debug\TP.pdb

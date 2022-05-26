@@ -8,13 +8,13 @@ namespace EstudioNS
 	/// </summary>
 	public class Estudio
 	{
-		private ArrayList expedientes;
+		private ArrayList exps;
 		private ArrayList abogados;
 		
 		public Estudio()
 		{
 			this.abogados = new ArrayList();
-			this.expedientes = new ArrayList();
+			this.exps = new ArrayList();
 		}
 		
 		public ArrayList Abogados {
@@ -24,7 +24,7 @@ namespace EstudioNS
 		
 		public ArrayList Expedientes{
 			
-			get{return this.expedientes;}
+			get{return this.exps;}
 		}
 
 		public Abogado GetAbogado(string dni) {
@@ -46,13 +46,13 @@ namespace EstudioNS
 			if (this.existeExpediente(e.Numero))
 				throw new NumExpedienteRepetido();
 			if (e.Abogado != null) // Se puede asignar despues. Idem al despedir un abogado.
-				e.Abogado.CantExpedientes++; // cant>6 => throw
-			expedientes.Add(e);
+				e.Abogado.CantExps++; // cant>6 => throw
+			exps.Add(e);
 		}
 		
 		private bool existeExpediente(string numero){
 			int i = -1;
-			while ( (++i<=expedientes.Count-1) && ((Expediente)expedientes[i]).Numero != numero);
+			while ( (++i<=exps.Count-1) && ((Expediente)exps[i]).Numero != numero);
 			return i<=abogados.Count-1;
 		}
 		
@@ -69,14 +69,14 @@ namespace EstudioNS
 			int j = -1;
 			bool existe= i > -1;
 			if (existe) {
-				Abogado abogado = ((Abogado)abogados[i]);
-				while ( abogado.CantExpedientes > 0 && ++j<=expedientes.Count-1 ) {
-					if ( ((Expediente)expedientes[j]).Abogado.Dni == abogado.Dni ) {
-						((Expediente)expedientes[j]).Abogado = null;
-						abogado.CantExpedientes--;
+				Abogado a = ((Abogado)abogados[i]);
+				while ( a.CantExps > 0 && ++j<=exps.Count-1 ) {
+					if ( ((Expediente)exps[j]).Abogado.Dni == a.Dni ) {
+						((Expediente)exps[j]).Abogado = null;
+						a.CantExps--;
 					}
 				}
-				abogados.Remove(abogado);
+				abogados.Remove(a);
 			}
 			return existe;
 		}

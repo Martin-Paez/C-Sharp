@@ -31,10 +31,10 @@ namespace TP
 					EliminarAbogado(e);
 					break;
 				case "3":
-					ImprimirAbogados(e);
+					ImprimirLista(e.Abogados, "abogados");
 					break;
 				case "4":
-					ImprimirExpedientes(e);
+					ImprimirLista(e.Expedientes, "expedientes");
 					break;
 				case "5":
 					AgregarExpediente(e);
@@ -87,15 +87,6 @@ namespace TP
 				}}
 		}
 		
-		public static string[] LeerDatos(string nombres){
-			string[] split = nombres.Split('/');
-			for(int i=0; i<split.Length; i++) {
-				Console.Write("  "+split[i]+": ");
-				split[i] = Console.ReadLine();
-			}
-			return split;
-		}
-	
 		public static void EliminarAbogado(Estudio e){
 			Console.WriteLine("Opcion: ELIMINAR ABOGADO \n");
 			Console.Write("DNI del abogado: ");
@@ -105,6 +96,15 @@ namespace TP
 				Console.WriteLine("No encontrado");
 		}
 		
+		public static string[] LeerDatos(string nombres){
+			string[] split = nombres.Split('/');
+			for(int i=0; i<split.Length; i++) {
+				Console.Write("  "+split[i]+": ");
+				split[i] = Console.ReadLine();
+			}
+			return split;
+		}
+	
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			string[] d = LeerDatos("Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
@@ -118,7 +118,7 @@ namespace TP
 				a = estudio.GetAbogado(Console.ReadLine());
 				if ( a == null )
 					Console.WriteLine("No se encontro abogado");
-				else if(a.CantExpedientes>=6)
+				else if(a.CantExps>=6)
 					Console.WriteLine("El abogado tiene demasiados expedientes asignados");
 				else
 					rta="S"; //Cargado con Exito
@@ -165,34 +165,13 @@ namespace TP
 		
 /*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
 		
-		public static void ImprimirAbogados(Estudio e) {
-			Console.WriteLine("Opcion: IMPRIMIR ABOGADOS \n");
-			if ( e.Abogados.Count == 0 )
-				Console.WriteLine("No hay abogados");
+		public static void ImprimirLista(ArrayList list, string t) {
+			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
+			if ( list.Count == 0 )
+				Console.WriteLine("No hay " + t);
 			else
-				foreach(Abogado a in e.Abogados) {
-					Console.WriteLine(a);
-				}
-		}
-				
-		public static void ImprimirExpedientes(Estudio estudio) {
-			Console.WriteLine("Opcion: IMPRIMIR EXPEDIENTES\n");
-			if ( estudio.Expedientes.Count == 0 )
-				Console.WriteLine("No hay expedientes");
-			else
-				foreach(Expediente e in estudio.Expedientes) {
-					Console.WriteLine("Numero de expediente: " + e.Numero);
-					Console.WriteLine("Estado: " + e.Estado);
-					Console.WriteLine("Tipo: " + e.Tipo);
-					Console.WriteLine("Fecha de creacion: " + e.FechaCreacion.ToString("d"));
-					Console.WriteLine("\nDatos del titular: ");
-					Console.WriteLine(e.Titular);
-					if (e.Abogado != null) {
-						Console.WriteLine("\nDatos del abogado: ");
-						Console.WriteLine(e.Abogado);
-						Console.WriteLine("");
-					} else 
-						Console.WriteLine("\nNo tiene un abogado asignado \n");
+				foreach(Expediente e in list) {
+					Consol.WriteLine(e);
 				}
 		}
 			
