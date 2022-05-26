@@ -18,16 +18,32 @@ namespace ListaIdNS
             return posicion(id) > -1;
         }
 
-        public Identificable Get(string id) {
+        protected Identificable Get(string id) {
             int i = posicion(id);
             if ( i == -1 )
-                return null;
+                throw new DatoInvalido();
             return (Identificable) this.lista[i];
         }
 
-        public abstract void Agregar(Identificable e);
 
-        public abstract bool Eliminar(string numero);
+        // Excepcion IndexOutOfRangeException
+        public Identificable Get(int i) {
+            return this.list[i];
+        }
+
+        public void Agregar(Identificable e){
+			if ( base.existe(a.Dni) )
+				throw new Repetido();
+			this.list.Add(a);
+		}
+
+        // Excepcion DatoInvalido()
+        public Identificable Eliminar(string numero) {
+			Identificable e = this.Get(numero); // Excepcion DatoInvalido()
+			this.list.Remove(e);
+            return e;
+		}
+
     
     }
 }

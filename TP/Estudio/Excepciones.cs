@@ -22,16 +22,16 @@ namespace EstudioNS
 		}
 	}
 
-	public class DniRepetido:ExcepcionEstudio{
-		private const string MSG = "\nHay un abogado registrado con el mismo DNI";
-
+	public class DatoInvalido:Excepcion {
+		private const string MSG = "\nNo hay datos registrados para esa entrada";
+		private const string ENTRADA = "Ingrese otro: "
 		public string resolver(){
-			Console.Write(MSG +"\n  DNI: ");
+			Console.Write(MSG +"\n  "+ENTRADA+": ");
 			return Console.ReadLine();
 		}
 	}
 
-	public class NumExpedienteRepetido:ExcepcionEstudio{
+	public class NumExpedienteRepetido:DatoInvalido{
 		private const string MSG = "\nHay un expediente registrado con el mismo numero";
 	}
 
