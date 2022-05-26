@@ -37,6 +37,9 @@ namespace EstudioNS
 			}
 			get{return this.cantExpedientes;}
 		}
-		
+
+		public override string ToString() {
+			return base.ToString() + "\nEspecializacion: " + this.espec + "\n";
+		}
 	}
 }

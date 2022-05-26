@@ -40,5 +40,9 @@ namespace EstudioNS
 			set{this.dni=value;}
 			get{return this.dni;}
 		}
+
+		public override string ToString() {
+			return "Nombre y apellido: " + this.nombre + " " + this.apellido + "\nDNI: " + this.dni;
+		}
 	}
 }

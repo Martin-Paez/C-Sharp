@@ -165,23 +165,13 @@ namespace TP
 		
 /*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
 		
-		private static void ImprimirPersona(Persona p) {
-			Console.WriteLine("Nombre y apellido: " + p.Nombre + " " + p.Apellido);
-			Console.WriteLine("DNI: " + p.Dni);
-		}
-		
-		public static void ImprimirAbogado(Abogado a) {
-			ImprimirPersona(a);
-			Console.WriteLine("Especializacion: " + a.Espec + "\n");
-		}
-		
 		public static void ImprimirAbogados(Estudio e) {
 			Console.WriteLine("Opcion: IMPRIMIR ABOGADOS \n");
 			if ( e.Abogados.Count == 0 )
 				Console.WriteLine("No hay abogados");
 			else
 				foreach(Abogado a in e.Abogados) {
-				ImprimirAbogado(a);
+					Console.WriteLine(a);
 				}
 		}
 				
@@ -194,12 +184,12 @@ namespace TP
 					Console.WriteLine("Numero de expediente: " + e.Numero);
 					Console.WriteLine("Estado: " + e.Estado);
 					Console.WriteLine("Tipo: " + e.Tipo);
-					Console.WriteLine("Fecha de creacion: " + e.FechaCreacion);
+					Console.WriteLine("Fecha de creacion: " + e.FechaCreacion.ToString("d"));
 					Console.WriteLine("\nDatos del titular: ");
-					ImprimirPersona(e.Titular);
+					Console.WriteLine(e.Titular);
 					if (e.Abogado != null) {
 						Console.WriteLine("\nDatos del abogado: ");
-						ImprimirAbogado(e.Abogado);
+						Console.WriteLine(e.Abogado);
 						Console.WriteLine("");
 					} else 
 						Console.WriteLine("\nNo tiene un abogado asignado \n");
