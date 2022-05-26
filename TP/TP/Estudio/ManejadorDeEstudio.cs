@@ -19,8 +19,11 @@ namespace EstudioNS
 		{
 		}
 		
-		public static void resolver(string err, Estudio e){
+		public void resolver(string err, Estudio e){
 			switch(err) {
+				case "E0":
+					dniAbogado(e,"No hay ningun abogado registrado con ese DNI");
+					break;
 				case "E1":
 					dniAbogado(e,"Hay un abogado registrado con el mismo DNI");
 					break;
@@ -37,16 +40,19 @@ namespace EstudioNS
 			
 		}
 		
-		protected static int dniAbogado(Estudio e, string err){
+		public virtual Abogado dniAbogado(Estudio e, string err){
 			Console.WriteLine(err);
+			return null;
 		}
 		
-		protected static int numeroExpediente(Estudio e, string err){
+		protected Expediente numeroExpediente(Estudio e, string err){
 			Console.WriteLine(err);
+			return null;
 		}
 			
-		protected static int expedientesAsignados(Estudio e, string err){
+		protected Abogado expedientesAsignados(Estudio e, string err){
 			Console.WriteLine(err);
+			return null;
 		}
 		
 		protected static void errInesperado(string err){

@@ -53,6 +53,7 @@
     <Compile Include="Estudio\Back-End\Expediente.cs" />
     <Compile Include="Estudio\Back-End\Persona.cs" />
     <Compile Include="Estudio\ManejadorDeEstudio.cs" />
+    <Compile Include="Manejador.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

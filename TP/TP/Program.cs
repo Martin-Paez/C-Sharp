@@ -81,7 +81,7 @@ namespace TP
 				Console.Write("Especializacion: ");
 				e.AgregarAbogado( new Abogado(d[0],d[1],d[2], Console.ReadLine()) );
 			} catch (Exception err) {
-				ManejadorDeEstudio.resolver(err.Message);
+				(new Manejador()).resolver(err.Message, e);
 			}
 		}
 		
@@ -105,15 +105,18 @@ namespace TP
 		
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
+			string etiquetas = "Tipo/Estado/Nombre del titular/Apellido del titular";
+			string[] d = LeerDatos(etiquetas+"/DNI del titular");
 			Persona p = new Persona(d[2],d[3],d[4]);
-			
+			Abogado a;
+			Manejador m = new Manejador();
+
 			string rta;
 			Abogado a;
 			do {
 				rta="";
 				Console.Write("\nDni del Abogado: ");
-				a = estudio.GetAbogado(Console.ReadLine());
+				a = e.GetAbogado(Console.ReadLine());
 				if ( a == null )
 					Console.WriteLine("No se encontro abogado");
 				else if(a.CantExpedientes>=6)
@@ -125,16 +128,20 @@ namespace TP
 					rta = Console.ReadLine().ToUpper();
 				} 					
 			} while ( rta != "N");
+
+			try { a = estudio.GetAbogado(d[6]);
+			}catch (Exception err) {
+				a = (Abogado)m.resolver(err.Message, estudio);}
 			
+
 			bool ok;
 			do {
 				ok = false;
-				Console.Write("Numero: ");
-				Expediente e = new Expediente(Console.ReadLine(),p,d[0],d[1],a,DateTime.Today); // Lo creamos aca porque pidio la Profe
+
 				try {
+					Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
 					estudio.AgregarExpediente( e );
 				} catch (Exception err) {
-					ManejadorDeEstudio.resolver(err.Message);
 					Console.WriteLine("");
 					ok=true;
 				}

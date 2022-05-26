@@ -30,7 +30,7 @@ namespace EstudioNS
 		public Abogado GetAbogado(string dni) {
 			int i = this.existeAbogado(dni);
 			if ( i == -1 )
-				return null;
+				throw new Exception("E0");
 			return (Abogado) abogados[i];
 		}
 		
