@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace ListaIdNS
+namespace IdentificableNS
 {
 	public class Identificable
 	{
