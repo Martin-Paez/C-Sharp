@@ -102,13 +102,13 @@ namespace TP
 			return split;
 		}
 	
-		public static void AgregarAbogado(ListaAbogados e){
+		public static void AgregarAbogado(ListaAbogados a){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
 			bool repetir=true;
 			while(repetir){
 				try{
-					e.Agregar( new Abogado(d[0],d[1],d[2],d[3]) );
+					a.Agregar( new Abogado(d[0],d[1],d[2],d[3]) );
 					repetir = false;
 				}catch(Repetido err){
 					d[2] = err.resolver(); 
@@ -126,7 +126,8 @@ namespace TP
 			do {
 				rta="";
 				Console.Write("\nDni del Abogado: ");
-				a = estudio.GetAbogado(Console.ReadLine());
+				ListaAbogados abogados = estudio.Abogados;
+				a = (Abogado)abogados.Get(Console.ReadLine());
 				if ( a == null )
 					Console.WriteLine("No se encontro abogado");
 				else if(a.CantExps>=6)
@@ -145,10 +146,10 @@ namespace TP
 				Console.Write("Numero: ");
 				Expediente e = new Expediente(Console.ReadLine(),p,d[0],d[1],a,DateTime.Today); // Lo creamos aca porque pidio la Profe
 				try {
-					estudio.AgregarExpediente( e );
+					estudio.Expedientes.Agregar( e );
 				} catch (Exception err) {
 					//ManejadorDeEstudio.resolver(err.Message);
-					Console.WriteLine("");
+					Console.WriteLine(err.Message);
 					ok=true;
 				}
 			} while(ok);
@@ -160,14 +161,12 @@ namespace TP
 		
 /*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
 		
-		public static void ImprimirLista(ListaId list, string t) {
+		public static void ImprimirLista(ListaId lista, string t) {
 			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
-			if ( list.Count == 0 )
+			if ( lista.Count() == 0 )
 				Console.WriteLine("No hay " + t);
 			else
-				foreach(Object e in list) {
-					Console.WriteLine(e);
-				}
+				Console.WriteLine(lista);
 		}
 		
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
@@ -181,8 +180,8 @@ namespace TP
 			string espec = "familiar";
 			Abogado abogado = new Abogado(nombre, apellido, dni, espec);
 			Expediente expediente = new Expediente("1",titular,"audiencia", "activo", abogado, DateTime.Today);
-			estudio.AgregarExpediente(expediente);
-			estudio.AgregarAbogado(abogado);
+			estudio.Expedientes.Agregar(expediente);
+			estudio.Abogados.Agregar(abogado);
 			return estudio;
 		}
 			

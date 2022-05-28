@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using ListaIdNS;
+using EstudioNS;
 
 namespace ListaIdNS
 {
     public abstract class ListaId {
-        private ArrayList lista = new ArrayList();
+        protected ArrayList lista = new ArrayList();
 
-        private int posicion(string id){
+        public int posicion(string id){
             int i = -1;
             while ( (++i<this.lista.Count) && ((Identificable)this.lista[i]).Id != id );
             if ( i >= this.lista.Count)
@@ -15,11 +16,11 @@ namespace ListaIdNS
             return i;
         }
 
-        private bool existe(string id){
+        public bool existe(string id){
             return posicion(id) > -1;
         }
 
-        protected Identificable Get(string id) {
+        public Identificable Get(string id) {
             int i = posicion(id);
             if ( i == -1 )
                 throw new DatoInvalido();
@@ -28,23 +29,25 @@ namespace ListaIdNS
 
         // Excepcion IndexOutOfRangeException
         public Identificable Get(int i) {
-            return this.list[i];
+        	return (Identificable) this.lista[i];
         }
 
-        public void Agregar(Identificable e){
-			if ( base.existe(a.Dni) )
+        public void Agregar(Identificable a){
+			if ( existe(a.Id) )
 				throw new Repetido();
-			this.list.Add(a);
+			this.lista.Add(a);
 		}
 
         // Excepcion DatoInvalido()
         public Identificable Eliminar(string numero) {
 			Identificable e = this.Get(numero); // Excepcion DatoInvalido()
-			this.list.Remove(e);
+			this.lista.Remove(e);
             return e;
 		}
 
-    
+        public int Count(){
+        	return this.lista.Count;
+        }
     }
 }
 
