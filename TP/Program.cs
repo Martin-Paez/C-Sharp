@@ -86,6 +86,8 @@ namespace TP
 				try{
 					lista.Eliminar(id);
 					repetir = false;
+				} catch (InconsistenciaExpedientesSinAsignar err) {
+					Console.WriteLine("Eliminado\n"+err.MSG);
 				} catch (DatoInvalido err) {
 					id = err.resolver();
 					repetir = id!=null;
@@ -175,4 +177,5 @@ namespace TP
 		}
 			
 	}
+
 }

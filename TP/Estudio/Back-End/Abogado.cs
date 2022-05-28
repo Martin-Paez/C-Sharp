@@ -48,4 +48,16 @@ namespace EstudioNS
 			return base.ToString() + "\nEspecializacion: " + this.espec + "\n";
 		}
 	}
+	
+	public class DemasiadosExpedientes:DatoInvalido{
+		public DemasiadosExpedientes(){
+			this.msg = "\nEl abogado ya tiene demasiados expedientes asignados";
+		}
+	}
+
+	public class FaltanExpedientes:DatoInvalido{
+		public FaltanExpedientes() {
+			this.msg = "\nEl abogado ya no tiene mas expedientes asignados";
+		}
+	}
 }

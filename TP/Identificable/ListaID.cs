@@ -12,18 +12,21 @@ namespace ListaIdNS
             int i = -1;
             while ( (++i<this.lista.Count) && ((Identificable)this.lista[i]).Id != id );
             if ( i >= this.lista.Count)
-                i = -1;
+                 throw new DatoInvalido();
             return i;
         }
 
         public bool existe(string id){
-            return posicion(id) > -1;
+            try{
+                this.posicion(id);
+            } catch {
+                return false;
+            }
+            return  true;
         }
 
         public Identificable Get(string id) {
-            int i = posicion(id);
-            if ( i == -1 )
-                throw new DatoInvalido();
+            int i = posicion(id);  // Excepcion DatoInvalido
             return (Identificable) this.lista[i];
         }
 

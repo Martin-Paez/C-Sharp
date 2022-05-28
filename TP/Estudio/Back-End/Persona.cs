@@ -45,4 +45,11 @@ namespace EstudioNS
 			return "Nombre y apellido: " + this.nombre + " " + this.apellido + "\nDNI: " + this.id;
 		}
 	}
+	
+	public class DniFormatoInvalido:DatoInvalido{
+		public DniFormatoInvalido(){
+			this.msg = "\nEl dni debe ser un numero (sin puntos)";
+		}
+	}
+
 }

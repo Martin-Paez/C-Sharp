@@ -38,8 +38,14 @@ namespace EstudioNS
         //Excepcion "FaltanExpedientes"
         //Excepcion "DatoInvalido"
         public override Identificable Eliminar(string numero) {
+			Expediente e = base.posicion(numero); //Excepcion "DatoInvalido"
 			Expediente e = (Expediente) base.Eliminar(numero); //Excepcion "DatoInvalido"
-            e.Abogado.CantExps--; // Excepcion "FaltanExpedientes" 
+			if (e.Abogado.CantExps>0)
+            	e.Abogado.CantExps--; 
+			else {
+				this.Agregar(e);
+				throw new FaltanExpedientes();
+			}
             return e;
 		}
 
@@ -60,19 +66,51 @@ namespace EstudioNS
 		}
         
         // Excepcion DatoInvalido()
+		// InconsistenciaExpedientesSinAsignar
 		public override Identificable Eliminar(string dni) {
 			Abogado a = (Abogado) base.Eliminar(dni); //Excepcion DatoInvalido()
             int j = -1;
-            ListaExpedientes exps = this.estudio.Expedientes;
+            bool warning = false;
+			ListaExpedientes exps = this.estudio.Expedientes;
             while ( a.CantExps > 0 && ++j<=exps.Count()-1 ) {
 				if ( ((Expediente)exps.Get(j)).Abogado.Dni == a.Dni ) {
 					((Expediente)exps.Get(j)).Abogado = null;
-					a.CantExps--;
+					try{
+						a.CantExps--;
+					} catch (FaltanExpedientes err){  
+						warning = true;
+					};
 				}
 			}
+			if (warning)
+				throw new InconsistenciaExpedientesSinAsignar(a);
             return a;
         }
         
     }
+	
+	public class DniRepetido:DatoInvalido{
+		public DniRepetido(){
+			this.msg = "\nYa existe un abogado con el mismo DNI";
+		}
+	}
+
+	public class NumExpedienteRepetido:DatoInvalido{
+		public NumExpedienteRepetido(){
+			this.msg = "\nHay un expediente registrado con el mismo numero";
+		}
+	}
+
+	
+	public class InconsistenciaExpedientesSinAsignar:DatoInvalido{
+		private Abogado a;
+		public InconsistenciaExpedientesSinAsignar(Abogado a) {
+			this.msg = "\nWARNING: Se detecto que el abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
+			this.a = a;
+		}
+
+		public Abogado abogado{
+			get{return a;}
+		}
 
 }
