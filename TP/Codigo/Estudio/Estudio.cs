@@ -38,14 +38,10 @@ namespace EstudioNS
         //Excepcion "FaltanExpedientes"
         //Excepcion "DatoInvalido"
         public override Identificable Eliminar(string numero) {
-			Expediente e = base.posicion(numero); //Excepcion "DatoInvalido"
-			Expediente e = (Expediente) base.Eliminar(numero); //Excepcion "DatoInvalido"
-			if (e.Abogado.CantExps>0)
-            	e.Abogado.CantExps--; 
-			else {
-				this.Agregar(e);
-				throw new FaltanExpedientes();
-			}
+        	int i = base.posicion(numero); //Excepcion "DatoInvalido"
+        	Expediente e = (Expediente) this.lista[i];
+			e.Abogado.CantExps--; //Excepcion "FaltanExpedientes"
+			this.lista.RemoveAt(i); 
             return e;
 		}
 
@@ -77,7 +73,7 @@ namespace EstudioNS
 					((Expediente)exps.Get(j)).Abogado = null;
 					try{
 						a.CantExps--;
-					} catch (FaltanExpedientes err){  
+					} catch (FaltanExpedientes){						
 						warning = true;
 					};
 				}

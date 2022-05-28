@@ -48,10 +48,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Codigo\Estudio\Back-End\Abogado.cs" />
-    <Compile Include="Codigo\Estudio\Back-End\Estudio.cs" />
-    <Compile Include="Codigo\Estudio\Back-End\Expediente.cs" />
-    <Compile Include="Codigo\Estudio\Back-End\Persona.cs" />
+    <Compile Include="Codigo\Estudio\Abogado.cs" />
+    <Compile Include="Codigo\Estudio\Estudio.cs" />
+    <Compile Include="Codigo\Estudio\Expediente.cs" />
+    <Compile Include="Codigo\Estudio\Persona.cs" />
     <Compile Include="Codigo\Identificable\Excepciones.cs" />
     <Compile Include="Codigo\Identificable\Identificable.cs" />
     <Compile Include="Codigo\Identificable\ListaID.cs" />
@@ -64,7 +64,6 @@
   <ItemGroup>
     <Folder Include="Codigo" />
     <Folder Include="Codigo\Estudio" />
-    <Folder Include="Codigo\Estudio\Back-End" />
     <Folder Include="Codigo\Identificable" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
