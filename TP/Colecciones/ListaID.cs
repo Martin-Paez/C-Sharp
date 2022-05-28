@@ -52,7 +52,8 @@ namespace ListaIdNS
     }
 }
 
-/* NO conviene, hay que estar sobreescribiendo metodos de ingresos de datos, para evitar que cargen elementos no deseados
+/* Sobreescribiendo el metodo Equal en Identificable se podria implementar de este modo
+    Sin embargo no conviene, con la otra implementacion el ingreso de datos es mas seguro.
 
 
 using System;
