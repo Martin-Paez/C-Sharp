@@ -66,9 +66,8 @@ namespace IdentificableNS
 	}
 
 	public class IdInvalido:DatoInvalido{
-        private string tipo;
-		public IdInvalido() {
-			this.msg = "No hay ningun registro asociado al valor";
+        public IdInvalido() {
+			this.msg = "\nNo hay ningun registro asociado al valor";
 		}
 	}
 

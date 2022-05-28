@@ -42,6 +42,7 @@ namespace TP
 					AgregarExpediente(e);
 					break;
 				case "6":
+					modifEstado(e.Expedientes);
 					break;
 				case "7":
 					Eliminar("expediente","Numero", e.Expedientes);
@@ -114,7 +115,7 @@ namespace TP
 		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del Abogado: ");
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del Abogado");
 			if (d==null)
 				return;
 			Persona p = null;
@@ -135,11 +136,13 @@ namespace TP
 					if (a.CantExps==a.MaxExp)
 						throw new DemasiadosExpedientes();
 					repetir=false;
-				}catch(IdInvalido){
-					repetir = resolver(ref d[6],"\nNo hay ningun abogado registrado con ese DNI ");
-				}catch(DemasiadosExpedientes err){ // IdInvalido(), DemasiadosExpedientes()
-					repetir = resolver(ref d[6],err.MSG);}
+				}catch(DatoInvalido err){ // IdInvalido(), DemasiadosExpedientes()
+					repetir = resolver(ref d[6],"\nAbogado: " + err.MSG);
+					a = null;	
+				}
 			}while(repetir);
+			if (a==null)
+				Console.WriteLine("El expediente fue creado, pero no tiene abogado asignado.");
 			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
 			do {
 				try{
@@ -154,7 +157,19 @@ namespace TP
 			}while(repetir);
 		}
 
-		private static void modifExpediente(string numero){
+		private static void modifEstado(ListaExpedientes e){
+			Console.WriteLine("Opcion: MODIFICAR ESTADO \n");
+			string[] d = LeerDatos("Numero de expediente/Nuevo estado");
+			if (d==null)
+				return;
+			bool repetir;
+			do {
+				try{
+					((Expediente)e.Get(d[0])).Estado = d[1];
+					repetir=false;
+				}catch(IdInvalido err){
+					repetir = resolver(ref d[0],"\nNumero de Expediente: " + err.MSG);}
+			}while(repetir);
 			
 		}
 
