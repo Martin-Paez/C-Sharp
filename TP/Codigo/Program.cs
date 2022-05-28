@@ -1,23 +1,12 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Martin
- * Date: 23/05/2022
- * Time: 18:36
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections;
 using EstudioNS;
 using IdentificableNS;
 
-namespace TP
-{
-	class Program
-	{
+namespace TP {
+	class Program {
 		
-		public static void Main(string[] args)
-		{
+		public static void Main(string[] args){
 			Estudio e = initWorld();
 			while( resolverItem( elegirItem() , e) );
 		}
@@ -115,7 +104,7 @@ namespace TP
 		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del Abogado");
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
 			if (d==null)
 				return;
 			Persona p = null;
@@ -125,19 +114,19 @@ namespace TP
 					p = new Persona(d[3],d[4],d[5]); 
 					repetir=false;
 				}catch(DniFormatoInvalido err){
-					repetir = resolver(ref d[5],"\nTitular: "+err.MSG);}
+					repetir = resolver(ref d[5],err.MSG);}
 			}while(repetir);
 			if ( p==null )
 				return;
-			Abogado a=null;
+			Abogado a = null;
 			do {
 				try{
-					a = (Abogado)estudio.Abogados.Get(d[6]); //Excepcion IdInvalido()
-					if (a.CantExps==a.MaxExp)
+					a = (Abogado) pedir(estudio.Abogados, "DNI del Abogado");
+					if (a!=null && a.CantExps==a.MaxExp)
 						throw new DemasiadosExpedientes();
 					repetir=false;
-				}catch(DatoInvalido err){ // IdInvalido(), DemasiadosExpedientes()
-					repetir = resolver(ref d[6],"\nAbogado: " + err.MSG);
+				}catch(DemasiadosExpedientes err){ 
+					repetir = resolver(ref d[6],err.MSG);
 					a = null;	
 				}
 			}while(repetir);
@@ -157,20 +146,28 @@ namespace TP
 			}while(repetir);
 		}
 
-		private static void modifEstado(ListaExpedientes e){
+		private static void modifEstado(ListaExpedientes exps){
 			Console.WriteLine("Opcion: MODIFICAR ESTADO \n");
-			string[] d = LeerDatos("Numero de expediente/Nuevo estado");
-			if (d==null)
-				return;
+			Expediente e= (Expediente) pedir(exps,"Numero de expediente");
+			if (e==null)
+				return;			
+			e.Estado = LeerDatos("\nNuevo estado")[0];
+		}
+
+		private static Identificable pedir(ListaId lista, string etiqueta) {
+			string id = LeerDatos(etiqueta)[0];
+			if (id==null)
+				return null;
+			Identificable i=null;
 			bool repetir;
 			do {
 				try{
-					((Expediente)e.Get(d[0])).Estado = d[1];
+					i = lista.Get(id);
 					repetir=false;
 				}catch(IdInvalido err){
-					repetir = resolver(ref d[0],"\nNumero de Expediente: " + err.MSG);}
+					repetir = resolver(ref id,err.MSG+" al "+etiqueta);}
 			}while(repetir);
-			
+			return i;
 		}
 
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
@@ -195,17 +192,20 @@ namespace TP
 
 		public static bool LeerUnDato(ref string dato) {
 			bool ok = true;
-			try{
-				dato = tieneDatos(Console.ReadLine()).ToUpper().Trim();
-			} catch (SinValor err) {
-				ok = resolver(ref dato, err.MSG);
-			} 
+			dato = Console.ReadLine().ToUpper().Trim();
+			if(dato== "" || dato== null)
+				ok = resolver(ref dato, "No se ingreso ningun valor");
 			return ok;
 		}
 
 		public static bool resolver(ref string param, string msg){
 			Console.WriteLine(msg);
-			bool ok = deseaContinuar();
+			string rta="";
+			while ( rta != "S" & rta != "N" ) {
+				Console.Write("\n¿Desea intentar con un valor distinto? S/N : ");
+				rta = Console.ReadLine().ToUpper();
+			}
+			bool ok = rta=="S";
 			if(ok) {
 				Console.Write("\nIngrese otro: ");
 				ok = LeerUnDato(ref param);
@@ -213,20 +213,6 @@ namespace TP
 			return ok;
 		}
 
-		public static bool deseaContinuar(){
-			string rta="";
-			while ( rta != "S" & rta != "N" ) {
-				Console.Write("\n¿Desea intentar con un valor distinto? S/N : ");
-				rta = Console.ReadLine().ToUpper();
-			}
-			return rta=="S";
-		}
-
-		public static string tieneDatos(string value){
-			if(value == "" || value == null)
-				throw new SinValor();
-			return value;
-		}		
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
 
 		public static Estudio initWorld(){
@@ -243,12 +229,6 @@ namespace TP
 			return estudio;
 		}
 			
-	}
-
-	public class SinValor:DatoInvalido{
-		public SinValor() {
-			this.msg = "No se ingreso ningun valor";
-		}
 	}
 
 }
