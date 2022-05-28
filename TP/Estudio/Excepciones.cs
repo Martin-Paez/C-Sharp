@@ -17,7 +17,7 @@ namespace EstudioNS
 				Console.Write(MSG +"\n  "+ENTRADA+": ");
 				return Console.ReadLine();
 			}
-			return "";
+			return null;
 		}
 
 		public string _MSG {

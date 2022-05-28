@@ -88,9 +88,64 @@ namespace TP
 					repetir = false;
 				} catch (DatoInvalido err) {
 					id = err.resolver();
-					repetir = id!="";
+					repetir = id!=null;
 				}
 			}
+		}
+	
+		public static void AgregarAbogado(ListaAbogados abogados){
+			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
+			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
+			Abogado a = new Abogado(d[0],d[1],d[2],d[3]);
+			bool repetir=true;
+			while(repetir){
+				try{
+					abogados.Agregar(a);
+					repetir = false;
+				}catch(DatoInvalido err){
+					a.Dni = err.resolver(); 
+					repetir = a.Dni!=null;
+				}}
+		}
+		
+		public static void AgregarExpediente(Estudio estudio) {
+			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/Dni del Abogado: ");
+			Persona p = new Persona(d[3],d[4],d[5]);
+			Abogado a=null;
+			bool repetir=true;
+			while(repetir){
+				try{
+					a = (Abogado)estudio.Abogados.Get(d[6]);
+					repetir = false;
+				}catch(Repetido err){
+					d[6] = err.resolver(); 
+					repetir = d[6]!=null;
+				}}
+			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
+			repetir=true;
+			while(repetir){
+				try{
+					estudio.Expedientes.Agregar(e);
+					repetir = false;
+				}catch(Repetido err){
+					e.Numero= err.resolver(); 
+					repetir = e.Numero!=null;
+				}}
+		}
+		
+		private static void modifExpediente(string numero){
+			
+		}
+		
+/*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
+		
+		public static void ImprimirLista(ListaId lista, string t) {
+			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
+			if ( lista.Count() == 0 )
+				Console.WriteLine("No hay " + t);
+			else
+				Console.WriteLine(lista);
 		}
 
 		public static string[] LeerDatos(string nombres){
@@ -100,73 +155,6 @@ namespace TP
 				split[i] = Console.ReadLine();
 			}
 			return split;
-		}
-	
-		public static void AgregarAbogado(ListaAbogados a){
-			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
-			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			bool repetir=true;
-			while(repetir){
-				try{
-					a.Agregar( new Abogado(d[0],d[1],d[2],d[3]) );
-					repetir = false;
-				}catch(Repetido err){
-					d[2] = err.resolver(); 
-					repetir = d[2]!="";
-				}}
-		}
-		
-		public static void AgregarExpediente(Estudio estudio) {
-			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
-			Persona p = new Persona(d[2],d[3],d[4]);
-			
-			string rta;
-			Abogado a;
-			do {
-				rta="";
-				Console.Write("\nDni del Abogado: ");
-				ListaAbogados abogados = estudio.Abogados;
-				a = (Abogado)abogados.Get(Console.ReadLine());
-				if ( a == null )
-					Console.WriteLine("No se encontro abogado");
-				else if(a.CantExps>=6)
-					Console.WriteLine("El abogado tiene demasiados expedientes asignados");
-				else
-					rta="S"; //Cargado con Exito
-				while ( rta != "S" & rta != "N" ) {
-					Console.WriteLine("¿Desea dejar el expediente sin asignar? S/N");
-					rta = Console.ReadLine().ToUpper();
-				} 					
-			} while ( rta != "N");
-			
-			bool ok;
-			do {
-				ok = false;
-				Console.Write("Numero: ");
-				Expediente e = new Expediente(Console.ReadLine(),p,d[0],d[1],a,DateTime.Today); // Lo creamos aca porque pidio la Profe
-				try {
-					estudio.Expedientes.Agregar( e );
-				} catch (Exception err) {
-					//ManejadorDeEstudio.resolver(err.Message);
-					Console.WriteLine(err.Message);
-					ok=true;
-				}
-			} while(ok);
-		}
-		
-		private static void modifExpediente(string numero){
-			
-		}
-		
-/*-------------------------IMPRIMIR POR PANTALLA ---------------------------------------*/
-		
-		public static void ImprimirLista(ListaId lista, string t) {
-			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
-			if ( lista.Count() == 0 )
-				Console.WriteLine("No hay " + t);
-			else
-				Console.WriteLine(lista);
 		}
 		
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/

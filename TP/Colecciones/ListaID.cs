@@ -48,6 +48,13 @@ namespace ListaIdNS
         public int Count(){
         	return this.lista.Count;
         }
+
+        public override string ToString(){
+            string str = "\n";
+            foreach(Identificable elem in this.lista)
+            	str += elem.ToString() + "\n";
+            return str;
+        }
     }
 }
 
