@@ -18,7 +18,7 @@ namespace EstudioNS
 		
 		public Persona(string nombre, string apellido, string dni)
 		{
-			this.Dni = dni;
+			this.Dni = dni; // Excepcion DniFormatoInvalido()
 			this.Nombre = nombre;
 			this.Apellido = apellido;
 		}

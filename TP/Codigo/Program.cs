@@ -80,11 +80,13 @@ namespace TP
 		public static void Eliminar(string tipo, string id, ListaId lista){
 			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
 			Console.Write("\n" + id + " del " + tipo + ": ");
-			id = Console.ReadLine();
+			if( ! LeerUnDato(ref id) )
+				return;
 			bool repetir=false;
 			do {
 				try{
 					lista.Eliminar(id);
+					repetir=false;
 				} catch (InconsistenciaExpedientesSinAsignar err) {
 					Console.WriteLine("Eliminado\n"+err.MSG);
 				} catch (IdInvalido err) {
@@ -98,44 +100,58 @@ namespace TP
 			if (d==null)
 				return;
 			Abogado a=null;
-			bool repetir=true;
-			while(repetir){
+			bool repetir;
+			do {
 				try{
-					a = new Abogado(d[0],d[1],d[2],d[3]); // DNI invalido
+					a = new Abogado(d[0],d[1],d[2],d[3]); //  DniFormatoInvalido()
 					abogados.Agregar(a); // DNI repetido
-					repetir = false;
+					repetir=false;
 				}catch(DatoInvalido err){
-					repetir = resolver(ref d[2],err.MSG);
-				}}
+					repetir = resolver(ref d[2],err.MSG);}
+			}while(repetir);
 		}
 
+		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/Dni del Abogado: ");
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del Abogado: ");
 			if (d==null)
 				return;
-			Persona p = new Persona(d[3],d[4],d[5]);
+			Persona p = null;
+			bool repetir;
+			do{
+				try{
+					p = new Persona(d[3],d[4],d[5]); 
+					repetir=false;
+				}catch(DniFormatoInvalido err){
+					repetir = resolver(ref d[5],"\nTitular: "+err.MSG);}
+			}while(repetir);
+			if ( p==null )
+				return;
 			Abogado a=null;
-			bool repetir=true;
-			while(repetir){
+			do {
 				try{
-					a = (Abogado)estudio.Abogados.Get(d[6]);
-					repetir = false;
-				}catch(DniRepetido err){
-					repetir = resolver(ref d[6],err.MSG);
-				}}
+					a = (Abogado)estudio.Abogados.Get(d[6]); //Excepcion IdInvalido()
+					if (a.CantExps==a.MaxExp)
+						throw new DemasiadosExpedientes();
+					repetir=false;
+				}catch(IdInvalido){
+					repetir = resolver(ref d[6],"\nNo hay ningun abogado registrado con ese DNI ");
+				}catch(DemasiadosExpedientes err){ // IdInvalido(), DemasiadosExpedientes()
+					repetir = resolver(ref d[6],err.MSG);}
+			}while(repetir);
 			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
-			repetir=true;
-			while(repetir){
+			do {
 				try{
-					estudio.Expedientes.Agregar(e);
-					repetir = false;
-				}catch(DatoInvalido err){
+					estudio.Expedientes.Agregar(e); // La excepcin DemasiadosExpedientes() se evito arriba.
+					repetir=false;
+				}catch(NumExpedienteRepetido err){ 
 					string n = e.Numero;
 					repetir = resolver(ref n,err.MSG);
 					if (repetir)
 						e.Numero = n;
-				}}
+				}
+			}while(repetir);
 		}
 
 		private static void modifExpediente(string numero){
@@ -155,29 +171,29 @@ namespace TP
 		public static string[] LeerDatos(string nombres){
 			string[] split = nombres.Split('/');
 			for(int i=0; i<split.Length; i++) {
-				Console.Write("  "+split[i]+": ");
+				Console.Write(split[i]+": ");
 				if ( ! LeerUnDato(ref split[i]) )
 					return null;
 			}
 			return split;
 		}
 
-		public static bool resolver(ref string param, string msg){
-			Console.WriteLine(msg);
-			bool ok = deseaContinuar();
-			if(ok) {
-				Console.Write("\n Ingrese nuevamente: ");
-				ok = LeerUnDato(ref param);
+		public static bool LeerUnDato(ref string dato) {
+			bool ok = true;
+			try{
+				dato = tieneDatos(Console.ReadLine()).ToUpper().Trim();
+			} catch (SinValor err) {
+				ok = resolver(ref dato, err.MSG);
 			} 
 			return ok;
 		}
 
-		public static bool LeerUnDato(ref string dato) {
-			bool ok = true;
-			try{
-				dato = tieneDatos(Console.ReadLine()).ToUpper();
-			} catch (SinValor err) {
-				ok = resolver(ref dato, err.MSG);
+		public static bool resolver(ref string param, string msg){
+			Console.WriteLine(msg);
+			bool ok = deseaContinuar();
+			if(ok) {
+				Console.Write("\nIngrese otro: ");
+				ok = LeerUnDato(ref param);
 			} 
 			return ok;
 		}
@@ -185,7 +201,7 @@ namespace TP
 		public static bool deseaContinuar(){
 			string rta="";
 			while ( rta != "S" & rta != "N" ) {
-				Console.WriteLine("\n¿Desea intentar nuevamente? S/N");
+				Console.Write("\n¿Desea intentar con un valor distinto? S/N : ");
 				rta = Console.ReadLine().ToUpper();
 			}
 			return rta=="S";

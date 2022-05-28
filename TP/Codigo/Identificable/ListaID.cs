@@ -26,8 +26,9 @@ namespace IdentificableNS
             return  true;
         }
 
+        // Excepcion IdInvalido
         public Identificable Get(string id) {
-            int i = posicion(id);  // Excepcion DatoInvalido
+            int i = posicion(id);  // Excepcion IdInvalido
             return (Identificable) this.lista[i];
         }
 
@@ -63,12 +64,12 @@ namespace IdentificableNS
 			get{return msg;}
 		}
 	}
-    
-	public class IdInvalido:DatoInvalido{
-		public IdInvalido() {
-			this.msg = "No hay ningun registro asociado a ese valor";
-		}
 
+	public class IdInvalido:DatoInvalido{
+        private string tipo;
+		public IdInvalido() {
+			this.msg = "No hay ningun registro asociado al valor";
+		}
 	}
 
 }

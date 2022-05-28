@@ -24,13 +24,14 @@ namespace EstudioNS
 	
 	public class ListaExpedientes:ListaId{
 
-        // Excepcion "DemasiadosExpedientes"
+		// Excepcion NumExpedienteRepetido()
+        // Excepcion DemasiadosExpedientes()
         // No puedo reutilizar el del padre, por el orden de chequeos
         public void Agregar(Expediente e) {
         	if ( base.existe(e.Numero) )
 				throw new NumExpedienteRepetido();
 			if (e.Abogado != null) // Se permite asignar despues. Idem al despedir un abogado.
-				e.Abogado.CantExps++; 
+				e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
 			this.lista.Add(e);
 		}
 
@@ -39,7 +40,8 @@ namespace EstudioNS
         public override Identificable Eliminar(string numero) {
         	int i = base.posicion(numero); //Excepcion "DatoInvalido"
         	Expediente e = (Expediente) this.lista[i];
-			e.Abogado.CantExps--; //Excepcion "FaltanExpedientes"
+        	if (e.Abogado != null)
+        		e.Abogado.CantExps--; //Excepcion "FaltanExpedientes"
 			this.lista.RemoveAt(i); 
             return e;
 		}
@@ -67,9 +69,10 @@ namespace EstudioNS
             int j = -1;
             bool warning = false;
 			ListaExpedientes exps = this.estudio.Expedientes;
-            while ( a.CantExps > 0 && ++j<=exps.Count()-1 ) {
-				if ( ((Expediente)exps.Get(j)).Abogado.Dni == a.Dni ) {
-					((Expediente)exps.Get(j)).Abogado = null;
+            while ( a.CantExps > 0 && ++j<exps.Count() ) {
+				Expediente e = (Expediente)exps.Get(j);
+				if ( e != null && e.Abogado.Dni == a.Dni ) {
+					e.Abogado = null;
 					try{
 						a.CantExps--;
 					} catch (FaltanExpedientes){						
