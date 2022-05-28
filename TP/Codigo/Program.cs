@@ -61,7 +61,7 @@ namespace TP
 			Console.ReadKey(true);
 			return true;
 		}
-		
+
 		public static string elegirItem(){
 			Console.Clear();
 			Console.WriteLine("1) Agregar abogado");
@@ -81,23 +81,22 @@ namespace TP
 			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
 			Console.Write("\n" + id + " del " + tipo + ": ");
 			id = Console.ReadLine();
-			bool repetir=true;
-			while(repetir) {
+			bool repetir=false;
+			do {
 				try{
 					lista.Eliminar(id);
-					repetir = false;
 				} catch (InconsistenciaExpedientesSinAsignar err) {
 					Console.WriteLine("Eliminado\n"+err.MSG);
-				} catch (DatoInvalido err) {
-					id = err.resolver();
-					repetir = id!=null;
-				}
-			}
+				} catch (IdInvalido err) {
+					repetir = resolver(ref id,err.MSG);}
+			} while(repetir);
 		}
-	
+
 		public static void AgregarAbogado(ListaAbogados abogados){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
+			if (d==null)
+				return;
 			Abogado a=null;
 			bool repetir=true;
 			while(repetir){
@@ -106,14 +105,15 @@ namespace TP
 					abogados.Agregar(a); // DNI repetido
 					repetir = false;
 				}catch(DatoInvalido err){
-					d[2] = err.resolver();
-					repetir = d[2]!=null;
+					repetir = resolver(ref d[2],err.MSG);
 				}}
 		}
-		
+
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/Dni del Abogado: ");
+			if (d==null)
+				return;
 			Persona p = new Persona(d[3],d[4],d[5]);
 			Abogado a=null;
 			bool repetir=true;
@@ -122,8 +122,7 @@ namespace TP
 					a = (Abogado)estudio.Abogados.Get(d[6]);
 					repetir = false;
 				}catch(DniRepetido err){
-					d[6] = err.resolver(); 
-					repetir = d[6]!=null;
+					repetir = resolver(ref d[6],err.MSG);
 				}}
 			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
 			repetir=true;
@@ -132,15 +131,17 @@ namespace TP
 					estudio.Expedientes.Agregar(e);
 					repetir = false;
 				}catch(DatoInvalido err){
-					e.Numero= err.resolver(); 
-					repetir = e.Numero!=null;
+					string n = e.Numero;
+					repetir = resolver(ref n,err.MSG);
+					if (repetir)
+						e.Numero = n;
 				}}
 		}
-		
+
 		private static void modifExpediente(string numero){
 			
 		}
-		
+
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
 		
 		public static void ImprimirLista(ListaId lista, string t) {
@@ -155,11 +156,46 @@ namespace TP
 			string[] split = nombres.Split('/');
 			for(int i=0; i<split.Length; i++) {
 				Console.Write("  "+split[i]+": ");
-				split[i] = Console.ReadLine();
+				if ( ! LeerUnDato(ref split[i]) )
+					return null;
 			}
 			return split;
 		}
-		
+
+		public static bool resolver(ref string param, string msg){
+			Console.WriteLine(msg);
+			bool ok = deseaContinuar();
+			if(ok) {
+				Console.Write("\n Ingrese nuevamente: ");
+				ok = LeerUnDato(ref param);
+			} 
+			return ok;
+		}
+
+		public static bool LeerUnDato(ref string dato) {
+			bool ok = true;
+			try{
+				dato = tieneDatos(Console.ReadLine()).ToUpper();
+			} catch (SinValor err) {
+				ok = resolver(ref dato, err.MSG);
+			} 
+			return ok;
+		}
+
+		public static bool deseaContinuar(){
+			string rta="";
+			while ( rta != "S" & rta != "N" ) {
+				Console.WriteLine("\n¿Desea intentar nuevamente? S/N");
+				rta = Console.ReadLine().ToUpper();
+			}
+			return rta=="S";
+		}
+
+		public static string tieneDatos(string value){
+			if(value == "" || value == null)
+				throw new SinValor();
+			return value;
+		}		
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
 
 		public static Estudio initWorld(){
@@ -176,6 +212,12 @@ namespace TP
 			return estudio;
 		}
 			
+	}
+
+	public class SinValor:DatoInvalido{
+		public SinValor() {
+			this.msg = "No se ingreso ningun valor";
+		}
 	}
 
 }

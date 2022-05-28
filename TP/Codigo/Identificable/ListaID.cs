@@ -8,11 +8,12 @@ namespace IdentificableNS
     public abstract class ListaId {
         protected ArrayList lista = new ArrayList();
 
+        // Excepcion DatoInvalido
         public int posicion(string id){
             int i = -1;
             while ( (++i<this.lista.Count) && ((Identificable)this.lista[i]).Id != id );
             if ( i >= this.lista.Count)
-                 throw new DatoInvalido();
+                 throw new IdInvalido();
             return i;
         }
 
@@ -35,10 +36,11 @@ namespace IdentificableNS
         	return (Identificable) this.lista[i];
         }
 
-        // Excepcion DatoInvalido()
-        public virtual Identificable Eliminar(string numero) {
-			Identificable e = this.Get(numero); // Excepcion DatoInvalido()
-			this.lista.Remove(e);
+        // Excepcion IdInvalido()
+        public virtual Identificable Eliminar(string id) {
+            int i = posicion(id); //Excepcion "IdInvalido"
+        	Identificable e = (Identificable) this.lista[i];
+			this.lista.RemoveAt(i);
             return e;
 		}
 
@@ -53,6 +55,22 @@ namespace IdentificableNS
             return str;
         }
     }
+    
+    public class DatoInvalido:Exception {
+		protected string msg = "\nNo hay datos registrados para esa entrada";
+
+		public string MSG {
+			get{return msg;}
+		}
+	}
+    
+	public class IdInvalido:DatoInvalido{
+		public IdInvalido() {
+			this.msg = "No hay ningun registro asociado a ese valor";
+		}
+
+	}
+
 }
 
 /* Sobreescribiendo el metodo Equal en Identificable se podria implementar de este modo

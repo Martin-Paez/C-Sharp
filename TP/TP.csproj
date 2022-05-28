@@ -52,7 +52,6 @@
     <Compile Include="Codigo\Estudio\Estudio.cs" />
     <Compile Include="Codigo\Estudio\Expediente.cs" />
     <Compile Include="Codigo\Estudio\Persona.cs" />
-    <Compile Include="Codigo\Identificable\Excepciones.cs" />
     <Compile Include="Codigo\Identificable\Identificable.cs" />
     <Compile Include="Codigo\Identificable\ListaID.cs" />
     <Compile Include="Codigo\Program.cs" />

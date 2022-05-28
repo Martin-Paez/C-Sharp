@@ -4,8 +4,7 @@ using IdentificableNS;
 
 namespace EstudioNS
 {
-	public class Estudio
-	{
+	public class Estudio {
 		private ListaExpedientes exps;
 		private ListaAbogados abogados;
 		
@@ -61,10 +60,10 @@ namespace EstudioNS
 			this.lista.Add(a);
 		}
         
-        // Excepcion DatoInvalido()
+        // Excepcion IdInvalido()
 		// InconsistenciaExpedientesSinAsignar
 		public override Identificable Eliminar(string dni) {
-			Abogado a = (Abogado) base.Eliminar(dni); //Excepcion DatoInvalido()
+			Abogado a = (Abogado) base.Eliminar(dni); //Excepcion IdInvalido()
             int j = -1;
             bool warning = false;
 			ListaExpedientes exps = this.estudio.Expedientes;

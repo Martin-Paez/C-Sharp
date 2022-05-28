@@ -9,11 +9,7 @@
 using System;
 using IdentificableNS;
 
-namespace EstudioNS
-{
-	/// <summary>
-	/// Description of Abogado.
-	/// </summary>
+namespace EstudioNS{
 	public class Abogado : Persona
 	{
 		private string espec;
