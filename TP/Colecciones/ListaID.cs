@@ -32,14 +32,8 @@ namespace ListaIdNS
         	return (Identificable) this.lista[i];
         }
 
-        public void Agregar(Identificable a){
-			if ( existe(a.Id) )
-				throw new Repetido();
-			this.lista.Add(a);
-		}
-
         // Excepcion DatoInvalido()
-        public Identificable Eliminar(string numero) {
+        public virtual Identificable Eliminar(string numero) {
 			Identificable e = this.Get(numero); // Excepcion DatoInvalido()
 			this.lista.Remove(e);
             return e;

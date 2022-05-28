@@ -96,15 +96,16 @@ namespace TP
 		public static void AgregarAbogado(ListaAbogados abogados){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			Abogado a = new Abogado(d[0],d[1],d[2],d[3]);
+			Abogado a=null;
 			bool repetir=true;
 			while(repetir){
 				try{
-					abogados.Agregar(a);
+					a = new Abogado(d[0],d[1],d[2],d[3]); // DNI invalido
+					abogados.Agregar(a); // DNI repetido
 					repetir = false;
 				}catch(DatoInvalido err){
-					a.Dni = err.resolver(); 
-					repetir = a.Dni!=null;
+					d[2] = err.resolver();
+					repetir = d[2]!=null;
 				}}
 		}
 		
@@ -118,7 +119,7 @@ namespace TP
 				try{
 					a = (Abogado)estudio.Abogados.Get(d[6]);
 					repetir = false;
-				}catch(Repetido err){
+				}catch(DniRepetido err){
 					d[6] = err.resolver(); 
 					repetir = d[6]!=null;
 				}}
@@ -128,7 +129,7 @@ namespace TP
 				try{
 					estudio.Expedientes.Agregar(e);
 					repetir = false;
-				}catch(Repetido err){
+				}catch(DatoInvalido err){
 					e.Numero= err.resolver(); 
 					repetir = e.Numero!=null;
 				}}
@@ -163,7 +164,7 @@ namespace TP
 			Estudio estudio = new Estudio();
 			string nombre = "maxi";
 			string apellido = "lopez";
-			string dni = "34.123.123";
+			string dni = "34";
 			Persona titular = new Persona(nombre,apellido,dni);
 			string espec = "familiar";
 			Abogado abogado = new Abogado(nombre, apellido, dni, espec);

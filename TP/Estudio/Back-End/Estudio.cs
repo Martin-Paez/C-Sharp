@@ -28,7 +28,7 @@ namespace EstudioNS
         // Excepcion "DemasiadosExpedientes"
         // No puedo reutilizar el del padre, por el orden de chequeos
         public void Agregar(Expediente e) {
-			if ( base.existe(e.Numero) )
+        	if ( base.existe(e.Numero) )
 				throw new NumExpedienteRepetido();
 			if (e.Abogado != null) // Se permite asignar despues. Idem al despedir un abogado.
 				e.Abogado.CantExps++; 
@@ -37,9 +37,10 @@ namespace EstudioNS
 
         //Excepcion "FaltanExpedientes"
         //Excepcion "DatoInvalido"
-        public new void Eliminar(string numero) {
+        public override Identificable Eliminar(string numero) {
 			Expediente e = (Expediente) base.Eliminar(numero); //Excepcion "DatoInvalido"
             e.Abogado.CantExps--; // Excepcion "FaltanExpedientes" 
+            return e;
 		}
 
 	}
@@ -52,8 +53,14 @@ namespace EstudioNS
             this.estudio = e;
         }
 
+        public void Agregar(Abogado a){
+			if ( existe(a.Id) )
+				throw new DniRepetido();
+			this.lista.Add(a);
+		}
+        
         // Excepcion DatoInvalido()
-		public new void Eliminar(string dni) {
+		public override Identificable Eliminar(string dni) {
 			Abogado a = (Abogado) base.Eliminar(dni); //Excepcion DatoInvalido()
             int j = -1;
             ListaExpedientes exps = this.estudio.Expedientes;
@@ -63,6 +70,7 @@ namespace EstudioNS
 					a.CantExps--;
 				}
 			}
+            return a;
         }
         
     }

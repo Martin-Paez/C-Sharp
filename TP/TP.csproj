@@ -51,8 +51,6 @@
     <Compile Include="Colecciones\Identificable.cs" />
     <Compile Include="Colecciones\ListaID.cs" />
     <Compile Include="Estudio\Back-End\Abogado.cs" />
-    <Compile Include="Estudio\Back-End\Colecciones\ListaAbogados.cs" />
-    <Compile Include="Estudio\Back-End\Colecciones\ListaExpedientes.cs" />
     <Compile Include="Estudio\Back-End\Estudio.cs" />
     <Compile Include="Estudio\Back-End\Expediente.cs" />
     <Compile Include="Estudio\Back-End\Persona.cs" />
@@ -67,7 +65,6 @@
     <Folder Include="Colecciones" />
     <Folder Include="Estudio" />
     <Folder Include="Estudio\Back-End" />
-    <Folder Include="Estudio\Back-End\Colecciones" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,9 +11,6 @@ using ListaIdNS;
 
 namespace EstudioNS
 {
-	/// <summary>
-	/// Description of Class1.
-	/// </summary>
 	public class Persona:Identificable
 	{
 		private string nombre;
@@ -21,9 +18,9 @@ namespace EstudioNS
 		
 		public Persona(string nombre, string apellido, string dni)
 		{
-			this.nombre = nombre;
-			this.apellido = apellido;
-			this.id = dni;
+			this.Dni = dni;
+			this.Nombre = nombre;
+			this.Apellido = apellido;
 		}
 		
 		public string Nombre {
@@ -37,7 +34,10 @@ namespace EstudioNS
 		}
 		
 		public string Dni {
-			set{this.id=value;}
+			set{
+				try {int.Parse(value);
+				}catch{throw new DniFormatoInvalido();}
+				this.id=value;}
 			get{return this.id;}
 		}
 
