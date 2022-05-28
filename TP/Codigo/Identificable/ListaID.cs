@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using ListaIdNS;
+using IdentificableNS;
 using EstudioNS;
 
-namespace ListaIdNS
+namespace IdentificableNS
 {
     public abstract class ListaId {
         protected ArrayList lista = new ArrayList();

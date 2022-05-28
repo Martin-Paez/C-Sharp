@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using ListaIdNS;
+using IdentificableNS;
 
 namespace EstudioNS
 {
@@ -112,5 +112,5 @@ namespace EstudioNS
 		public Abogado abogado{
 			get{return a;}
 		}
-
+	}
 }

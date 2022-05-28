@@ -9,7 +9,7 @@
 using System;
 using System.Collections;
 using EstudioNS;
-using ListaIdNS;
+using IdentificableNS;
 
 namespace TP
 {

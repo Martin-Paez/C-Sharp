@@ -48,23 +48,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Colecciones\Identificable.cs" />
-    <Compile Include="Colecciones\ListaID.cs" />
-    <Compile Include="Estudio\Back-End\Abogado.cs" />
-    <Compile Include="Estudio\Back-End\Estudio.cs" />
-    <Compile Include="Estudio\Back-End\Expediente.cs" />
-    <Compile Include="Estudio\Back-End\Persona.cs" />
-    <Compile Include="Estudio\Excepciones.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Codigo\Estudio\Back-End\Abogado.cs" />
+    <Compile Include="Codigo\Estudio\Back-End\Estudio.cs" />
+    <Compile Include="Codigo\Estudio\Back-End\Expediente.cs" />
+    <Compile Include="Codigo\Estudio\Back-End\Persona.cs" />
+    <Compile Include="Codigo\Identificable\Excepciones.cs" />
+    <Compile Include="Codigo\Identificable\Identificable.cs" />
+    <Compile Include="Codigo\Identificable\ListaID.cs" />
+    <Compile Include="Codigo\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Colecciones" />
-    <Folder Include="Estudio" />
-    <Folder Include="Estudio\Back-End" />
+    <Folder Include="Codigo" />
+    <Folder Include="Codigo\Estudio" />
+    <Folder Include="Codigo\Estudio\Back-End" />
+    <Folder Include="Codigo\Identificable" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

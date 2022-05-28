@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ListaIdNS {
+namespace IdentificableNS {
 	public class DatoInvalido:Exception {
 		protected string msg = "\nNo hay datos registrados para esa entrada";
 		private const string ENTRADA = "Ingrese otro: ";
