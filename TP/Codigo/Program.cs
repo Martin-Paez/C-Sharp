@@ -82,7 +82,7 @@ namespace TP {
 				} catch (IdInvalido err) {
 					repetir = resolver(ref id,err.MSG);}
 			} while(repetir);
-		}
+	}
 
 		public static void AgregarAbogado(ListaAbogados abogados){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
@@ -98,7 +98,7 @@ namespace TP {
 					repetir=false;
 				}catch(DatoInvalido err){
 					repetir = resolver(ref d[2],err.MSG);}
-			}while(repetir);
+			}while(repetir);	
 		}
 
 		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
@@ -232,3 +232,30 @@ namespace TP {
 	}
 
 }
+
+/*
+Ejemplo funcion AgregarAbogado, sin utilizar excepcines:
+			
+			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
+			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
+			if (d==null)
+				return;
+			Abogado a=null;
+			bool repetir;
+			repetir = true;
+			while(repetir) {
+				a = new Abogado(d[0],d[1],d[2],d[3]);
+				if (a==null)
+					repetir = resolver(ref d[2], "Formato del DNI invalido, debe ser un numero (sin puntos)");
+				else if (abogados.Agregar(a))
+						repetir = false;
+					else
+						repetir = resolver(ref d[2], "El DNI ya esta registrado con otro abogado");
+			}
+
+Desventajas:
+	Un renglos mas
+	No se puede reutilizar los mensajes si se repite el error en otra funcion
+	Es mas complejo seguir la logica de cada uno de los posibles casos
+	Si hubieran mas de una excepcion asociada a un mismo caso, seria mas engorroso por este camino. 
+*/

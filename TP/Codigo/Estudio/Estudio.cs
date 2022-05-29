@@ -101,14 +101,8 @@ namespace EstudioNS
 
 	
 	public class InconsistenciaExpedientesSinAsignar:DatoInvalido{
-		private Abogado a;
 		public InconsistenciaExpedientesSinAsignar(Abogado a) {
 			this.msg = "\nWARNING: Se detecto que el abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
-			this.a = a;
-		}
-
-		public Abogado abogado{
-			get{return a;}
 		}
 	}
 }
