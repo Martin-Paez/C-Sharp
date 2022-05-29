@@ -16,9 +16,9 @@ namespace EstudioNS
 		private string nombre;
 		private string apellido;
 		
-		public Persona(string nombre, string apellido, string dni)
+		public Persona(string nombre, string apellido, int dni)
 		{
-			this.Dni = dni; // Excepcion DniFormatoInvalido()
+			this.Dni = dni;
 			this.Nombre = nombre;
 			this.Apellido = apellido;
 		}
@@ -33,22 +33,17 @@ namespace EstudioNS
 			get{return this.apellido;}
 		}
 		
-		public string Dni {
-			set{
-				try {int.Parse(value);
-				}catch{throw new DniFormatoInvalido();}
-				this.id=value;}
-			get{return this.id;}
+		// Excepcion DniFormatoIvalido()
+		// Se implementa aca para evitar estar validando los datos ingresados como string en cada lugar 
+		// donde es construido o modificado el objeto Persona. A demas, este modo permite brindar un mensaje 
+		// por defecto en la clase DniFormatoInvalido.
+		public int Dni {
+			set{this.id=value.ToString();}
+			get{return int.Parse(this.id);}
 		}
 
 		public override string ToString() {
 			return "Nombre y apellido: " + this.nombre + " " + this.apellido + "\nDNI: " + this.id;
-		}
-	}
-	
-	public class DniFormatoInvalido:DatoInvalido{
-		public DniFormatoInvalido(){
-			this.msg = "\nEl dni debe ser un numero (sin puntos)";
 		}
 	}
 

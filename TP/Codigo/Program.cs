@@ -73,68 +73,57 @@ namespace TP {
 			if( ! LeerUnDato(ref id) )
 				return;
 			bool repetir=false;
-			do {
-				try{
+			do {try{
 					lista.Eliminar(id);
 					repetir=false;
 				} catch (InconsistenciaExpedientesSinAsignar err) {
 					Console.WriteLine("Eliminado\n"+err.MSG);
 				} catch (IdInvalido err) {
-					repetir = resolver(ref id,err.MSG);}
-			} while(repetir);
+					repetir = resolver(ref id,err.MSG);
+			}} while(repetir);
 	}
 
 		public static void AgregarAbogado(ListaAbogados abogados){
 			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			if (d==null)
+			int dni = numeroPositivo(d[2]);
+			if (d==null || dni==-1)
 				return;
-			Abogado a=null;
-			bool repetir;
-			do {
-				try{
-					a = new Abogado(d[0],d[1],d[2],d[3]); //  DniFormatoInvalido()
+			Abogado a = new Abogado(d[0],d[1],dni,d[3]);
+			bool repetir=false;
+			do {try{
 					abogados.Agregar(a); // DNI repetido
 					repetir=false;
-				}catch(DatoInvalido err){
-					repetir = resolver(ref d[2],err.MSG);}
-			}while(repetir);	
+				}catch(DniRepetido err){
+					if ( resolver(ref d[2],"\nCambiar DNI: "+err.MSG) ) {
+						a.Dni = numeroPositivo(d[2]);
+						repetir = a.Dni!=-1;
+					}
+			}}while(repetir);	
 		}
 
 		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
 		public static void AgregarExpediente(Estudio estudio) {
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
-			if (d==null)
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del abogado");
+			int dni = numeroPositivo(d[5]);
+			if (d==null || dni==-1)
 				return;
-			Persona p = null;
-			bool repetir;
-			do{
-				try{
-					p = new Persona(d[3],d[4],d[5]); 
-					repetir=false;
-				}catch(DniFormatoInvalido err){
-					repetir = resolver(ref d[5],err.MSG);}
-			}while(repetir);
-			if ( p==null )
-				return;
+			Persona p = new Persona(d[3],d[4],dni);
 			Abogado a = null;
-			do {
-				try{
-					a = (Abogado) pedir(estudio.Abogados, "DNI del Abogado");
+			bool repetir;
+			do {try{
+					a = (Abogado) estudio.Abogados.Get(d[6]); //IdInvalido
 					if (a!=null && a.CantExps==a.MaxExp)
 						throw new DemasiadosExpedientes();
 					repetir=false;
-				}catch(DemasiadosExpedientes err){ 
-					repetir = resolver(ref d[6],err.MSG);
+				}catch(DatoInvalido err){ // IdInvalid() o DemasiadosExpedientes(), se necesita otro DNI
+					if ( ! (repetir = resolver(ref d[6],"\nAbogado: "+err.MSG)) )
+						Console.WriteLine("\nEn ese caso no sera asignado asignado ningun abogado.");
 					a = null;	
-				}
-			}while(repetir);
-			if (a==null)
-				Console.WriteLine("El expediente fue creado, pero no tiene abogado asignado.");
+			}}while(repetir);				
 			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
-			do {
-				try{
+			do {try{
 					estudio.Expedientes.Agregar(e); // La excepcin DemasiadosExpedientes() se evito arriba.
 					repetir=false;
 				}catch(NumExpedienteRepetido err){ 
@@ -142,10 +131,10 @@ namespace TP {
 					repetir = resolver(ref n,err.MSG);
 					if (repetir)
 						e.Numero = n;
-				}
-			}while(repetir);
+			}}while(repetir);
 		}
 
+		
 		private static void modifEstado(ListaExpedientes exps){
 			Console.WriteLine("Opcion: MODIFICAR ESTADO \n");
 			Expediente e= (Expediente) pedir(exps,"Numero de expediente");
@@ -160,8 +149,7 @@ namespace TP {
 				return null;
 			Identificable i=null;
 			bool repetir;
-			do {
-				try{
+			do {try{
 					i = lista.Get(id);
 					repetir=false;
 				}catch(IdInvalido err){
@@ -213,13 +201,25 @@ namespace TP {
 			return ok;
 		}
 
+		public static int numeroPositivo(string param){
+			bool repetir;
+			do{
+				try {
+					return int.Parse(param);
+				} catch (FormatException) {
+					repetir = resolver(ref param, "\nSe esperaba un numero entero(sin puntos)");
+				}
+			} while (repetir);
+			return -1;
+		}
+
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
 
 		public static Estudio initWorld(){
 			Estudio estudio = new Estudio();
 			string nombre = "maxi";
 			string apellido = "lopez";
-			string dni = "34";
+			int dni = 1;
 			Persona titular = new Persona(nombre,apellido,dni);
 			string espec = "familiar";
 			Abogado abogado = new Abogado(nombre, apellido, dni, espec);
@@ -254,8 +254,48 @@ Ejemplo funcion AgregarAbogado, sin utilizar excepcines:
 			}
 
 Desventajas:
-	Un renglos mas
 	No se puede reutilizar los mensajes si se repite el error en otra funcion
 	Es mas complejo seguir la logica de cada uno de los posibles casos
 	Si hubieran mas de una excepcion asociada a un mismo caso, seria mas engorroso por este camino. 
+	Casi la mismas cantidad de lineas de codigo
+
+Otro ejemplo, mismas deventajas:
+
+		public static void AgregarExpediente2(Estudio estudio) {
+			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
+			if (d==null)
+				return;
+			Persona p = null;
+			bool repetir=true;
+			do{
+				p = new Persona(d[3],d[4],d[5]); 
+				if (p==null && ! resolver(ref d[5],"ssadasdsadasdasdasd;lasjdlasjd;ahsd;hsadiahsudihsad"))
+					return;
+				else 
+					repetir = false;
+			}while(repetir);
+			Abogado a = null;
+			do {
+				a = (Abogado) pedir(estudio.Abogados, "DNI del Abogado");
+				if (a!=null && a.CantExps==a.MaxExp){
+					repetir = resolver(ref d[6], "ssadasdsadasdasdasd;lasjdlasjd;ahsd;hsadiahsudihsad");
+					a = null;
+				} else
+					repetir=false;
+			] while (repetir);		
+			if (a==null)
+				Console.WriteLine("El expediente fue creado, pero no tiene abogado asignado.");
+			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
+			do {
+				if ( ! estudio.Expedientes.Agregar(e)) {
+					string n = e.Numero;
+					repetir = resolver(ref n,"ssadasdsadasdasdasd;lasjdlasjd;ahsd;hsadiahsudihsad");
+					if (repetir)
+						e.Numero = n;
+				} else
+					repetir=false;
+			}while(repetir);
+		}
+
 */

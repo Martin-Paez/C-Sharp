@@ -16,7 +16,7 @@ namespace EstudioNS{
 		private int cantExps = 0;
 		private int maxExp = 6;
 		
-		public Abogado(string nombre, string apellido, string dni, string espec):base(nombre, apellido, dni)
+		public Abogado(string nombre, string apellido, int dni, string espec):base(nombre, apellido, dni)
 		{
 			this.espec = espec;
 		}
