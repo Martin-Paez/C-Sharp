@@ -43,8 +43,9 @@ namespace TP
 				case "8": 
 					break;
 				case "9": 
-					if (preguntar("¿Esta seguro de que quiere cerrar el programa? S/N"))
+					if (preguntar(" ¿Esta seguro de que quiere cerrar el programa? S/N "))
 						return false;
+						break;
 				default:
 					Console.WriteLine("Opcion invalida. Debe ingresar un numero de 1 al 9.");
 					break;
