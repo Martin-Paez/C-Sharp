@@ -3,56 +3,61 @@ using System.Collections;
 using EstudioNS;
 using IdentificableNS;
 
-namespace TP {
-	class Program {
+namespace TP 
+{
+	class Program 
+	{
 		
-		public static void Main(string[] args){
-			Estudio e = initWorld();
-			while( resolverItem( elegirItem() , e) );
+		public static void Main(string[] args)
+		{
+			Estudio estudio = cargarDatos(); 
+			while( ejecutar( elegirOpcion(),estudio ) ); 
 		}
 		
-		private static bool resolverItem(string item, Estudio e){
+		private static bool ejecutar(string item, Estudio e)
+		{
 			Console.Clear();
-			string exit = "\nPresiona una tecla para volver al menu. . . ";
-			switch(item.Trim()){
-				case "1":
-					AgregarAbogado(e.Abogados);
+			bool ok = true;
+			switch(item){
+				case "1": 
+					ok = AgregarAbogado(e.Abogados);
 					break;
-				case "2":
-					Eliminar("abogado","DNI", e.Abogados);
+				case "2": 
+					ok = Eliminar("abogado","DNI", e.Abogados);
 					break;
-				case "3":
+				case "3": 
 					ImprimirLista(e.Abogados, "abogados");
 					break;
-				case "4":
+				case "4": 
 					ImprimirLista(e.Expedientes, "expedientes");
 					break;
-				case "5":
-					AgregarExpediente(e);
+				case "5": 
+					ok = AgregarExpediente(e);
 					break;
-				case "6":
-					modifEstado(e.Expedientes);
+				case "6": 
+					ok = ModifEstado(e.Expedientes);
 					break;
-				case "7":
-					Eliminar("expediente","Numero", e.Expedientes);
+				case "7": 
+					ok = Eliminar("expediente","Numero", e.Expedientes);
 					break;
-				case "8":
+				case "8": 
 					break;
-				case "9":
-					return false;
-				case "devMode":
-					exit = "Modo desarrollador deshabilitado";
-					break;
+				case "9": 
+					if (preguntar("¿Esta seguro de que quiere cerrar el programa? S/N"))
+						return false;
 				default:
-					exit = "Opcion invalida";
+					Console.WriteLine("Opcion invalida. Debe ingresar un numero de 1 al 9.");
 					break;
 			}
-			Console.Write(exit);
+			if ( ! ok )
+				Console.WriteLine("\nNo pudo completarse la operacion.");
+			Console.Write("\nPresiona cualquier tecla para volver al menu. . . ");
 			Console.ReadKey(true);
 			return true;
 		}
 
-		public static string elegirItem(){
+		public static string elegirOpcion()
+		{
 			Console.Clear();
 			Console.WriteLine("1) Agregar abogado");
 			Console.WriteLine("2) Eliminar abogado");
@@ -64,111 +69,150 @@ namespace TP {
 			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
 			Console.WriteLine("9) Salir \n");
 			Console.Write("> Numero de Opcion: ");
-			return Console.ReadLine();
+			return Console.ReadLine().Trim();
 		}
 
-		public static void Eliminar(string tipo, string id, ListaId lista){
+		public static bool Eliminar(string tipo, string id, ListaId lista)
+		{
 			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
+
 			Console.Write("\n" + id + " del " + tipo + ": ");
 			if( ! LeerUnDato(ref id) )
-				return;
-			bool repetir=false;
-			do {try{
+				return false;
+
+			bool ok = false, repetir=false;
+			do {
+				try{
+					repetir = false;
 					lista.Eliminar(id);
-					repetir=false;
+					Console.WriteLine("\nEliminado con exito");
+					ok = true;
 				} catch (InconsistenciaExpedientesSinAsignar err) {
-					Console.WriteLine("Eliminado\n"+err.MSG);
+					Console.WriteLine("\nEliminado\n"+err.MSG);
+					ok = true;
 				} catch (IdInvalido err) {
 					repetir = resolver(ref id,err.MSG);
-			}} while(repetir);
+				}
+			} while(repetir);
+			return ok;
 	}
 
-		public static void AgregarAbogado(ListaAbogados abogados){
-			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
+		public static bool AgregarAbogado(ListaAbogados abogados){
+			Console.WriteLine("Opcion: AGREGAR ABOGADO\n");
+
 			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			int dni = numeroPositivo(d[2]);
+			int dni = numeroPositivo(d[2], "DNI");
 			if (d==null || dni==-1)
-				return;
+				return false;
+
 			Abogado a = new Abogado(d[0],d[1],dni,d[3]);
-			bool repetir=false;
-			do {try{
+			bool ok=false, repetir=false;
+			do {
+				try{
+					repetir = false;
 					abogados.Agregar(a); // DNI repetido
-					repetir=false;
-				}catch(DniRepetido err){
-					if ( resolver(ref d[2],"\nCambiar DNI: "+err.MSG) ) {
-						a.Dni = numeroPositivo(d[2]);
+					Console.WriteLine("\nAgregado con exito");
+					ok = true;
+				} catch(DniRepetido err) {
+					if ( resolver(ref d[2],err.MSG) ) {
+						a.Dni = numeroPositivo(d[2],"DNI");
 						repetir = a.Dni!=-1;
 					}
-			}}while(repetir);	
+				}
+			}while(repetir);
+			return ok;
 		}
 
 		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
-		public static void AgregarExpediente(Estudio estudio) {
+		public static bool AgregarExpediente(Estudio estudio) 
+		{
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
 			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del abogado");
-			int dni = numeroPositivo(d[5]);
+			int dni = numeroPositivo(d[5], "DNI del Titular");
 			if (d==null || dni==-1)
-				return;
-			Persona p = new Persona(d[3],d[4],dni);
+				return false;
+			
 			Abogado a = null;
-			bool repetir;
-			do {try{
+			bool ok=false,repetir;
+			do {
+				try {
+					repetir = false;
 					a = (Abogado) estudio.Abogados.Get(d[6]); //IdInvalido
-					if (a!=null && a.CantExps==a.MaxExp)
+					if (a.CantExps==a.MaxExp)
 						throw new DemasiadosExpedientes();
-					repetir=false;
-				}catch(DatoInvalido err){ // IdInvalid() o DemasiadosExpedientes(), se necesita otro DNI
+					ok = true;
+				} catch(DatoInvalido err) { // IdInvalid() o DemasiadosExpedientes(), se necesita otro DNI
 					if ( ! (repetir = resolver(ref d[6],"\nAbogado: "+err.MSG)) )
-						Console.WriteLine("\nEn ese caso no sera asignado asignado ningun abogado.");
+						if ( ! preguntar("\n¿Desea crear el expediente SIN asignarle ningun abogado? S/N :"))
+							return false;
 					a = null;	
-			}}while(repetir);				
+				}
+			} while(repetir);				
+			
+			Persona p = new Persona(d[3],d[4],dni);
 			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
-			do {try{
-					estudio.Expedientes.Agregar(e); // La excepcin DemasiadosExpedientes() se evito arriba.
+			
+			ok = false;
+			do {
+				try {
 					repetir=false;
-				}catch(NumExpedienteRepetido err){ 
+					estudio.Expedientes.Agregar(e); // La excepcin DemasiadosExpedientes() se evito arriba.
+					ok=true;
+					Console.WriteLine("\nAgregado con exito");
+				} catch(NumExpedienteRepetido err) { 
 					string n = e.Numero;
 					repetir = resolver(ref n,err.MSG);
 					if (repetir)
 						e.Numero = n;
-			}}while(repetir);
+				}
+			} while(repetir);
+
+			return ok;
 		}
 
 		
-		private static void modifEstado(ListaExpedientes exps){
-			Console.WriteLine("Opcion: MODIFICAR ESTADO \n");
+		private static bool ModifEstado(ListaExpedientes exps)
+		{
+			Console.WriteLine("Opcion: MODIFICAR ESTADO\n");
 			Expediente e= (Expediente) pedir(exps,"Numero de expediente");
 			if (e==null)
-				return;			
+				return false;			
 			e.Estado = LeerDatos("\nNuevo estado")[0];
+			Console.WriteLine("\nModificado con exito");
+			return true;
 		}
 
-		private static Identificable pedir(ListaId lista, string etiqueta) {
-			string id = LeerDatos(etiqueta)[0];
-			if (id==null)
+		private static Identificable pedir(ListaId lista, string id) 
+		{
+			id = LeerDatos(id)[0];
+			if ( id == null )
 				return null;
 			Identificable i=null;
 			bool repetir;
-			do {try{
+			do {
+				try {
 					i = lista.Get(id);
 					repetir=false;
-				}catch(IdInvalido err){
-					repetir = resolver(ref id,err.MSG+" al "+etiqueta);}
-			}while(repetir);
+				} catch(IdInvalido err) {
+					repetir = resolver(ref id,err.MSG+" al "+id);
+				}
+			} while(repetir);
 			return i;
 		}
 
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
 		
-		public static void ImprimirLista(ListaId lista, string t) {
-			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper() + "\n");
+		public static void ImprimirLista(ListaId lista, string t) 
+		{
+			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper());
 			if ( lista.Count() == 0 )
 				Console.WriteLine("No hay " + t);
 			else
 				Console.WriteLine(lista);
 		}
 
-		public static string[] LeerDatos(string nombres){
+		public static string[] LeerDatos(string nombres)
+		{
 			string[] split = nombres.Split('/');
 			for(int i=0; i<split.Length; i++) {
 				Console.Write(split[i]+": ");
@@ -178,36 +222,46 @@ namespace TP {
 			return split;
 		}
 
-		public static bool LeerUnDato(ref string dato) {
+		public static bool LeerUnDato(ref string dato) 
+		{
 			bool ok = true;
 			dato = Console.ReadLine().ToUpper().Trim();
-			if(dato== "" || dato== null)
+			if(dato== "" || dato==null)
 				ok = resolver(ref dato, "No se ingreso ningun valor");
 			return ok;
 		}
 
-		public static bool resolver(ref string param, string msg){
+		public static bool resolver(ref string param, string msg)
+		{
 			Console.WriteLine(msg);
-			string rta="";
-			while ( rta != "S" & rta != "N" ) {
-				Console.Write("\n¿Desea intentar con un valor distinto? S/N : ");
-				rta = Console.ReadLine().ToUpper();
-			}
-			bool ok = rta=="S";
-			if(ok) {
+			bool ok=false;
+			if( preguntar("\n¿Desea intentar con un valor distinto? S/N : ") ) {
 				Console.Write("\nIngrese otro: ");
 				ok = LeerUnDato(ref param);
 			} 
+			if (ok)
+				Console.WriteLine("\nTrabajando...");
 			return ok;
 		}
 
-		public static int numeroPositivo(string param){
+		public static bool preguntar(string pregunta)
+		{
+			string rta="";
+			while ( rta != "S" & rta != "N" ) {
+				Console.Write(pregunta);
+				rta = Console.ReadLine().ToUpper();
+			}
+			return rta=="S";
+		}
+
+		public static int numeroPositivo(string param, string id)
+		{
 			bool repetir;
 			do{
 				try {
 					return int.Parse(param);
 				} catch (FormatException) {
-					repetir = resolver(ref param, "\nSe esperaba un numero entero(sin puntos)");
+					repetir = resolver(ref param, "\n"+id+": Se esperaba un numero entero(sin puntos)");
 				}
 			} while (repetir);
 			return -1;
@@ -215,7 +269,8 @@ namespace TP {
 
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
 
-		public static Estudio initWorld(){
+		public static Estudio cargarDatos()
+		{
 			Estudio estudio = new Estudio();
 			string nombre = "maxi";
 			string apellido = "lopez";
