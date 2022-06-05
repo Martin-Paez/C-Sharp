@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections;
 using EstudioNS;
-using IdentificableNS;
+using ListaIdNS;
 
 namespace TP 
 {
 	class Program 
 	{
-		
+		private const string ABOGADO = "abogado";
+		private const string EXPEDIENTE = "expediente";
+
 		public static void Main(string[] args)
 		{
 			Estudio estudio = cargarDatos(); 
@@ -20,25 +22,25 @@ namespace TP
 			bool ok = true;
 			switch(item){
 				case "1": 
-					ok = AgregarAbogado(e.Abogados);
+					ok = AgregarAbogado(e);
 					break;
 				case "2": 
-					ok = Eliminar("abogado","DNI", e.Abogados);
+					ok = Eliminar(ABOGADO,"DNI", e);
 					break;
 				case "3": 
-					ImprimirLista(e.Abogados, "abogados");
+					ImprimirLista(e.Staff, ABOGADO);
 					break;
 				case "4": 
-					ImprimirLista(e.Expedientes, "expedientes");
+					ImprimirLista(e.Fichero, EXPEDIENTE);
 					break;
 				case "5": 
 					ok = AgregarExpediente(e);
 					break;
 				case "6": 
-					ok = ModifEstado(e.Expedientes);
+					ok = ModifEstado(e.Fichero);
 					break;
 				case "7": 
-					ok = Eliminar("expediente","Numero", e.Expedientes);
+					ok = Eliminar(EXPEDIENTE,"Numero", e);
 					break;
 				case "8": 
 					break;
@@ -73,129 +75,150 @@ namespace TP
 			return Console.ReadLine().Trim();
 		}
 
-		public static bool Eliminar(string tipo, string id, ListaId lista)
+		public static bool Eliminar(string tipo, string id, Estudio e)
 		{
 			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
 
-			Console.Write("\n" + id + " del " + tipo + ": ");
-			if( ! LeerUnDato(ref id) )
+			if( ! LeerUnDato(ref id, "\n" + id + " del " + tipo + ": ") )
 				return false;
 
 			bool ok = false, repetir=false;
 			do {
 				try{
 					repetir = false;
-					lista.Eliminar(id);
+					if ( tipo == ABOGADO )
+						e.Despedir(id);
+					else 
+						e.Eliminar(id);
 					Console.WriteLine("\nEliminado con exito");
 					ok = true;
-				} catch (InconsistenciaExpedientesSinAsignar err) {
+				} catch (WarningConteoErroneo err) {
 					Console.WriteLine("\nEliminado\n"+err.MSG);
 					ok = true;
 				} catch (IdInvalido err) {
-					repetir = resolver(ref id,err.MSG);
+					repetir = resolver(err.MSG, ref id);
 				}
 			} while(repetir);
 			return ok;
-	}
+		}
 
-		public static bool AgregarAbogado(ListaAbogados abogados){
-			Console.WriteLine("Opcion: AGREGAR ABOGADO\n");
+		public static bool AgregarAbogado(Estudio e)
+		{
+			Console.WriteLine("Opcion: AGREGAR ABOGADO");
 
-			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			int dni = numeroPositivo(d[2], "DNI");
-			if (d==null || dni==-1)
+			string[] d = LeerDatos("Nombre/Apellido/Especializacion");
+			if ( d == null )
 				return false;
 
-			Abogado a = new Abogado(d[0],d[1],dni,d[3]);
+			ulong dni;
+			if ( ! LeerNumPositivo("DNI del abogado: ", null, ref dni) )
+				return false;
+
+			Abogado a = new Abogado(d[0],d[1],dni,d[2]);
 			bool ok=false, repetir=false;
 			do {
 				try{
 					repetir = false;
-					abogados.Agregar(a); // DNI repetido
+					e.Contratar(a);
 					Console.WriteLine("\nAgregado con exito");
 					ok = true;
 				} catch(DniRepetido err) {
-					if ( resolver(ref d[2],err.MSG) ) {
-						a.Dni = numeroPositivo(d[2],"DNI");
-						repetir = a.Dni!=-1;
-					}
+					repetir = resolver(err.MSG, ref dni);
+					a.corregirDni(dni);
 				}
 			}while(repetir);
 			return ok;
 		}
 
 		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
-		public static bool AgregarExpediente(Estudio estudio) 
+		public static bool AgregarExpediente(Estudio est) 
 		{
-			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular/DNI del abogado");
-			int dni = numeroPositivo(d[5], "DNI del Titular");
-			if (d==null || dni==-1)
+			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE");
+			
+			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular");
+			if ( d == null )
 				return false;
-			
-			Abogado a = null;
-			bool ok=false,repetir;
-			do {
-				try {
-					repetir = false;
-					a = (Abogado) estudio.Abogados.Get(d[6]); //IdInvalido
-					if (a.CantExps==a.MaxExp)
-						throw new DemasiadosExpedientes();
-					ok = true;
-				} catch(DatoInvalido err) { // IdInvalid() o DemasiadosExpedientes(), se necesita otro DNI
-					if ( ! (repetir = resolver(ref d[6],"\nAbogado: "+err.MSG)) )
-						if ( ! preguntar("\n¿Desea crear el expediente SIN asignarle ningun abogado? S/N :"))
-							return false;
-					a = null;	
-				}
-			} while(repetir);				
-			
+
+			ulong dni;
+			if ( ! LeerNumPositivo("DNI del Titular", null, ref dni) )
+				return false;
+
 			Persona p = new Persona(d[3],d[4],dni);
-			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
-			
-			ok = false;
+			Expediente exp = new Expediente(d[0],p,d[1],d[2],DateTime.Today); 
+			bool ok = false, repetir=false;
 			do {
 				try {
 					repetir=false;
-					estudio.Expedientes.Agregar(e); // La excepcin DemasiadosExpedientes() se evito arriba.
+					est.Agregar(exp);
 					ok=true;
-					Console.WriteLine("\nAgregado con exito");
+					Console.WriteLine("\nExpediente creado\n");
+					if ( ! AsignarAbogado(exp, est.Staff) )
+						Console.WriteLine("\nEl expediente queda archivado sin un abogado asignado");
+					else
+						Console.WriteLine("\nExpediente archivado");
 				} catch(NumExpedienteRepetido err) { 
-					string n = e.Numero;
-					repetir = resolver(ref n,err.MSG);
+					string n = exp.Numero;
+					repetir = resolver(err.MSG, ref n);
 					if (repetir)
-						e.Numero = n;
+						exp.Numero = n;
 				}
 			} while(repetir);
 
 			return ok;
 		}
 
-		
-		private static bool ModifEstado(ListaExpedientes exps)
+		public static bool AsignarAbogado(Expediente e, ListaSoloLectura abogados) 
 		{
-			Console.WriteLine("Opcion: MODIFICAR ESTADO\n");
+			Console.WriteLine("Opcion: ASIGNAR ABOGADO A UN EXPEDIENTE");
+			
+			string dni;
+			if ( ! LeerNumPositivo("DNI del abogado: ", ref dni, null) )
+				return false;
+				
+			bool ok=false,repetir=false;
+			Abogado a;
+			do {
+				try {
+					repetir = false;
+					a = (Abogado) abogados.Get(dni); //IdInvalido
+					e.SetAbogado(a); // DemasiadosExpedientes
+					ok = true;
+				} catch(DatoInvalido err) { // IdInvalid() o DemasiadosExpedientes(), se necesita otro DNI
+					if ( ! (repetir = resolver("\nAbogado: "+err.MSGm, ref dni)) )
+					a = null;	
+				}
+			} while(repetir);
+			return ok;		
+		}
+
+		private static bool ModifEstado(ListaSoloLectura exps)
+		{
+			Console.WriteLine("Opcion: MODIFICAR ESTADO A UN EXPEDIENTE");
 			Expediente e= (Expediente) pedir(exps,"Numero de expediente");
 			if (e==null)
-				return false;			
-			e.Estado = LeerDatos("\nNuevo estado")[0];
-			Console.WriteLine("\nModificado con exito");
+				return false;
+			string dato;			
+			if ( LeerUnDato(ref dato,"\nNuevo estado") ) {
+				e.Estado = dato;
+				Console.WriteLine("\nModificado con exito");
+			}
 			return true;
 		}
 
-		private static Identificable pedir(ListaId lista, string id) 
+		private static Object pedir(ListaSoloLectura lista, string etiqueta) 
 		{
-			id = LeerDatos(id)[0];
-			if ( id == null )
+			string id;
+			if ( ! LeerUnDato(ref id, etiqueta+": ") )
 				return null;
-			Identificable i=null;
+			
+			Object i=null;
 			bool repetir;
 			do {
 				try {
 					i = lista.Get(id);
 					repetir=false;
 				} catch(IdInvalido err) {
-					repetir = resolver(ref id,err.MSG+" al "+id);
+					repetir = resolver(err.MSG+ " al " + etiqueta, ref id);
 				}
 			} while(repetir);
 			return i;
@@ -203,7 +226,7 @@ namespace TP
 
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
 		
-		public static void ImprimirLista(ListaId lista, string t) 
+		public static void ImprimirLista(ListaSoloLectura lista, string t) 
 		{
 			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper());
 			if ( lista.Count() == 0 )
@@ -216,34 +239,86 @@ namespace TP
 		{
 			string[] split = nombres.Split('/');
 			for(int i=0; i<split.Length; i++) {
-				Console.Write(split[i]+": ");
-				if ( ! LeerUnDato(ref split[i]) )
+				if ( ! LeerUnDato(ref split[i], "\n"+split[i]+": ") )
 					return null;
 			}
+			Console.WriteLine("\nDatos leidos, analizando informacion...");
 			return split;
 		}
 
-		public static bool LeerUnDato(ref string dato) 
+		public static bool LeerUnDato(ref string dato, string msg) 
 		{
+			string nuevo;
+			Console.WriteLine(msg);
 			bool ok = true;
-			dato = Console.ReadLine().ToUpper().Trim();
-			if(dato== "" || dato==null)
-				ok = resolver(ref dato, "No se ingreso ningun valor");
+			nuevo = Console.ReadLine().ToUpper().Trim();
+			if( nuevo == "" || nuevo == null )
+				ok = resolver("No se ingreso ningun valor", ref dato);
+			if (ok)
+				dato = nuevo;
 			return ok;
 		}
 
-		public static bool resolver(ref string param, string msg)
+		public static bool resolver(string msg, ref string s){
+			ulong n = null;
+			return resolver(msg, ref s, ref n);
+		}
+		
+		public static bool resolver(string msg, ref ulong n){
+			string s = null;
+			return resolver(msg, ref s, ref n, false);
+		}
+
+		public static bool resolver(string msg, ref string s, ref ulong n, bool leerString=true)
 		{
 			Console.WriteLine(msg);
 			bool ok=false;
-			if( preguntar("\n¿Desea intentar con un valor distinto? S/N : ") ) {
-				Console.Write("\nIngrese otro: ");
-				ok = LeerUnDato(ref param);
-			} 
+			if( preguntar("\n¿Desea intentar con un valor distinto? S/N : ") )
+				if ( leerString ) 
+					ok = LeerUnDato(ref s, "\nIngrese otro: ");  // NullPointerException
+				else
+					ok = LeerNumPositivo("\nIngrese otro numero: ", ref n);
 			if (ok)
-				Console.WriteLine("\nTrabajando...");
+				Console.WriteLine("\nDato leido, trabajando ...");
 			return ok;
 		}
+
+/*
+		f( s )
+			...
+			g( s )
+			...
+
+		f( n )
+
+		f( x ) = h ( g( x ) )
+
+		( x == n ) => g = g( n )
+		( x == s ) => g = g( s )
+
+		ulong n = 0;
+		f ( ref n )
+
+		string s = "";
+		f ( ref s )
+
+		f ( ref Object o )
+			g ( o )
+
+		g ( ref Object )
+			throw Exception()
+
+		g ( ref ulong n )
+
+		g ( ref string s )
+
+
+
+		bool leerDato(n)
+		bool leerDato(s)
+
+		bool leerNumero(s)
+*/
 
 		public static bool preguntar(string pregunta)
 		{
@@ -255,17 +330,34 @@ namespace TP
 			return rta=="S";
 		}
 
-		public static int numeroPositivo(string param, string id)
+		public static bool LeerNumPositivo(string msg, ref string dato){
+			ulong n = 0;
+			return resolver(msg, dato, ref n);
+		}
+		
+		public static bool LeerNumPositivo(string msg, ref ulong num){
+			string s = "";
+			return resolver(msg, ref s, num);
+		}
+
+		// 0 < n < 4,294,967,295 , en China hay 1,4G
+		// Si el valor es acumulativo, solo puede aumentar con los nacimientos.
+		// En argentina los extranjeros son numerados con valores mucho mas altos que los nativos.
+		public static bool LeerNumPositivo(string etiqueta, ref string s, ref ulong n)
 		{
-			bool repetir;
+			if ( ! LeerUnDato(ref s, etiqueta) )
+				return false;
+
+			bool ok=false, repetir;
 			do{
 				try {
-					return int.Parse(param);
+					n = ulong.Parse(s);
+					ok = true;
 				} catch (FormatException) {
-					repetir = resolver(ref param, "\n"+id+": Se esperaba un numero entero(sin puntos)");
+					repetir = resolver("\n"+etiqueta+": Se esperaba un numero entero(sin puntos)", ref s);
 				}
 			} while (repetir);
-			return -1;
+			return ok;
 		}
 
 /*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
@@ -275,13 +367,14 @@ namespace TP
 			Estudio estudio = new Estudio();
 			string nombre = "maxi";
 			string apellido = "lopez";
-			int dni = 1;
+			ulong dni = 1;
 			Persona titular = new Persona(nombre,apellido,dni);
 			string espec = "familiar";
 			Abogado abogado = new Abogado(nombre, apellido, dni, espec);
-			Expediente expediente = new Expediente("1",titular,"audiencia", "activo", abogado, DateTime.Today);
-			estudio.Expedientes.Agregar(expediente);
-			estudio.Abogados.Agregar(abogado);
+			Expediente expediente = new Expediente("1",titular,"audiencia", "activo", DateTime.Today);
+			expediente.SetAbogado(abogado);
+			estudio.Agregar(expediente);
+			estudio.Contratar(abogado);
 			return estudio;
 		}
 			

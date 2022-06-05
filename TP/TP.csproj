@@ -51,9 +51,8 @@
     <Compile Include="Codigo\Estudio\Abogado.cs" />
     <Compile Include="Codigo\Estudio\Estudio.cs" />
     <Compile Include="Codigo\Estudio\Expediente.cs" />
+    <Compile Include="Codigo\Estudio\ListaID.cs" />
     <Compile Include="Codigo\Estudio\Persona.cs" />
-    <Compile Include="Codigo\Identificable\Identificable.cs" />
-    <Compile Include="Codigo\Identificable\ListaID.cs" />
     <Compile Include="Codigo\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,7 +62,6 @@
   <ItemGroup>
     <Folder Include="Codigo" />
     <Folder Include="Codigo\Estudio" />
-    <Folder Include="Codigo\Identificable" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

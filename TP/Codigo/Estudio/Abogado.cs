@@ -1,22 +1,14 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Martin
- * Date: 23/05/2022
- * Time: 18:55
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
-using IdentificableNS;
+﻿using System;
+using ListaIdNS;
 
 namespace EstudioNS{
 	public class Abogado : Persona
 	{
 		private string espec;
-		private int cantExps = 0;
-		private int maxExp = 6;
+		protected uint cantExps = 0;
+		protected uint maxExp = 6;
 		
-		public Abogado(string nombre, string apellido, int dni, string espec):base(nombre, apellido, dni)
+		public Abogado(string nombre, string apellido, ulong dni, string espec):base(nombre, apellido, dni)
 		{
 			this.espec = espec;
 		}
@@ -25,36 +17,41 @@ namespace EstudioNS{
 			set{this.espec=value;}
 			get{return this.espec;}
 		}
-		
-		public int CantExps{
-			set{
-				if ( value>maxExp ) 
-					throw new DemasiadosExpedientes();
-				else if ( value<0 )
-					throw new FaltanExpedientes();
-				this.cantExps=value;
-			}
-			get{return this.cantExps;}
+
+		public uint GetCantExps() {
+			return this.cantExps;
 		}
 
-		public int MaxExp{
+		public uint MaxExp {
+			set{
+				if ( value < this.cantExps )
+					throw new DemasiadosExpedientes();
+				this.maxExp = value;
+				}
 			get{return this.maxExp;}
 		}
-		
+
 		public override string ToString() {
 			return base.ToString() + "\nEspecializacion: " + this.espec + "\n";
 		}
 	}
 	
-	public class DemasiadosExpedientes:DatoInvalido{
+	public class DemasiadosExpedientes:DatoInvalido {
 		public DemasiadosExpedientes(){
 			this.msg = "\nEl abogado ya tiene demasiados expedientes asignados";
 		}
 	}
 
-	public class FaltanExpedientes:DatoInvalido{
-		public FaltanExpedientes() {
-			this.msg = "\nEl abogado ya no tiene mas expedientes asignados";
+	public class ExpedienteInvalido:DatoInvalido {
+		public ExpedienteInvalido() {
+			this.msg = "\nSe intenta quitar un expediente a un abogado que no lo posee.";
 		}
 	}
+
+	public class WarningConteoErroneo:DatoInvalido {
+		public WarningConteoErroneo() {
+			this.msg = "\nWARNING: Se detecto que el abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
+		}
+	}
+
 }

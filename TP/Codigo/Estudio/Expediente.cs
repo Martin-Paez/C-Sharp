@@ -7,34 +7,39 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using IdentificableNS;
+using ListaIdNS;
 
 namespace EstudioNS
 {
 	/// <summary>
 	/// Description of Expediente.
 	/// </summary>
-	public class Expediente:Identificable
+	public class Expediente
 	{
 		private Persona titular;
 		private string tipo;
 		private string estado;
-		private Abogado abogado;
+		private Abogado abogado = null;
 		private DateTime fechaCreacion;
+		private string numero;
 		
-		public Expediente(string numero, Persona titular, string tipo, string estado, Abogado abogado, DateTime fechaCreacion)
+
+		public Expediente(string numero, Persona titular, string tipo, string estado, DateTime fechaCreacion)
 		{
-			this.id = numero;
+			this.numero = numero;
 			this.titular = titular;
 			this.tipo = tipo;
 			this.estado = estado;
-			this.abogado = abogado;
 			this.fechaCreacion = fechaCreacion;
 		}
 		
+		public Abogado GetAbogado() {
+			return this.abogado;
+		}
+
 		public string Numero {
-			set{this.id=value;}
-			get{return this.id;}
+			set{this.numero=value;}
+			get{return this.numero;}
 		}
 		
 		public Persona Titular {
@@ -52,30 +57,32 @@ namespace EstudioNS
 			get{return this.estado;}
 		}
 		
-		public Abogado Abogado{
-			set{this.abogado=value;}
-			get{return this.abogado;}
-		}
-		
 		public DateTime FechaCreacion{
 			set{this.fechaCreacion=value;}
 			get{return this.fechaCreacion;}
 		}
 
 		public override string ToString() {
-			string str = "Numero de expediente: " + this.id;
+			string str = "EXPEDIENTE " + this.numero +"\n";
 			str += "\nEstado: " + this.estado;
 			str += "\nTipo: " + this.tipo;
 			str += "\nFecha de creacion: " + this.fechaCreacion.ToString("d");
-			str += "\n\nDatos del titular: ";
+			str += "\n\nDATOS DEL TITULAR: ";
 			str += "\n"+this.titular.ToString();
-			if (this.abogado != null) {
-				str += "\n\nDatos del abogado: ";
+			str += "\n\nDATOS DEL ABOGADO: ";
+			if (this.abogado != null) 
 				str += "\n" + this.abogado.ToString() + "\n";
-			} else 
+			else 
 				str += "\n\nNo tiene un abogado asignado \n";
 			return str;
 		}
 
 	}
+
+	public class AbogadoInvalido:DatoInvalido{
+		public AbogadoInvalido() {
+			this.msg = "\nUn abogado cree tener asignado un expediente que no le pertenece y lo intenta liberar.";
+		}
+	}
+
 }
