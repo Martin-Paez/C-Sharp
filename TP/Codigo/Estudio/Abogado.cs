@@ -32,26 +32,23 @@ namespace EstudioNS{
 		}
 
 		public override string ToString() {
-			return base.ToString() + "\nEspecializacion: " + this.espec + "\n";
+			return base.ToString() + "\nEspecializacion: " + this.espec + "\nExpedientes asginados: " + this.GetCantExps() + "\n";
 		}
 	}
 	
-	public class DemasiadosExpedientes:DatoInvalido {
+
+	public class ExcepcionAbogado:DatoInvalido {
+		public ExcepcionAbogado(){
+			this.msg = "No se pudo completar la operacion con el abogado.";
+		}
+
+	}
+
+	public class DemasiadosExpedientes:ExcepcionAbogado {
 		public DemasiadosExpedientes(){
-			this.msg = "\nEl abogado ya tiene demasiados expedientes asignados";
+			this.msg = "El abogado ya tiene demasiados expedientes asignados";
 		}
 	}
 
-	public class ExpedienteInvalido:DatoInvalido {
-		public ExpedienteInvalido() {
-			this.msg = "\nSe intenta quitar un expediente a un abogado que no lo posee.";
-		}
-	}
-
-	public class WarningConteoErroneo:DatoInvalido {
-		public WarningConteoErroneo() {
-			this.msg = "\nWARNING: Se detecto que el abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
-		}
-	}
 
 }

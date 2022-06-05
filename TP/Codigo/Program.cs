@@ -7,8 +7,8 @@ namespace TP
 {
 	class Program 
 	{
-		private const string ABOGADO = "abogado";
-		private const string EXPEDIENTE = "expediente";
+		private static string datosLeidos = "\n\nValidando la informacion con la base de datos...";
+		private static string longCastExceptionMsg = "\n  Se esperaba un numero entero(sin puntos)";
 
 		public static void Main(string[] args)
 		{
@@ -22,29 +22,32 @@ namespace TP
 			bool ok = true;
 			switch(item){
 				case "1": 
-					ok = AgregarAbogado(e);
+					ok = Contratar(e);
 					break;
 				case "2": 
-					ok = Eliminar(ABOGADO,"DNI", e);
+					ok = Despedir(e);
 					break;
 				case "3": 
-					ImprimirLista(e.Staff, ABOGADO);
+					ImprimirLista(e.Abogados, "abogados");
 					break;
 				case "4": 
-					ImprimirLista(e.Fichero, EXPEDIENTE);
+					ImprimirLista(e.Expedientes, "expedientes");
 					break;
 				case "5": 
-					ok = AgregarExpediente(e);
+					ok = Agregar(e);
 					break;
 				case "6": 
-					ok = ModifEstado(e.Fichero);
+					ok = ModifEstado(e.Expedientes);
 					break;
 				case "7": 
-					ok = Eliminar(EXPEDIENTE,"Numero", e);
+					ok = Eliminar(e);
 					break;
 				case "8": 
 					break;
-				case "9": 
+				case "9":
+						Asignar(e, null);
+						break;
+				case "s": 
 					if (preguntar(" ¿Esta seguro de que quiere cerrar el programa? S/N "))
 						return false;
 						break;
@@ -53,7 +56,7 @@ namespace TP
 					break;
 			}
 			if ( ! ok )
-				Console.WriteLine("\nNo pudo completarse la operacion.");
+				Console.WriteLine("\n\nNo pudo completarse la operacion.\n");
 			Console.Write("\nPresiona cualquier tecla para volver al menu. . . ");
 			Console.ReadKey(true);
 			return true;
@@ -70,49 +73,77 @@ namespace TP
 			Console.WriteLine("6) Modificar el estado de un expediente");
 			Console.WriteLine("7) Eliminar expediente por numero ");
 			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
-			Console.WriteLine("9) Salir \n");
+			Console.WriteLine("9) Asignar expediente a un abogado");
+			Console.WriteLine("s) Salir \n");
 			Console.Write("> Numero de Opcion: ");
 			return Console.ReadLine().Trim();
 		}
 
-		public static bool Eliminar(string tipo, string id, Estudio e)
-		{
-			Console.WriteLine("Opcion: ELIMINAR " + tipo.ToUpper() );
 
-			if( ! LeerUnDato(ref id, "\n" + id + " del " + tipo + ": ") )
+/* ---------------------------  OPERACIONES CON ESTUDIO ---------------------------------- */
+		public static bool Eliminar(Estudio e)
+		{
+			Console.WriteLine("Opcion: ELIMINAR EXPEDIENTE : ");
+
+			string n = "";
+			if( ! LeerUnDato(ref n, "\nNumero de expediente : ") )
 				return false;
 
 			bool ok = false, repetir=false;
 			do {
 				try{
 					repetir = false;
-					if ( tipo == ABOGADO )
-						e.Despedir(id);
-					else 
-						e.Eliminar(id);
-					Console.WriteLine("\nEliminado con exito");
+					e.Eliminar(n);
+					Console.WriteLine("\nExpediente eliminado");
 					ok = true;
-				} catch (WarningConteoErroneo err) {
+				} catch (AdvertenciaConteoErroneo err) {
 					Console.WriteLine("\nEliminado\n"+err.MSG);
 					ok = true;
-				} catch (IdInvalido err) {
-					repetir = resolver(err.MSG, ref id);
+				} catch (NumExpInvalido err) {
+					repetir = resolver("\n  " +err.MSG, ref n);
 				}
 			} while(repetir);
 			return ok;
 		}
 
-		public static bool AgregarAbogado(Estudio e)
+		public static bool Despedir(Estudio e)
 		{
-			Console.WriteLine("Opcion: AGREGAR ABOGADO");
+			Console.WriteLine("Opcion: DESPEDIR ABOGADO: ");
+
+			ulong dni = 0;
+			if( ! LeerNumPositivo("\nDNI del abogado: ", ref dni) )
+				return false;
+
+			bool ok = false, repetir=false;
+			do {
+				try{
+					repetir = false;
+					e.Despedir(dni);
+					Console.WriteLine("\n\nAbogado despedido\n");
+					ok = true;
+				} catch (AdvertenciaConteoErroneo err) {
+					Console.WriteLine("\n\nDespedido\n"+err.MSG);
+					ok = true;
+				} catch (DniInvalido err) {
+					repetir = resolver("\n  " +err.MSG, ref dni);
+				}
+			} while(repetir);
+			return ok;
+		}
+
+		public static bool Contratar(Estudio e)
+		{
+			Console.WriteLine("Opcion: AGREGAR ABOGADO\n");
+
+			ulong dni = 0;
+			if ( ! LeerNumPositivo("DNI del abogado", ref dni) )
+				return false;
 
 			string[] d = LeerDatos("Nombre/Apellido/Especializacion");
 			if ( d == null )
 				return false;
 
-			ulong dni;
-			if ( ! LeerNumPositivo("DNI del abogado: ", null, ref dni) )
-				return false;
+			Console.WriteLine(datosLeidos);
 
 			Abogado a = new Abogado(d[0],d[1],dni,d[2]);
 			bool ok=false, repetir=false;
@@ -120,18 +151,17 @@ namespace TP
 				try{
 					repetir = false;
 					e.Contratar(a);
-					Console.WriteLine("\nAgregado con exito");
+					Console.WriteLine("\n\nAgregado con exito\n");
 					ok = true;
 				} catch(DniRepetido err) {
-					repetir = resolver(err.MSG, ref dni);
-					a.corregirDni(dni);
+					repetir = resolver("\n  " + err.MSG, ref dni);
+					a.Dni = dni;
 				}
 			}while(repetir);
 			return ok;
 		}
 
-		// Se acepta un abogado null, por ejemplo si todos los abogados completaron su cupo.
-		public static bool AgregarExpediente(Estudio est) 
+		public static bool Agregar(Estudio est) 
 		{
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE");
 			
@@ -139,9 +169,11 @@ namespace TP
 			if ( d == null )
 				return false;
 
-			ulong dni;
-			if ( ! LeerNumPositivo("DNI del Titular", null, ref dni) )
+			ulong dni = 0;
+			if ( ! LeerNumPositivo("\nDNI del Titular", ref dni) )
 				return false;
+
+			Console.WriteLine(datosLeidos);
 
 			Persona p = new Persona(d[3],d[4],dni);
 			Expediente exp = new Expediente(d[0],p,d[1],d[2],DateTime.Today); 
@@ -151,63 +183,79 @@ namespace TP
 					repetir=false;
 					est.Agregar(exp);
 					ok=true;
-					Console.WriteLine("\nExpediente creado\n");
-					if ( ! AsignarAbogado(exp, est.Staff) )
-						Console.WriteLine("\nEl expediente queda archivado sin un abogado asignado");
-					else
-						Console.WriteLine("\nExpediente archivado");
+					Console.WriteLine("\n\nExpediente creado\n");
+					if ( preguntar("\n¿Desea asignar un abogado al expediente? S/N : ") ) {
+						Console.WriteLine("\n-------------------------------------------------------------\n");
+						if ( Asignar(est, exp.Numero) ) {
+							Console.WriteLine("-------------------------------------------------------------");
+							Console.WriteLine("\n\nExpediente archivado\n");
+						} else
+							Console.WriteLine("\n\nEl expediente queda archivado sin un abogado asignado\n");
+					}
 				} catch(NumExpedienteRepetido err) { 
-					string n = exp.Numero;
-					repetir = resolver(err.MSG, ref n);
-					if (repetir)
-						exp.Numero = n;
+					repetir = resolver("\n  " +err.MSG, ref d[0]);
+					exp.Numero = d[0];
 				}
 			} while(repetir);
 
 			return ok;
 		}
 
-		public static bool AsignarAbogado(Expediente e, ListaSoloLectura abogados) 
+		public static bool Asignar(Estudio e, string numExp) 
 		{
-			Console.WriteLine("Opcion: ASIGNAR ABOGADO A UN EXPEDIENTE");
+			Console.WriteLine("Opcion: ASIGNAR ABOGADO A UN EXPEDIENTE\n");
 			
-			string dni;
-			if ( ! LeerNumPositivo("DNI del abogado: ", ref dni, null) )
+			if ( numExp == null ) 
+				if ( ! LeerUnDato(ref numExp, "Numero de expediente") )
+					return false;
+
+			ulong dni = 0;
+			if ( ! LeerNumPositivo("DNI del abogado", ref dni) )
 				return false;
-				
+
+			Console.WriteLine(datosLeidos);
+
 			bool ok=false,repetir=false;
-			Abogado a;
 			do {
 				try {
 					repetir = false;
-					a = (Abogado) abogados.Get(dni); //IdInvalido
-					e.SetAbogado(a); // DemasiadosExpedientes
+					e.Asignar(dni, numExp); 
 					ok = true;
-				} catch(DatoInvalido err) { // IdInvalid() o DemasiadosExpedientes(), se necesita otro DNI
-					if ( ! (repetir = resolver("\nAbogado: "+err.MSGm, ref dni)) )
-					a = null;	
+				} catch(NumExpInvalido err) {
+					repetir = resolver("\n  " +err.MSG, ref numExp);
+				} catch(AdvertenciaConteoErroneo err) { // Esta es una ExcepcionAbogado() particular
+					Console.WriteLine("\n  " +err.MSG);
+					ok = true;
+				} catch(ExcepcionAbogado err) { // DniRepetido() , DemasiadosExpedientes()
+					repetir = resolver("\n  " +err.MSG, ref dni);
 				}
 			} while(repetir);
-			return ok;		
+
+			if (ok)
+				Console.WriteLine("\n\nEl expediente fue asignado al abogado \n");	
+			return ok;
 		}
 
 		private static bool ModifEstado(ListaSoloLectura exps)
 		{
-			Console.WriteLine("Opcion: MODIFICAR ESTADO A UN EXPEDIENTE");
-			Expediente e= (Expediente) pedir(exps,"Numero de expediente");
+			Console.WriteLine("Opcion: MODIFICAR ESTADO A UN EXPEDIENTE\n");
+			
+			Expediente e= (Expediente) Buscar(exps,"Numero de expediente");
 			if (e==null)
 				return false;
-			string dato;			
+
+			string dato = "";			
 			if ( LeerUnDato(ref dato,"\nNuevo estado") ) {
 				e.Estado = dato;
-				Console.WriteLine("\nModificado con exito");
+				Console.WriteLine("\n\nModificado con exito\n");
 			}
+			
 			return true;
 		}
 
-		private static Object pedir(ListaSoloLectura lista, string etiqueta) 
+		private static Object Buscar(ListaSoloLectura lista, string etiqueta) 
 		{
-			string id;
+			string id = "";
 			if ( ! LeerUnDato(ref id, etiqueta+": ") )
 				return null;
 			
@@ -215,14 +263,20 @@ namespace TP
 			bool repetir;
 			do {
 				try {
+					repetir = false;
 					i = lista.Get(id);
 					repetir=false;
-				} catch(IdInvalido err) {
-					repetir = resolver(err.MSG+ " al " + etiqueta, ref id);
+				} catch(NumExpInvalido err) {
+					repetir = resolver("\n  " +err.MSG, ref id);
+				} catch(FormatException) { 						// Chequear, es para cuando se busca por abogado 
+					ulong n = 0;
+					repetir = LeerNumPositivo(longCastExceptionMsg, ref n);
+					id = n.ToString();
 				}
 			} while(repetir);
 			return i;
 		}
+
 
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
 		
@@ -239,17 +293,16 @@ namespace TP
 		{
 			string[] split = nombres.Split('/');
 			for(int i=0; i<split.Length; i++) {
-				if ( ! LeerUnDato(ref split[i], "\n"+split[i]+": ") )
+				if ( ! LeerUnDato(ref split[i], "\n"+split[i]) )
 					return null;
 			}
-			Console.WriteLine("\nDatos leidos, analizando informacion...");
 			return split;
 		}
 
-		public static bool LeerUnDato(ref string dato, string msg) 
+		public static bool LeerUnDato(ref string dato, string etiqueta) 
 		{
 			string nuevo;
-			Console.WriteLine(msg);
+			Console.Write(etiqueta+": ");
 			bool ok = true;
 			nuevo = Console.ReadLine().ToUpper().Trim();
 			if( nuevo == "" || nuevo == null )
@@ -260,65 +313,20 @@ namespace TP
 		}
 
 		public static bool resolver(string msg, ref string s){
-			ulong n = null;
-			return resolver(msg, ref s, ref n);
+			Console.WriteLine("\n  "+msg);
+			bool ok=false;
+			if( preguntar("\n  ¿Desea intentar con un valor distinto? S/N : ") )
+				ok = LeerUnDato(ref s, "\n  Ingrese otro: ");  // NullPointerException
+			return ok;
 		}
 		
 		public static bool resolver(string msg, ref ulong n){
-			string s = null;
-			return resolver(msg, ref s, ref n, false);
-		}
-
-		public static bool resolver(string msg, ref string s, ref ulong n, bool leerString=true)
-		{
-			Console.WriteLine(msg);
+			Console.WriteLine("\n  "+msg);
 			bool ok=false;
-			if( preguntar("\n¿Desea intentar con un valor distinto? S/N : ") )
-				if ( leerString ) 
-					ok = LeerUnDato(ref s, "\nIngrese otro: ");  // NullPointerException
-				else
-					ok = LeerNumPositivo("\nIngrese otro numero: ", ref n);
-			if (ok)
-				Console.WriteLine("\nDato leido, trabajando ...");
+			if( preguntar("\n  ¿Desea intentar con un numero distinto? S/N : ") )
+				ok = LeerNumPositivo("\n  Ingrese otro numero: ", ref n);
 			return ok;
 		}
-
-/*
-		f( s )
-			...
-			g( s )
-			...
-
-		f( n )
-
-		f( x ) = h ( g( x ) )
-
-		( x == n ) => g = g( n )
-		( x == s ) => g = g( s )
-
-		ulong n = 0;
-		f ( ref n )
-
-		string s = "";
-		f ( ref s )
-
-		f ( ref Object o )
-			g ( o )
-
-		g ( ref Object )
-			throw Exception()
-
-		g ( ref ulong n )
-
-		g ( ref string s )
-
-
-
-		bool leerDato(n)
-		bool leerDato(s)
-
-		bool leerNumero(s)
-*/
 
 		public static bool preguntar(string pregunta)
 		{
@@ -329,38 +337,27 @@ namespace TP
 			}
 			return rta=="S";
 		}
-
-		public static bool LeerNumPositivo(string msg, ref string dato){
-			ulong n = 0;
-			return resolver(msg, dato, ref n);
-		}
 		
-		public static bool LeerNumPositivo(string msg, ref ulong num){
+		public static bool LeerNumPositivo(string msg, ref ulong n){
 			string s = "";
-			return resolver(msg, ref s, num);
-		}
-
-		// 0 < n < 4,294,967,295 , en China hay 1,4G
-		// Si el valor es acumulativo, solo puede aumentar con los nacimientos.
-		// En argentina los extranjeros son numerados con valores mucho mas altos que los nativos.
-		public static bool LeerNumPositivo(string etiqueta, ref string s, ref ulong n)
-		{
 			if ( ! LeerUnDato(ref s, etiqueta) )
 				return false;
 
-			bool ok=false, repetir;
+			bool ok=false, repetir=false;
 			do{
 				try {
+					repetir = false;
 					n = ulong.Parse(s);
 					ok = true;
 				} catch (FormatException) {
-					repetir = resolver("\n"+etiqueta+": Se esperaba un numero entero(sin puntos)", ref s);
+					repetir = resolver(longCastExceptionMsg, ref s);
 				}
 			} while (repetir);
 			return ok;
 		}
 
-/*------------------------- CARGAR DATOS / ARCHIVOS -----------------------------------*/
+
+/*------------------------------  ARCHIVOS --------------------------------------*/
 
 		public static Estudio cargarDatos()
 		{
@@ -372,9 +369,9 @@ namespace TP
 			string espec = "familiar";
 			Abogado abogado = new Abogado(nombre, apellido, dni, espec);
 			Expediente expediente = new Expediente("1",titular,"audiencia", "activo", DateTime.Today);
-			expediente.SetAbogado(abogado);
 			estudio.Agregar(expediente);
 			estudio.Contratar(abogado);
+			estudio.Asignar(abogado.Dni, expediente.Numero);
 			return estudio;
 		}
 			

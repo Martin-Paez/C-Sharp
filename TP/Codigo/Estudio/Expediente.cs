@@ -19,7 +19,7 @@ namespace EstudioNS
 		private Persona titular;
 		private string tipo;
 		private string estado;
-		private Abogado abogado = null;
+		protected Abogado abogado = null;
 		private DateTime fechaCreacion;
 		private string numero;
 		
@@ -71,18 +71,12 @@ namespace EstudioNS
 			str += "\n"+this.titular.ToString();
 			str += "\n\nDATOS DEL ABOGADO: ";
 			if (this.abogado != null) 
-				str += "\n" + this.abogado.ToString() + "\n";
+				str += "\n" + this.GetAbogado().ToString() + "\n";
 			else 
 				str += "\n\nNo tiene un abogado asignado \n";
 			return str;
 		}
 
-	}
-
-	public class AbogadoInvalido:DatoInvalido{
-		public AbogadoInvalido() {
-			this.msg = "\nUn abogado cree tener asignado un expediente que no le pertenece y lo intenta liberar.";
-		}
 	}
 
 }

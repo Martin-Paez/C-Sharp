@@ -4,19 +4,25 @@ using EstudioNS;
 
 namespace ListaIdNS
 {
-    public abstract class ListaSoloLectura {
+	
+    public abstract class ListaSoloLectura 
+    {
         protected ArrayList lista = new ArrayList();
 
-        public virtual bool coincide(int i, Object id) {
-            throw new FormatoIDInvalido(id);
-        }
+    	protected DatoInvalido idErr = new IdInvalido();
 
-        // Excepcion IdInvalido
+        // Excepcion "FormatoIDInvalido()"
+        public abstract bool coincide(int i, Object id);
+	        /*{
+            throw new FormatoIDInvalido(id);
+        }*/
+
+        // Excepcion "this.idErr()"
         public int posicion(Object id){
             int i = -1;
-            while ( (++i<this.lista.Count) && ! coincide(i,id) );
+            while ( (++i<this.lista.Count) && ! coincide(i,id) ); 
             if ( i >= this.lista.Count)
-                 throw new IdInvalido();
+                 throw this.idErr; 
             return i;
         }
 
@@ -29,9 +35,9 @@ namespace ListaIdNS
             return  true;
         }
 
-        // Excepcion IdInvalido
+        // Excepcion "this.idErr()"
         public Object Get(Object id) {
-            int i = posicion(id);  // Excepcion IdInvalido
+            int i = this.posicion(id);  // Excepcion "this.idErr()"
             return (Object) this.lista[i];
         }
 
@@ -57,13 +63,14 @@ namespace ListaIdNS
     
 	public abstract class ListaId:ListaSoloLectura {
 
+        // Excepcion "DatoInvalido()"
         public virtual void Agregar(Object o) {
             throw new DatoInvalido();
         }
 
-        // Excepcion IdInvalido()
+        // Excepcion "this.idErr()"
         public virtual Object Quitar(Object id) {
-            int i = posicion(id); //Excepcion "IdInvalido"
+            int i = posicion(id); //Excepcion this.idErr()
         	Object e = (Object) this.lista[i];
 			this.lista.RemoveAt(i);
             return e;
@@ -71,8 +78,9 @@ namespace ListaIdNS
         
     }
     
+
     public class DatoInvalido:Exception {
-		protected string msg = "\nNo se puede completar la operacion con el dato recibido.";
+		protected string msg = "No se puede completar la operacion con el dato recibido.";
 
 		public string MSG {
 			get{return msg;}
@@ -81,13 +89,13 @@ namespace ListaIdNS
 
 	public class IdInvalido:DatoInvalido{
         public IdInvalido() {
-			this.msg = "\nNo hay ningun registro asociado";
+			this.msg = "No hay ningun registro asociado";
 		}
 	}
     
 	public class FormatoIDInvalido:DatoInvalido{
         public FormatoIDInvalido(Object o) {
-			this.msg = "\nNo esta permitido buscar un elemento utilizando como referencia : " + o.ToString();
+			this.msg = "No esta permitido buscar un elemento utilizando como referencia : " + o.ToString();
 		}
 	}
 
