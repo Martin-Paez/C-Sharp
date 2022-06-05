@@ -1,108 +1,149 @@
 ﻿using System;
 using System.Collections;
-using IdentificableNS;
+using ListaIdNS;
 
 namespace EstudioNS
 {
 	public class Estudio {
-		private ListaExpedientes exps;
-		private ListaAbogados abogados;
-		
+
+		private FicheroExpedientes fichero;
+		private DeptoRR_HH deptoRRHH;
+
 		public Estudio() {
-			this.abogados = new ListaAbogados(this);
-			this.exps = new ListaExpedientes();
+			this.deptoRRHH = new DeptoRR_HH();
+			this.fichero = new FicheroExpedientes();
 		}
 
-		public ListaAbogados Abogados {
-			get{return this.abogados;}
-		}
-		
-		public ListaExpedientes Expedientes{
-			get{return this.exps;}
-		}
-	}
-	
-	public class ListaExpedientes:ListaId{
-
-		// Excepcion NumExpedienteRepetido()
-        // Excepcion DemasiadosExpedientes()
-        // No puedo reutilizar el del padre, por el orden de chequeos
-        public void Agregar(Expediente e) {
-        	if ( base.existe(e.Numero) )
-				throw new NumExpedienteRepetido();
-			if (e.Abogado != null) // Se permite asignar despues. Idem al despedir un abogado.
-				e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
-			this.lista.Add(e);
+		public ListaSoloLectura DeptoRRHH {
+			get{return this.deptoRRHH;}
 		}
 
-        //Excepcion "FaltanExpedientes"
-        //Excepcion "DatoInvalido"
-        public override Identificable Eliminar(string numero) {
-        	int i = base.posicion(numero); //Excepcion "DatoInvalido"
-        	Expediente e = (Expediente) this.lista[i];
-        	if (e.Abogado != null)
-        		e.Abogado.CantExps--; //Excepcion "FaltanExpedientes"
-			this.lista.RemoveAt(i); 
-            return e;
+		public ListaSoloLectura Fichero {
+			get{return this.fichero;}
 		}
 
-	}
-	
-	public class ListaAbogados:ListaId {
-
-        private Estudio estudio;
-
-        public ListaAbogados(Estudio e) {
-            this.estudio = e;
-        }
-
-        public void Agregar(Abogado a){
-			if ( existe(a.Id) )
-				throw new DniRepetido();
-			this.lista.Add(a);
+		public void Contratar(Abogado a) {
+			deptoRRHH.Agregar(a);
 		}
-        
-        // Excepcion IdInvalido()
-		// InconsistenciaExpedientesSinAsignar
-		public override Identificable Eliminar(string dni) {
-			Abogado a = (Abogado) base.Eliminar(dni); //Excepcion IdInvalido()
+
+		public void Agregar(Expediente e) {
+			this.fichero.Agregar(e);
+		}
+
+		//Excepcion "SinExpedientes" . Elimina de todos modos
+        //Excepcion "IdInvalido"
+        public void Eliminar(string numero) {
+			ExpedienteM e = (ExpedienteM) fichero.Quitar(numero); //Excepcion "IdInvalido"
+			if (e.Abogado != null) {
+				if ( e.Abogado.CantExps == 0 )
+					throw new WarningConteoErroneo();
+				e.Abogado.CantExps--;
+			}
+		}
+
+		// Excepcion IdInvalido()
+		// Excepcion "SinExpedientes()" . Elimina de todos modos
+		public void Despedir(string dni) {
+			AbogadoM a = (AbogadoM) deptoRRHH.Quitar(dni); //Excepcion IdInvalido()
             int j = -1;
             bool warning = false;
-			ListaExpedientes exps = this.estudio.Expedientes;
-            while ( a.CantExps > 0 && ++j<exps.Count() ) {
-				Expediente e = (Expediente)exps.Get(j);
-				if ( e != null && e.Abogado.Dni == a.Dni ) {
+            while ( a.CantExps > 0 && ++j<fichero.Count() ) {
+				ExpedienteM e = (ExpedienteM) fichero.Get(j);
+				if ( e.Abogado != null && e.Abogado.Dni == a.Dni ) {
 					e.Abogado = null;
-					try{
-						a.CantExps--;
-					} catch (FaltanExpedientes){						
+					if ( a.CantExps == 0 )
 						warning = true;
-					};
+					else
+						a.CantExps--;
 				}
 			}
 			if (warning)
-				throw new InconsistenciaExpedientesSinAsignar(a);
-            return a;
+				throw new WarningConteoErroneo();
         }
-        
-    }
-	
-	public class DniRepetido:DatoInvalido{
+
+
+		private class AbogadoM : Abogado {
+			public AbogadoM(Abogado a):base(a.Nombre,a.Apellido,a.Dni,a.Espec) {
+			}
+
+			public uint CantExps{
+				set{ this.cantExps = value; }
+				get{ return this.cantExps; }
+			}
+		}
+
+
+		private class ExpedienteM : Expediente {
+			private AbogadoM abogado = null;
+			public ExpedienteM(Expediente e):base(e.Numero, e.Titular, e.Tipo, e.Estado, e.FechaCreacion) {
+			}
+
+			public AbogadoM Abogado {
+				set{ this.abogado = value; }
+				get{ return this.Abogado; }
+			}
+		}
+
+
+		public class FicheroExpedientes:ListaId {
+			// Excepcion NumExpedienteRepetido()
+			// Excepcion DemasiadosExpedientes()
+			// No puedo reutilizar el del padre, por el orden de chequeos
+			public void Agregar(Expediente exp) {
+				ExpedienteM e = new ExpedienteM( exp );
+				if ( this.existe(e) )
+					throw new NumExpedienteRepetido();
+				if ( e.Abogado != null ) // Al despedir un abogado puede que dar en null, idem al crear.
+					e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
+				this.lista.Add(e);
+			}
+
+			// IndexOutOfBounds
+			public bool coincide(int i, string id) {
+				return ((Expediente)this.lista[i]).Numero == id;
+			}
+
+			// IndexOutOfBounds
+			public bool coincide(int i, Expediente e) {
+				return coincide(i, e.Numero);
+			}
+
+		}
+
+
+		public class DeptoRR_HH:ListaId {
+
+			public void Agregar(Abogado a){
+				if ( this.existe(a) )
+					throw new DniRepetido();
+				this.lista.Add(a);
+			}
+
+			// IndexOutOfBounds
+			public bool coincide(int i, ulong id){
+				return ((Abogado)this.lista[i]).Dni == id;
+			}
+			
+			// IndexOutOfBounds
+			public bool coincide(int i, Abogado a){
+				return coincide(i, a.Dni);
+			}
+			
+		}
+
+
+	}
+
+	public class DniRepetido:DatoInvalido {
 		public DniRepetido(){
 			this.msg = "\nYa existe un abogado con el mismo DNI";
 		}
 	}
 
-	public class NumExpedienteRepetido:DatoInvalido{
+	public class NumExpedienteRepetido:DatoInvalido {
 		public NumExpedienteRepetido(){
 			this.msg = "\nHay un expediente registrado con el mismo numero";
 		}
 	}
 
-	
-	public class InconsistenciaExpedientesSinAsignar:DatoInvalido{
-		public InconsistenciaExpedientesSinAsignar(Abogado a) {
-			this.msg = "\nWARNING: Se detecto que el abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
-		}
-	}
 }
