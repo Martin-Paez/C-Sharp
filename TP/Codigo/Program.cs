@@ -338,7 +338,7 @@ namespace TP
 			return rta=="S";
 		}
 		
-		public static bool LeerNumPositivo(string msg, ref ulong n){
+		public static bool LeerNumPositivo(string etiqueta, ref ulong n){
 			string s = "";
 			if ( ! LeerUnDato(ref s, etiqueta) )
 				return false;

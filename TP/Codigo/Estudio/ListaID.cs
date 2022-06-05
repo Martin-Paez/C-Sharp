@@ -13,14 +13,11 @@ namespace ListaIdNS
 
         // Excepcion "FormatoIDInvalido()"
         public abstract bool coincide(int i, Object id);
-	        /*{
-            throw new FormatoIDInvalido(id);
-        }*/
 
         // Excepcion "this.idErr()"
         public int posicion(Object id){
             int i = -1;
-            while ( (++i<this.lista.Count) && ! coincide(i,id) ); 
+            while ( (++i<this.lista.Count) && ! this.coincide(i,id) ); 
             if ( i >= this.lista.Count)
                  throw this.idErr; 
             return i;
@@ -61,24 +58,6 @@ namespace ListaIdNS
 
     }
     
-	public abstract class ListaId:ListaSoloLectura {
-
-        // Excepcion "DatoInvalido()"
-        public virtual void Agregar(Object o) {
-            throw new DatoInvalido();
-        }
-
-        // Excepcion "this.idErr()"
-        public virtual Object Quitar(Object id) {
-            int i = posicion(id); //Excepcion this.idErr()
-        	Object e = (Object) this.lista[i];
-			this.lista.RemoveAt(i);
-            return e;
-		}
-        
-    }
-    
-
     public class DatoInvalido:Exception {
 		protected string msg = "No se puede completar la operacion con el dato recibido.";
 

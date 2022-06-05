@@ -38,6 +38,19 @@ namespace EstudioNS
 		}
 
 
+		private abstract class ListaId:ListaSoloLectura {
+
+			// Excepcion "this.idErr()"
+			public virtual Object Quitar(Object id) {
+				int i = posicion(id); //Excepcion this.idErr()
+				Object e = (Object) this.lista[i];
+				this.lista.RemoveAt(i);
+				return e;
+			}
+			
+		}
+
+
 		private class Fichero:ListaId {
 
 			public Fichero(){
@@ -53,11 +66,6 @@ namespace EstudioNS
 				return ((Expediente)this.lista[i]).Numero == n;
 			}
 
-			// IndexOutOfBounds
-			public bool coincide(int i, Expediente e) {
-				return coincide(i, e.Numero);
-			}
-			
 			// Excepcion "InvalidCastException()"
 			public override bool coincide(int i, Object o) {
 				string s = "";
@@ -86,17 +94,8 @@ namespace EstudioNS
 			public bool coincide(int i, ulong dni){
 				return ((Abogado)this.lista[i]).Dni == dni;
 			}
-			
-			// IndexOutOfBounds
-			public bool coincide(int i, Abogado a){
-				return coincide(i, a.Dni);
-			}
 
 			// Excepcion "FormatException()"
-			public bool coincide(int i, string s){
-				return coincide(i, ulong.Parse(s));
-			}
-			
 			// Excepcion "InvalidCastException()"
 			// IndexOutOfBounds
 			public override bool coincide(int i, Object o){
@@ -105,10 +104,12 @@ namespace EstudioNS
 				if ( o.GetType() == n.GetType() )
 				    return coincide(i, (ulong) o);
 				else 
-					if ( o.GetType() == s.GetType() )
-				    	return coincide(i, (string) o);
+					if ( o.GetType() == s.GetType() ) {
+						n = ulong.Parse( (string) o ); // Excepcion "FormatException()"
+				    	return coincide(i,n);
+					}
 				else
-					return coincide(i, ((Abogado)o).Dni);
+					return coincide(i, ((Abogado)o).Dni); // Excepcion "InvalidCastException()"
 			}
 			
 		}

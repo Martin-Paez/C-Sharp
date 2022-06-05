@@ -22,7 +22,6 @@ namespace EstudioNS
 		
 		public string Apellido {
 			set{this.apellido=value;}
-			
 			get{return this.apellido;}
 		}
 
