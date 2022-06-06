@@ -67,8 +67,8 @@ namespace ListaIdNS
 	}
 
 	public class IdInvalido:DatoInvalido{
-        public IdInvalido(Object o) {
-			this.msg = "No esta permitido buscar un elemento utilizando como referencia : " + o.ToString();
+        public IdInvalido() {
+    		this.msg = "Se intenta realizar la comparacion de un elemento de la lista contra un objeto de tipo invalido";
 		}
 	}
 

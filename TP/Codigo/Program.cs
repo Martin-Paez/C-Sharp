@@ -7,8 +7,8 @@ namespace TP
 {
 	class Program 
 	{
-		private static const string datosLeidos = "\n\nValidando la informacion con la base de datos...";
-		private static const string longCast = "\n  Se esperaba un numero entero(sin puntos)";
+		private static string datosLeidos = "\n\nValidando la informacion con la base de datos...";
+		private static string longCast = "\n  Se esperaba un numero entero(sin puntos)";
 
 
 		public static void Main(string[] args)

@@ -51,7 +51,7 @@
     <Compile Include="Codigo\Estudio\Abogado.cs" />
     <Compile Include="Codigo\Estudio\Estudio.cs" />
     <Compile Include="Codigo\Estudio\Expediente.cs" />
-    <Compile Include="Codigo\Estudio\ListaID.cs" />
+    <Compile Include="Codigo\Estudio\ListaSoloLectura.cs" />
     <Compile Include="Codigo\Estudio\Persona.cs" />
     <Compile Include="Codigo\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
