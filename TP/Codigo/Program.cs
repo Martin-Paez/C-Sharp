@@ -185,20 +185,22 @@ namespace TP
 					repetir=false;
 					est.Agregar(exp);
 					ok=true;
-					Console.WriteLine("\n\nExpediente creado\n");
-					if ( preguntar("\n¿Desea asignar un abogado al expediente? S/N : ") ) {
-						Console.WriteLine("\n-------------------------------------------------------------\n");
-						if ( Asignar(est, exp.Numero) ) {
-							Console.WriteLine("-------------------------------------------------------------");
-							Console.WriteLine("\n\nExpediente archivado\n");
-						} else
-							Console.WriteLine("\n\nEl expediente queda archivado sin un abogado asignado\n");
-					}
+					Console.WriteLine("\n\nExpediente creado\n");	
 				} catch(NumExpedienteRepetido err) { 
 					repetir = resolver("\n  " +err.MSG, ref d[0]);
 					exp.Numero = d[0];
 				}
 			} while(repetir);
+
+			if ( ok )
+				if ( preguntar("\n¿Desea asignar un abogado al expediente? S/N : ") ) {
+					Console.WriteLine("\n-------------------------------------------------------------\n");
+					if ( Asignar(est, exp.Numero) ) {
+						Console.WriteLine("-------------------------------------------------------------");
+						Console.WriteLine("\n\nExpediente archivado\n");
+					} else
+						Console.WriteLine("\n\nEl expediente queda archivado sin un abogado asignado\n");
+				}
 
 			return ok;
 		}
@@ -380,70 +382,3 @@ namespace TP
 	}
 
 }
-
-/*
-Ejemplo funcion AgregarAbogado, sin utilizar excepcines:
-			
-			Console.WriteLine("Opcion: AGREGAR ABOGADO \n");
-			string[] d = LeerDatos("Nombre/Apellido/DNI/Especializacion");
-			if (d==null)
-				return;
-			Abogado a=null;
-			bool repetir;
-			repetir = true;
-			while(repetir) {
-				a = new Abogado(d[0],d[1],d[2],d[3]);
-				if (a==null)
-					repetir = resolver(ref d[2], "Formato del DNI invalido, debe ser un numero (sin puntos)");
-				else if (abogados.Agregar(a))
-						repetir = false;
-					else
-						repetir = resolver(ref d[2], "El DNI ya esta registrado con otro abogado");
-			}
-
-Desventajas:
-	No se puede reutilizar los mensajes si se repite el error en otra funcion
-	Es mas complejo seguir la logica de cada uno de los posibles casos
-	Si hubieran mas de una excepcion asociada a un mismo caso, seria mas engorroso por este camino. 
-	Casi la mismas cantidad de lineas de codigo
-
-Otro ejemplo, mismas deventajas:
-
-		public static void AgregarExpediente2(Estudio estudio) {
-			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE\n");
-			string[] d = LeerDatos("Numero/Tipo/Estado/Nombre del titular/Apellido del titular/DNI del titular");
-			if (d==null)
-				return;
-			Persona p = null;
-			bool repetir=true;
-			do{
-				p = new Persona(d[3],d[4],d[5]); 
-				if (p==null && ! resolver(ref d[5],"ssadasdsadasdasdasd;lasjdlasjd;ahsd;hsadiahsudihsad"))
-					return;
-				else 
-					repetir = false;
-			}while(repetir);
-			Abogado a = null;
-			do {
-				a = (Abogado) pedir(estudio.Abogados, "DNI del Abogado");
-				if (a!=null && a.CantExps==a.MaxExp){
-					repetir = resolver(ref d[6], "ssadasdsadasdasdasd;lasjdlasjd;ahsd;hsadiahsudihsad");
-					a = null;
-				} else
-					repetir=false;
-			] while (repetir);		
-			if (a==null)
-				Console.WriteLine("El expediente fue creado, pero no tiene abogado asignado.");
-			Expediente e = new Expediente(d[0],p,d[1],d[2],a,DateTime.Today); 
-			do {
-				if ( ! estudio.Expedientes.Agregar(e)) {
-					string n = e.Numero;
-					repetir = resolver(ref n,"ssadasdsadasdasdasd;lasjdlasjd;ahsd;hsadiahsudihsad");
-					if (repetir)
-						e.Numero = n;
-				} else
-					repetir=false;
-			}while(repetir);
-		}
-
-*/
