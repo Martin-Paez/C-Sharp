@@ -54,7 +54,7 @@ namespace EstudioNS
 		private class Fichero:ListaId {
 
 			public Fichero(){
-				this.idErr = new NumExpInvalido();
+				this.idErr = new ExpNoRegistrado();
 			}
 
 			public void Agregar(Expediente e){
@@ -81,9 +81,10 @@ namespace EstudioNS
 		private class Staff:ListaId {
 
 			public Staff(){
-				this.idErr = new DniInvalido();
+				this.idErr = new AbogadoNoRegistrado();
 			}
 
+			// Excepcion "DniRepetido()"
 			public void Contratar(Abogado a){
 				if ( this.existe(a) )
 					throw new DniRepetido();
@@ -129,15 +130,15 @@ namespace EstudioNS
 			this.fichero = new Fichero();
 		}
 
-		// Excepcion DniInvalido()
+		// Excepcion DniRepetido()
 		public void Contratar(Abogado a) {
-			abogados.Contratar( new AbogadoM(a) ); //DniInvalido()
+			abogados.Contratar( new AbogadoM(a) ); //DniRepetido()
 		}
 
-		// Excepcion DniInvalido()
+		// Excepcion AbogadoNoRegistrado()
 		// Excepcion "WarningConteoErroneo()" . Elimina de todos modos
 		public void Despedir(ulong dni) {
-			AbogadoM a = (AbogadoM) abogados.Quitar(dni); //Excepcion DniInvalido()
+			AbogadoM a = (AbogadoM) abogados.Quitar(dni); //Excepcion AbogadoNoRegistrado()
             int j = -1;
             bool warning = false;
             while ( a.CantExps > 0 && ++j<fichero.Count() ) {
@@ -156,7 +157,7 @@ namespace EstudioNS
 
 		// Excepcion NumExpedienteRepetido()
 		// Excepcion DemasiadosExpedientes()
-		// Excepcion DniInvalido()
+		// Excepcion AbogadoNoRegistrado()
 		public void Agregar(Expediente exp) {
 			ExpedienteM e = new ExpedienteM( exp );
 			if ( fichero.existe(e) )
@@ -165,14 +166,14 @@ namespace EstudioNS
 				if ( fichero.existe(e.Abogado) )
 					e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
 				else
-					throw new DniInvalido();
+					throw new AbogadoNoRegistrado();
 			fichero.Agregar(e);
 		}
 
 		//Excepcion "WarningConteoErroneo" . Elimina de todos modos
-        //Excepcion "NumExpInvalido"
+        //Excepcion "ExpNoRegistrado"
         public void Eliminar(string numero) {
-			ExpedienteM e = (ExpedienteM) fichero.Quitar(numero); //Excepcion "NumExpInvalido"
+			ExpedienteM e = (ExpedienteM) fichero.Quitar(numero); //Excepcion "ExpNoRegistrado"
 			if (e.Abogado != null) {
 				if ( e.Abogado.CantExps == 0 )
 					throw new AdvertenciaConteoErroneo();
@@ -180,18 +181,18 @@ namespace EstudioNS
 			}
 		}
 
-		// Excepcion DniInvalido()
-		// Excepcion NumExpInvalido()
+		// Excepcion AbogadoNoRegistrado()
+		// Excepcion ExpNoRegistrado()
 		// Excepcion DemasiadosExpedientes()
-		//  WarningConteoErroneo() - Se completa la asignacion
+		// AdvertenciaConteoErroneo() - Se completa la asignacion
 		public void Asignar(ulong dni, string numExp) {
-			AbogadoM a = (AbogadoM) abogados.Get(dni);  // DniInvalido
-			ExpedienteM e = (ExpedienteM) fichero.Get(numExp); // NumExpInvalido
+			AbogadoM a = (AbogadoM) abogados.Get(dni);  // AbogadoNoRegistrado
+			ExpedienteM e = (ExpedienteM) fichero.Get(numExp); // ExpNoRegistrado
 			a.CantExps++; // DemasiadosExpedientes()
-			AbogadoM b = e.Abogado; // Me aseguro que no salte el warning antes de asignar el nuevo
+			AbogadoM b = e.Abogado; // Me aseguro que no salte la advertencia antes de asignar el nuevo
 			e.Abogado = a; 
 			if ( b != null )
-				b.CantExps--;  // WarningConteoErroneo() 
+				b.CantExps--;  // AdvertenciaConteoErroneo() 
 		}
 			
 
@@ -209,33 +210,33 @@ namespace EstudioNS
 
 
 /* ----------------------------   EXCEPCIONES -------------------------------------------- */
-	public class DniRepetido:ExcepcionAbogado {
+	public class DniRepetido:IdInvalido {
 		public DniRepetido(){
 			this.msg = "Ya existe un abogado con el mismo DNI";
 		}
 	}
 
-	public class DniInvalido:ExcepcionAbogado {
-		public DniInvalido(){
+	public class AbogadoNoRegistrado:IdInvalido {
+		public AbogadoNoRegistrado(){
 			this.msg = "El DNI no corresponde a ningun abogado del estudio";
+		}
+	}
+
+	public class NumExpedienteRepetido:IdInvalido {
+		public NumExpedienteRepetido(){
+			this.msg = "Ya existe un expediente registrado con el mismo numero";
+		}
+	}
+
+	public class ExpNoRegistrado:IdInvalido {
+		public ExpNoRegistrado(){
+			this.msg = "El numero de expediente no esta registrado";
 		}
 	}
 
 	public class AdvertenciaConteoErroneo:ExcepcionAbogado {
 		public AdvertenciaConteoErroneo() {
 			this.msg = "ADVERTENCIA: Se detecto que un abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
-		}
-	}
-
-	public class NumExpedienteRepetido:DatoInvalido {
-		public NumExpedienteRepetido(){
-			this.msg = "Ya existe un expediente registrado con el mismo numero";
-		}
-	}
-
-	public class NumExpInvalido:DatoInvalido {
-		public NumExpInvalido(){
-			this.msg = "El numero de expediente no esta registrado";
 		}
 	}
 

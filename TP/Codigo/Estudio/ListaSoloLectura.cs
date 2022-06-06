@@ -11,7 +11,7 @@ namespace ListaIdNS
 
     	protected DatoInvalido idErr = new IdInvalido();
 
-        // Excepcion "FormatoIDInvalido()"
+        // Excepcion "IdInvalido()"
         public abstract bool coincide(int i, Object id);
 
         // Excepcion "this.idErr()"
@@ -67,13 +67,7 @@ namespace ListaIdNS
 	}
 
 	public class IdInvalido:DatoInvalido{
-        public IdInvalido() {
-			this.msg = "No hay ningun registro asociado";
-		}
-	}
-    
-	public class FormatoIDInvalido:DatoInvalido{
-        public FormatoIDInvalido(Object o) {
+        public IdInvalido(Object o) {
 			this.msg = "No esta permitido buscar un elemento utilizando como referencia : " + o.ToString();
 		}
 	}

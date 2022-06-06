@@ -7,13 +7,14 @@ namespace TP
 {
 	class Program 
 	{
-		private static string datosLeidos = "\n\nValidando la informacion con la base de datos...";
-		private static string longCastExceptionMsg = "\n  Se esperaba un numero entero(sin puntos)";
+		private static const string datosLeidos = "\n\nValidando la informacion con la base de datos...";
+		private static const string longCast = "\n  Se esperaba un numero entero(sin puntos)";
+
 
 		public static void Main(string[] args)
 		{
 			Estudio estudio = cargarDatos(); 
-			while( ejecutar( elegirOpcion(),estudio ) ); 
+			while( ejecutar( elegirTarea(), estudio ) ); 
 		}
 		
 		private static bool ejecutar(string item, Estudio e)
@@ -62,7 +63,7 @@ namespace TP
 			return true;
 		}
 
-		public static string elegirOpcion()
+		public static string elegirTarea()
 		{
 			Console.Clear();
 			Console.WriteLine("1) Agregar abogado");
@@ -81,6 +82,7 @@ namespace TP
 
 
 /* ---------------------------  OPERACIONES CON ESTUDIO ---------------------------------- */
+
 		public static bool Eliminar(Estudio e)
 		{
 			Console.WriteLine("Opcion: ELIMINAR EXPEDIENTE : ");
@@ -99,7 +101,7 @@ namespace TP
 				} catch (AdvertenciaConteoErroneo err) {
 					Console.WriteLine("\nEliminado\n"+err.MSG);
 					ok = true;
-				} catch (NumExpInvalido err) {
+				} catch (ExpNoRegistrado err) {
 					repetir = resolver("\n  " +err.MSG, ref n);
 				}
 			} while(repetir);
@@ -124,7 +126,7 @@ namespace TP
 				} catch (AdvertenciaConteoErroneo err) {
 					Console.WriteLine("\n\nDespedido\n"+err.MSG);
 					ok = true;
-				} catch (DniInvalido err) {
+				} catch (AbogadoNoRegistrado err) {
 					repetir = resolver("\n  " +err.MSG, ref dni);
 				}
 			} while(repetir);
@@ -221,7 +223,7 @@ namespace TP
 					repetir = false;
 					e.Asignar(dni, numExp); 
 					ok = true;
-				} catch(NumExpInvalido err) {
+				} catch(ExpNoRegistrado err) {
 					repetir = resolver("\n  " +err.MSG, ref numExp);
 				} catch(AdvertenciaConteoErroneo err) { // Esta es una ExcepcionAbogado() particular
 					Console.WriteLine("\n  " +err.MSG);
@@ -266,11 +268,11 @@ namespace TP
 					repetir = false;
 					i = lista.Get(id);
 					repetir=false;
-				} catch(NumExpInvalido err) {
+				} catch(ExpNoRegistrado err) {
 					repetir = resolver("\n  " +err.MSG, ref id);
-				} catch(FormatException) { 						// Chequear, es para cuando se busca por abogado 
+				} catch(IdInvalido) { 						// Chequear, es para cuando se busca por abogado 
 					ulong n = 0;
-					repetir = LeerNumPositivo(longCastExceptionMsg, ref n);
+					repetir = LeerNumPositivo(longCast, ref n);
 					id = n.ToString();
 				}
 			} while(repetir);
@@ -350,7 +352,7 @@ namespace TP
 					n = ulong.Parse(s);
 					ok = true;
 				} catch (FormatException) {
-					repetir = resolver(longCastExceptionMsg, ref s);
+					repetir = resolver(longCast, ref s);
 				}
 			} while (repetir);
 			return ok;
