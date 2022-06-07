@@ -3,7 +3,7 @@ using System.Collections;
 using EstudioNS;
 using ListaIdNS;
 
-namespace TP 
+namespace TP
 {
 	class Program 
 	{
@@ -50,7 +50,7 @@ namespace TP
 					Asignar(e, null);
 					break;
 				case "s": 
-					if (preguntar(" ¿Esta seguro de que quiere cerrar el programa? S/N "))
+					if (Preguntar(" ¿Esta seguro de que quiere cerrar el programa? S/N "))
 						return false;
 						break;
 				default:
@@ -103,7 +103,7 @@ namespace TP
 					Console.WriteLine("\nEliminado\n"+err.MSG);
 					ok = true;
 				} catch (ExpNoRegistrado err) {
-					repetir = resolver("\n  " +err.MSG, ref n);
+					repetir = Resolver("\n  " +err.MSG, ref n);
 				}
 			} while(repetir);
 			return ok;
@@ -128,7 +128,7 @@ namespace TP
 					Console.WriteLine("\n\nDespedido\n"+err.MSG);
 					ok = true;
 				} catch (AbogadoNoRegistrado err) {
-					repetir = resolver("\n  " +err.MSG, ref dni);
+					repetir = Resolver("\n  " +err.MSG, ref dni);
 				}
 			} while(repetir);
 			return ok;
@@ -157,7 +157,7 @@ namespace TP
 					Console.WriteLine("\n\nAgregado con exito\n");
 					ok = true;
 				} catch(DniRepetido err) {
-					repetir = resolver("\n  " + err.MSG, ref dni);
+					repetir = Resolver("\n  " + err.MSG, ref dni);
 					a.Dni = dni;
 				}
 			}while(repetir);
@@ -188,13 +188,13 @@ namespace TP
 					ok=true;
 					Console.WriteLine("\n\nExpediente creado\n");	
 				} catch(NumExpedienteRepetido err) { 
-					repetir = resolver("\n  " +err.MSG, ref d[0]);
+					repetir = Resolver("\n  " +err.MSG, ref d[0]);
 					exp.Numero = d[0];
 				}
 			} while(repetir);
 
 			if ( ok )
-				if ( preguntar("\n¿Desea asignar un abogado al expediente? S/N : ") ) {
+				if ( Preguntar("\n¿Desea asignar un abogado al expediente? S/N : ") ) {
 					Console.WriteLine("\n-------------------------------------------------------------\n");
 					if ( Asignar(est, exp.Numero) ) {
 						Console.WriteLine("-------------------------------------------------------------");
@@ -228,12 +228,12 @@ namespace TP
 					Console.WriteLine("El expediente fue asignado al abogado exiosamente.");
 					ok = true;
 				} catch(ExpNoRegistrado err) {
-					repetir = resolver("\n  " +err.MSG, ref numExp);
+					repetir = Resolver("\n  " +err.MSG, ref numExp);
 				} catch(AdvertenciaConteoErroneo err) { // Esta es una ExcepcionAbogado() particular
 					Console.WriteLine("\n  " +err.MSG);
 					ok = true;
 				} catch(ExcepcionAbogado err) { // DniRepetido() , DemasiadosExpedientes()
-					repetir = resolver("\n  " +err.MSG, ref dni);
+					repetir = Resolver("\n  " +err.MSG, ref dni);
 				}
 			} while(repetir);
 
@@ -275,7 +275,7 @@ namespace TP
 					i = lista.Get(id);
 					repetir=false;
 				} catch(ExpNoRegistrado err) {
-					repetir = resolver("\n  " +err.MSG, ref id);
+					repetir = Resolver("\n  " +err.MSG, ref id);
 				} catch(IdInvalido) { 						// Chequear, es para cuando se busca por abogado 
 					ulong n = 0;
 					repetir = LeerNumPositivo(longCast, ref n);
@@ -341,29 +341,29 @@ namespace TP
 			bool ok = true;
 			nuevo = Console.ReadLine().ToUpper().Trim();
 			if( nuevo == "" || nuevo == null )
-				ok = resolver("No se ingreso ningun valor", ref dato);
+				ok = Resolver("No se ingreso ningun valor", ref dato);
 			if (ok)
 				dato = nuevo;
 			return ok;
 		}
 
-		public static bool resolver(string msg, ref string s){
+		public static bool Resolver(string msg, ref string s){
 			Console.WriteLine("\n  "+msg);
 			bool ok=false;
-			if( preguntar("\n  ¿Desea intentar con un valor distinto? S/N : ") )
+			if( Preguntar("\n  ¿Desea intentar con un valor distinto? S/N : ") )
 				ok = LeerUnDato(ref s, "\n  Ingrese otro: ");  // NullPointerException
 			return ok;
 		}
 		
-		public static bool resolver(string msg, ref ulong n){
+		public static bool Resolver(string msg, ref ulong n){
 			Console.WriteLine("\n  "+msg);
 			bool ok=false;
-			if( preguntar("\n  ¿Desea intentar con un numero distinto? S/N : ") )
+			if( Preguntar("\n  ¿Desea intentar con un numero distinto? S/N : ") )
 				ok = LeerNumPositivo("\n  Ingrese otro numero: ", ref n);
 			return ok;
 		}
 
-		public static bool preguntar(string pregunta)
+		public static bool Preguntar(string pregunta)
 		{
 			string rta="";
 			while ( rta != "S" & rta != "N" ) {
@@ -385,7 +385,7 @@ namespace TP
 					n = ulong.Parse(s);
 					ok = true;
 				} catch (FormatException) {
-					repetir = resolver(longCast, ref s);
+					repetir = Resolver(longCast, ref s);
 				}
 			} while (repetir);
 			return ok;
@@ -413,3 +413,4 @@ namespace TP
 	}
 
 }
+
