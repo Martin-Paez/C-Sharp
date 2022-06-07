@@ -35,12 +35,12 @@ namespace ListaIdNS
         // Excepcion "this.idErr()"
         public Object Get(Object id) {
             int i = this.posicion(id);  // Excepcion "this.idErr()"
-            return (Object) this.lista[i];
+            return this.lista[i];
         }
 
         // Excepcion IndexOutOfRangeException
         public Object Get(int i) {
-        	return (Object) this.lista[i];
+        	return this.lista[i];
         }
 
         public int Count(){
