@@ -9,6 +9,8 @@ namespace EstudioNS
 
 /* -----------------------   CLASES PRIVADAS  -------------------------------------------- */
 
+
+		// Es un abogado al que solo el estudio puede asignar expedientes
 		private class AbogadoM : Abogado {
 			public AbogadoM(Abogado a):base(a.Nombre,a.Apellido,a.Dni,a.Espec) {
 			}
@@ -19,12 +21,12 @@ namespace EstudioNS
 						throw new AdvertenciaConteoErroneo();
 					this.cantExps = value; 
 					}
-				get{ return this.cantExps; } // Por practicidad, tambien esta el getter publico.
+				get{ return this.cantExps; } // Por practicidad, tambien esta el getter en la clase publica Abogado.
 			}
 
 		}
 
-
+		// Son expedientes a los que solo el estudio puede asignar abogados
 		private class ExpedienteM : Expediente {
 			
 			public ExpedienteM(Expediente e):base(e.Numero, e.Titular, e.Tipo, e.Estado, e.FechaCreacion) {
@@ -32,11 +34,10 @@ namespace EstudioNS
 
 			public AbogadoM Abogado {
 				set{ this.abogado = value; }
-				get{ return (AbogadoM) this.abogado; }
+				get{ return (AbogadoM) this.abogado; } // Por practicidad, tambien esta el getter en la clase publica Expediente.
 			}
 
 		}
-
 
 		private abstract class ListaId:ListaSoloLectura {
 
@@ -49,7 +50,6 @@ namespace EstudioNS
 			}
 			
 		}
-
 
 		private class Fichero:ListaId {
 
@@ -76,7 +76,6 @@ namespace EstudioNS
 			}
 		
 		}
-
 
 		private class Staff:ListaId {
 
@@ -125,6 +124,7 @@ namespace EstudioNS
 
 /* -----------------------------   METODOS  ----------------------------------------------- */
 
+
 		public Estudio() {
 			this.abogados = new Staff();
 			this.fichero = new Fichero();
@@ -136,7 +136,7 @@ namespace EstudioNS
 		}
 
 		// Excepcion AbogadoNoRegistrado()
-		// Excepcion "WarningConteoErroneo()" . Elimina de todos modos
+		// Excepcion "AdvertenciaConteoErroneo()" . Elimina de todos modos
 		public void Despedir(ulong dni) {
 			AbogadoM a = (AbogadoM) abogados.Quitar(dni); //Excepcion AbogadoNoRegistrado()
             int j = -1;
@@ -163,15 +163,15 @@ namespace EstudioNS
 			if ( fichero.existe(e) )
 				throw new NumExpedienteRepetido();
 			if ( e.Abogado != null )
-				if ( fichero.existe(e.Abogado) )
+				if ( abogados.existe(e.Abogado) )
 					e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
 				else
 					throw new AbogadoNoRegistrado();
 			fichero.Agregar(e);
 		}
 
-		//Excepcion "WarningConteoErroneo" . Elimina de todos modos
-        //Excepcion "ExpNoRegistrado"
+		//Excepcion "AdvertenciaConteoErroneo()" . Elimina de todos modos
+        //Excepcion "ExpNoRegistrado()"
         public void Eliminar(string numero) {
 			ExpedienteM e = (ExpedienteM) fichero.Quitar(numero); //Excepcion "ExpNoRegistrado"
 			if (e.Abogado != null) {
@@ -190,13 +190,15 @@ namespace EstudioNS
 			ExpedienteM e = (ExpedienteM) fichero.Get(numExp); // ExpNoRegistrado
 			a.CantExps++; // DemasiadosExpedientes()
 			AbogadoM b = e.Abogado; // Me aseguro que no salte la advertencia antes de asignar el nuevo
-			e.Abogado = a; 
+			e.Abogado = a;
 			if ( b != null )
 				b.CantExps--;  // AdvertenciaConteoErroneo() 
 		}
-			
+
+
 
 /* -----------------------------   GETTERS  ----------------------------------------------- */
+
 
 		public ListaSoloLectura Abogados {
 			get{return this.abogados;}
