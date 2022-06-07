@@ -44,7 +44,7 @@ namespace EstudioNS
 			// Excepcion "this.idErr()"
 			public virtual Object Quitar(Object id) {
 				int i = posicion(id); //Excepcion this.idErr()
-				Object e = (Object) this.lista[i];
+				Object e = this.lista[i];
 				this.lista.RemoveAt(i);
 				return e;
 			}
