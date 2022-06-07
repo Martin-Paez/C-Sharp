@@ -44,10 +44,11 @@ namespace TP
 					ok = Eliminar(e);
 					break;
 				case "8": 
+					FiltrarAudiencia(e.Expedientes);
 					break;
 				case "9":
-						Asignar(e, null);
-						break;
+					Asignar(e, null);
+					break;
 				case "s": 
 					if (preguntar(" ¿Esta seguro de que quiere cerrar el programa? S/N "))
 						return false;
@@ -258,7 +259,9 @@ namespace TP
 			return true;
 		}
 
-		private static Object Buscar(ListaSoloLectura lista, string etiqueta) 
+		/* Retorna el elemento, indicado por el usuario, contenido en 'lista'
+		 */
+		private static Object Buscar(ListaSoloLectura lista, string etiqueta)  //Corregir
 		{
 			string id = "";
 			if ( ! LeerUnDato(ref id, etiqueta+": ") )
@@ -280,6 +283,33 @@ namespace TP
 				}
 			} while(repetir);
 			return i;
+		}
+
+		private static bool FiltrarAudiencias(ListaSoloLectura exps)
+		{
+			Console.WriteLine("Opcion: FILTRAR AUDIENCIAS POR MES\n");
+			
+			ulong mes = 0;
+			bool repetir = true;
+			do
+			{
+				if ( ! LeerNumPositivo("Mes del expediente", ref mes) )
+					return false;
+
+				repetir = mes<1 && mes>12;
+				if (repetir && ! preguntar("Se esperaba un numero mayor a cero y menor a trece. ¿Desea reintentar? S/N: "))
+					return false;
+			} while(repetir);
+
+			Console.WriteLine("\n-----------------------------------------------\n");
+			for (int i = 0; i<exps.Count(); i++)
+			{
+				Expediente e = exps.Get(i);
+				mesExp = e.FechaCreacion.Month;   //Las excepciones fueron evitadas con el metodo 'Count()'
+				if (mesExp == mes) 
+					Console.WriteLine(e + "\n\n-----------------------------------------------\n");
+			}
+			return true;
 		}
 
 
