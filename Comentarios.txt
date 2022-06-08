@@ -70,3 +70,26 @@
  */
 
 ---------------------   INTERACTUAR CON EL USUARIO   ---------------------------
+
+
+{ImprimirLista}
+/* Imprime, si existe, una lista
+ *
+ * Recibe:
+ *		lista:		La lista que se va a imprimir
+ *		titulo:		El titulo de los objetos dentro de la lista seleccionada
+ *
+ * Retorna:
+ *		void			
+ */
+
+{LeerDatos}
+/* Ordena, en una lista, datos ingresados por el usuario
+ * 
+ * Recibe:
+ *		nombres:		String de datos a ordenar
+ *
+ * Retorna:
+ *		Lista 		Si se ingresaron todos los datos correctamente
+ *		null			Si algun dato no fue ingresado
+ */
