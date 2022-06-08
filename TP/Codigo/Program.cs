@@ -225,7 +225,7 @@ namespace TP
 				try {
 					repetir = false;
 					e.Asignar(dni, numExp); 
-					Console.WriteLine("El expediente fue asignado al abogado exiosamente.");
+					Console.WriteLine("El expediente fue asignado al abogado exitosamente.");
 					ok = true;
 				} catch(ExpNoRegistrado err) {
 					repetir = Resolver("\n  " +err.MSG, ref numExp);
