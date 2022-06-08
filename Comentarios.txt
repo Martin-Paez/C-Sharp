@@ -8,8 +8,8 @@
  * 	Estudio:    Estudio que guarda el expediente
  *
  * Retorna:
- * 	True    	  El expediente fue eliminado
- * 	False		    El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ * 	True        El expediente fue eliminado
+ * 	False       El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 
@@ -20,8 +20,8 @@
  *   Estudio:		Estudio en el que trabaja el abogado
  *
  * Retorna:
- *   True			  El abogado fue despedido
- *	 False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ *   True       El abogado fue despedido
+ *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {Contratar}
@@ -30,9 +30,9 @@
  * Recibe:
  *   Estudio:	  Estudio que contratara al abogado
  *
- *	Retorna:
- *		True			El abogado fue contratado
- *		False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ * Retorna:
+ *   True       El abogado fue contratado
+ *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {Agregar}
@@ -42,8 +42,8 @@
  *   Estudio:		Estudio que guardara el expediente
  *
  * Retorna:
- *   True			  El expediente fue agregado (con o sin un abogado asignado)
- *	 False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ *   True       El expediente fue agregado (con o sin un abogado asignado)
+ *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {Asignar}
@@ -54,8 +54,8 @@
  *   numExp:		Numero del expediente al cual será asignado el abogado
  *
  * Retorna:
- *		True			 El abogado fue asignado al expediente	
- *		False			 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ *   True       El abogado fue asignado al expediente	
+ *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {FiltrarAudiencias}
@@ -65,8 +65,8 @@
  *   lista:     Lista de expedientes a filtrar
  *
  * Retorna:
- *   True			  Los expedientes filtados fueron mostrados por consola
- *   False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ *   True       Los expedientes filtados fueron mostrados por consola
+ *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 ---------------------   INTERACTUAR CON EL USUARIO   ---------------------------
@@ -76,8 +76,8 @@
 /* Imprime una lista los elementos 
  *
  * Recibe:
- *   lista:		  La lista que se va a imprimir
- *   titulo:		El nombre de la lista
+ *   lista:     La lista que se va a imprimir
+ *   titulo:    El nombre de la lista
  *	
  */
 
@@ -85,10 +85,10 @@
 /* Pide una serie de datos al usuario
  * 
  * Recibe:
- *   nombres:		Etiquetas que identifican cada dato, separadas por "\". 
+ *   nombres:   Etiquetas que identifican cada dato, separadas por "\". 
  *              Seran mostradas al usuario para indicarle que valor ingresar en cada caso.
  *
  * Retorna:
- *   Lista 		  Lista con los datos ingresados. Se respeta el orden de las etiquetas recibidas.
- *   null			  El usuario decidio cancelar el ingreso de datos. Se descartan los datos ingresados previamente.
+ *   Lista      Lista con los datos ingresados. Se respeta el orden de las etiquetas recibidas.
+ *   null       El usuario decidio cancelar el ingreso de datos. Se descartan los datos ingresados previamente.
  */
