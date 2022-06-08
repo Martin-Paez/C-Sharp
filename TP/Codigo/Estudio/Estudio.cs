@@ -68,11 +68,10 @@ namespace EstudioNS
 
 			// Excepcion "InvalidCastException()"
 			public override bool coincide(int i, Object o) {
-				string s = "";
-				if ( o.GetType() == s.GetType() )
+				if ( o.GetType() == typeof(string) )
 				    return coincide(i, (string)o);
 				else
-					return coincide(i, ((Expediente)o).Numero);
+					return coincide(i, ((Expediente)o).Numero); // Excepcion "InvalidCastException()"
 			}
 		
 		}
@@ -99,12 +98,10 @@ namespace EstudioNS
 			// Excepcion "InvalidCastException()"
 			// IndexOutOfBounds
 			public override bool coincide(int i, Object o){
-				ulong n = 0;
-				string s = "";
-				if ( o.GetType() == n.GetType() )
+				if ( o.GetType() == typeof(ulong) )
 				    return coincide(i, (ulong) o);
 				else 
-					if ( o.GetType() == s.GetType() ) {
+					if ( o.GetType() == typeof(string) ) {
 						n = ulong.Parse( (string) o ); // Excepcion "FormatException()"
 				    	return coincide(i,n);
 					}

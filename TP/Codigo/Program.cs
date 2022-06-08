@@ -8,9 +8,8 @@ namespace TP
 	class Program 
 	{
 		private static string datosLeidos = "\n\nValidando la informacion con la base de datos...";
-		private static string longCast = "\n  Se esperaba un numero entero(sin puntos)";
-
-
+		private static string longCast = "\n  Se esperaba un numero entero (sin puntos)";
+	
 		public static void Main(string[] args)
 		{
 			Estudio estudio = cargarDatos(); 
@@ -353,18 +352,16 @@ namespace TP
 
 		public static bool LeerUnDato(ref string dato, string etiqueta) 
 		{
-			string nuevo;
 			Console.Write(etiqueta+": ");
 			bool ok = true;
-			//nuevo = Console.ReadLine().ToUpper().Trim();
-			
+			string nuevo = Console.ReadLine().ToUpper().Trim();
 			if( nuevo == "" || nuevo == null )
-				ok = Resolver("No se ingreso ningun valor", ref dato);
+				ok = Resolver("\n  No se ingreso ningun valor", ref dato);
 			if (ok)
 				dato = nuevo;
 			return ok;
 		}
-
+		
 		public static bool Resolver(string msg, ref string s){
 			Console.WriteLine("\n  "+msg);
 			bool ok=false;
