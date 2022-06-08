@@ -2,94 +2,93 @@
 ----------------------  OPERACIONES CON ESTUDIO ------------------------
 
 {Eliminar}
-/* Elimina un expediente indicado por el usuario
+/* Elimina el expediente indicado por el usuario 
  *
  * Recibe:
- * 	Estudio:   El estudio al que se le da la orden de eliminar el expediente
+ * 	Estudio:    Estudio que guarda el expediente
  *
  * Retorna:
- * 	True    	  Si el expediente se elimino exitosamente
- * 	False		  Si el numero de expediente ingresado no es valido
+ * 	True    	  El expediente fue eliminado
+ * 	False		    El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 
 {Despedir}
-/* Elimina un abogado indicado por el usuario
+/* Despide al abogado indicado por el usuario
  *
  * Recibe:
- * 	Estudio:		El estudio al que se le da la orden de eliminar el abogado
+ *   Estudio:		Estudio en el que trabaja el abogado
  *
  * Retorna:
- *		True			Si se elimino el abogado exitosamente
- *		False			Si no se encontro un abogado con el DNI ingresado
+ *   True			  El abogado fue despedido
+ *	 False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {Contratar}
-/* Agrega un abogado al estudio con los atributos ingresados por el usuario
- * (Nota: agregue "al estudio" con el riesgo de ser redundante para que veas como queda nomas)
+/* Contrata un abogado con los datos ingresados por el usuario
+ * 
  * Recibe:
- *		Estudio:		El estudio al que se le da la orden de agregar un abogado
+ *   Estudio:	  Estudio que contratara al abogado
  *
  *	Retorna:
- *		True			Si el abogado se agregó exitosamente
- *		False			Si el DNI del abogado ya existe o si no se ingresan datos clave (Nombre/Apellido/Especializacion)
+ *		True			El abogado fue contratado
+ *		False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {Agregar}
-/* Agrega un expediente con los atributos ingresados por el usuario
+/* Agrega un expediente con los datos ingresados por el usuario
  *
  * Recibe:
- *		Estudio:		El estudio al que se le da la orden de agregar un expediente
+ *   Estudio:		Estudio que guardara el expediente
  *
- *	Retorna:
- *		True			Si el expediente se agrego exitosamente (Con o sin un abogado asignado)
- *		False			Si no se ingresan datos clave (nombre titular, apellido, etc), si el DNI del titular no es valido o si el numero de exp ya existe y el usuario no ingresa uno nuevo
+ * Retorna:
+ *   True			  El expediente fue agregado (con o sin un abogado asignado)
+ *	 False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {Asignar}
-/* Asigna un abogado deseado a un expediente ingresado por el usuario
+/* Asigna un abogado indicado por el usuario a un expediente determinado
  *
  * Recibe:
- *		Estudio:		El estudio al que se le da la orden de asignar el abogado
- *		numero:		Numero de expediente al cual será asignado el abogado
+ *   e:	        Estudio que guarda el expediene y en el que trabaja el abogado 
+ *   numExp:		Numero del expediente al cual será asignado el abogado
  *
  * Retorna:
- *		True			Si el expediente fue asignado exitosamente	
- *		False			Si el numero de expediente o el DNI del abogado no existen, o si el abogado tiene demasiados expedientes asignados
+ *		True			 El abogado fue asignado al expediente	
+ *		False			 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 {FiltrarAudiencias}
-/* Imprime una lista de expedientes de tipo audiencia con el mes que indique el usuario
+/* Imprime los expedientes de tipo audiencia creados durante el mes que indique el usuario
  *
  * Recibe:
- *		lista:		La lista de expedientes a filtrar
+ *   lista:     Lista de expedientes a filtrar
  *
  * Retorna:
- *		True			Si la nueva lista se creo exitosamente
- *		False			Si el dato ingresado no es un numero o no está dentro del rango utilizable
+ *   True			  Los expedientes filtados fueron mostrados por consola
+ *   False			El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  */
 
 ---------------------   INTERACTUAR CON EL USUARIO   ---------------------------
 
 
 {ImprimirLista}
-/* Imprime, si existe, una lista
+/* Imprime una lista los elementos 
  *
  * Recibe:
- *		lista:		La lista que se va a imprimir
- *		titulo:		El titulo de los objetos dentro de la lista seleccionada
- *
- * Retorna:
- *		void			
+ *   lista:		  La lista que se va a imprimir
+ *   titulo:		El nombre de la lista
+ *	
  */
 
 {LeerDatos}
-/* Ordena, en una lista, datos ingresados por el usuario
+/* Pide una serie de datos al usuario
  * 
  * Recibe:
- *		nombres:		String de datos a ordenar
+ *   nombres:		Etiquetas que identifican cada dato, separadas por "\". 
+ *              Seran mostradas al usuario para indicarle que valor ingresar en cada caso.
  *
  * Retorna:
- *		Lista 		Si se ingresaron todos los datos correctamente
- *		null			Si algun dato no fue ingresado
+ *   Lista 		  Lista con los datos ingresados. Se respeta el orden de las etiquetas recibidas.
+ *   null			  El usuario decidio cancelar el ingreso de datos. Se descartan los datos ingresados previamente.
  */
