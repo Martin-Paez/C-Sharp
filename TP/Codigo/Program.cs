@@ -44,7 +44,7 @@ namespace TP
 					ok = Eliminar(e);
 					break;
 				case "8": 
-					FiltrarAudiencia(e.Expedientes);
+					FiltrarAudiencias(e.Expedientes);
 					break;
 				case "9":
 					Asignar(e, null);
@@ -242,6 +242,15 @@ namespace TP
 			return ok;
 		}
 
+		/* Modifica el estado de un expediente indicado por el usuario.
+		 *
+		 * Recibe:
+		 *   lista: 	La lista donde buscar el expediente
+		 * 
+		 * Retorna:
+		 *   True 		Si se modifico con exito
+		 *   False 		No se encontro el expediente o el usuario no ingreso un nuevo estado
+		 */
 		private static bool ModifEstado(ListaSoloLectura exps)
 		{
 			Console.WriteLine("Opcion: MODIFICAR ESTADO A UN EXPEDIENTE\n");
@@ -249,7 +258,8 @@ namespace TP
 			Expediente e= (Expediente) Buscar(exps,"Numero de expediente");
 			if (e==null)
 				return false;
-
+			
+			Console.WriteLine("El estado actual es: " + e.Estado);
 			string dato = "";			
 			if ( LeerUnDato(ref dato,"\nNuevo estado") ) {
 				e.Estado = dato;
@@ -259,14 +269,22 @@ namespace TP
 			return true;
 		}
 
-		/* Retorna el elemento, indicado por el usuario, contenido en 'lista'
+		/* Busca el elemento indicado por el usuario.
+		 *
+		 * Recibe:
+		 *   lista: 	La lista donde buscar el elemento  
+		 *   etiqueta: 	Nombre del atrbuto que se solicitara al usuario para identificar al elemento
+		 *
+		 * Retorna:
+		 *   Elemento	Perteneciente a la lista
+		 *	 null		Si el usuario no quizo seguir intentado luego de ingresar un identificador invalido
 		 */
-		private static Object Buscar(ListaSoloLectura lista, string etiqueta)  //Corregir
+		private static Object Buscar(ListaSoloLectura lista, string etiqueta) 
 		{
 			string id = "";
 			if ( ! LeerUnDato(ref id, etiqueta+": ") )
 				return null;
-			
+
 			Object i=null;
 			bool repetir;
 			do {
@@ -278,7 +296,7 @@ namespace TP
 					repetir = Resolver("\n  " +err.MSG, ref id);
 				} catch(IdInvalido) { 						// Chequear, es para cuando se busca por abogado 
 					ulong n = 0;
-					repetir = LeerNumPositivo(longCast, ref n);
+					repetir = Resolver(longCast, ref n);
 					id = n.ToString();
 				}
 			} while(repetir);
@@ -297,16 +315,15 @@ namespace TP
 					return false;
 
 				repetir = mes<1 && mes>12;
-				if (repetir && ! preguntar("Se esperaba un numero mayor a cero y menor a trece. ¿Desea reintentar? S/N: "))
+				if (repetir && ! Preguntar("Se esperaba un numero mayor a cero y menor a trece. ¿Desea reintentar? S/N: "))
 					return false;
 			} while(repetir);
 
 			Console.WriteLine("\n-----------------------------------------------\n");
 			for (int i = 0; i<exps.Count(); i++)
 			{
-				Expediente e = exps.Get(i);
-				mesExp = e.FechaCreacion.Month;   //Las excepciones fueron evitadas con el metodo 'Count()'
-				if (mesExp == mes) 
+				Expediente e = (Expediente) exps.Get(i); //Las excepciones fueron evitadas con el metodo 'Count()'
+				if (e.FechaCreacion.Month == (int)mes)
 					Console.WriteLine(e + "\n\n-----------------------------------------------\n");
 			}
 			return true;
@@ -339,7 +356,8 @@ namespace TP
 			string nuevo;
 			Console.Write(etiqueta+": ");
 			bool ok = true;
-			nuevo = Console.ReadLine().ToUpper().Trim();
+			//nuevo = Console.ReadLine().ToUpper().Trim();
+			
 			if( nuevo == "" || nuevo == null )
 				ok = Resolver("No se ingreso ningun valor", ref dato);
 			if (ok)
