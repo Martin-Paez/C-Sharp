@@ -17,7 +17,7 @@
 /* Despide al abogado indicado por el usuario
  *
  * Recibe:
- *   Estudio:		Estudio en el que trabaja el abogado
+ *   Estudio:   Estudio en el que trabaja el abogado
  *
  * Retorna:
  *   True       El abogado fue despedido
@@ -28,7 +28,7 @@
 /* Contrata un abogado con los datos ingresados por el usuario
  * 
  * Recibe:
- *   Estudio:	  Estudio que contratara al abogado
+ *   Estudio:   Estudio que contratara al abogado
  *
  * Retorna:
  *   True       El abogado fue contratado
@@ -39,7 +39,7 @@
 /* Agrega un expediente con los datos ingresados por el usuario
  *
  * Recibe:
- *   Estudio:		Estudio que guardara el expediente
+ *   Estudio:   Estudio que guardara el expediente
  *
  * Retorna:
  *   True       El expediente fue agregado (con o sin un abogado asignado)
@@ -50,8 +50,8 @@
 /* Asigna un abogado indicado por el usuario a un expediente determinado
  *
  * Recibe:
- *   e:	        Estudio que guarda el expediene y en el que trabaja el abogado 
- *   numExp:		Numero del expediente al cual será asignado el abogado
+ *   e:         Estudio que guarda el expediene y en el que trabaja el abogado 
+ *   numExp:    Numero del expediente al cual será asignado el abogado
  *
  * Retorna:
  *   True       El abogado fue asignado al expediente	
