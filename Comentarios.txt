@@ -92,3 +92,40 @@
  *   Lista      Lista con los datos ingresados. Se respeta el orden de las etiquetas recibidas.
  *   null       El usuario decidio cancelar el ingreso de datos. Se descartan los datos ingresados previamente.
  */
+
+{LeerUnDato}
+/* Pide un dato particular al usuario
+ *
+ * Recibe:
+ *   dato:		 Variable por referencia donde se guardará el dato 
+ *   etiqueta:	 Nombre del dato que se pide al usuario
+ *
+ * Retorna:
+ *   True       El dato fue guardado 
+ *   False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ */
+
+{Resolver_1}
+/* Resuelve una operacion con un ingreso errono de datos
+ *
+ * Recibe:
+ *   mensaje:	 Mensaje de error particular a la operacion a resolver
+ *   dato:	 	 Variable por referencia donde se guardará el nuevo dato
+ *
+ * Retorna
+ *   True       El nuevo valor es valido
+ *   False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ */
+
+{Resolver_2}
+/* Resuelve una operacion con un ingreso erroneo de datos (Numero)
+ *
+ * Recibe:
+ *    mensaje:	 Mensaje de error particular a la operacion a resolver
+ *    dato:	 	 Variable por referencia donde se guardará el nuevo dato
+ *
+ * Retorna
+ *    True      El nuevo valor es valido
+ *    False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ *
+ */
