@@ -324,10 +324,6 @@ namespace TP
 				Expediente e = (Expediente) exps.Get(i); //Las excepciones fueron evitadas con el metodo 'Count()'
 				if (e.FechaCreacion.Month == (int)mes)
 					Console.WriteLine(e + "\n\n-----------------------------------------------\n");
-
-			
-				Console.Write(a.GetCantExps());
-				a.CantExps++;
 			}
 			return true;
 		}
