@@ -8,7 +8,8 @@ namespace EstudioNS{
 		protected uint cantExps = 0;
 		protected uint maxExp = 6;
 		
-		public Abogado(string nombre, string apellido, ulong dni, string espec):base(nombre, apellido, dni)
+		// Excepcion "FormatoDni()"
+		public Abogado(string nombre, string apellido, string dni, string espec):base(nombre, apellido, dni)
 		{
 			this.espec = espec;
 		}

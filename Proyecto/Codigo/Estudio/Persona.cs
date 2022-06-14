@@ -1,4 +1,5 @@
 ﻿using System;
+using ListaIdNS;
 
 namespace EstudioNS
 {
@@ -6,11 +7,12 @@ namespace EstudioNS
 	{
 		private string nombre;
 		private string apellido;
-		private ulong dni;
+		private string dni;
 		
-		public Persona(string nombre, string apellido, ulong dni)
+		// FormatoDni
+		public Persona(string nombre, string apellido, string dni)
 		{
-			this.dni = dni;
+			this.Dni = dni; // FormatoDni
 			this.Nombre = nombre;
 			this.Apellido = apellido;
 		}
@@ -25,8 +27,15 @@ namespace EstudioNS
 			get{return this.apellido;}
 		}
 
-		public ulong Dni {
-			set{this.dni=value;}
+		// FormatoDni
+		public string Dni {
+			set{
+				try {
+					ulong.Parse(value);
+				} catch {
+					throw new FormatoDni();
+				}
+				this.dni= value;}
 			get{return this.dni;}
 		}
 
@@ -35,4 +44,10 @@ namespace EstudioNS
 		}
 	}
 
+}
+
+public class FormatoDni:DatoInvalido {
+	public FormatoDni() {
+		this.msg = "El DNI debe ser un numero entero (sin puntos)";
+	}
 }

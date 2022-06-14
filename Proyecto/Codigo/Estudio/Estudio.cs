@@ -42,7 +42,7 @@ namespace EstudioNS
 		private abstract class ListaId:ListaSoloLectura {
 
 			// Excepcion "this.idErr()"
-			public virtual Object Quitar(Object id) {
+			public virtual Object Quitar(string id) {
 				int i = posicion(id); //Excepcion this.idErr()
 				Object e = this.lista[i];
 				this.lista.RemoveAt(i);
@@ -62,18 +62,10 @@ namespace EstudioNS
 			}
 
 			// IndexOutOfBounds
-			public bool coincide(int i, string n) {
+			public override bool coincide(int i, string n) {
 				return ((Expediente)this.lista[i]).Numero == n;
 			}
 
-			// Excepcion "InvalidCastException()"
-			public override bool coincide(int i, Object o) {
-				if ( o.GetType() == typeof(string) )
-				    return coincide(i, (string)o);
-				else
-					return coincide(i, ((Expediente)o).Numero); // Excepcion "InvalidCastException()"
-			}
-		
 		}
 
 		private class Staff:ListaId {
@@ -84,28 +76,14 @@ namespace EstudioNS
 
 			// Excepcion "DniRepetido()"
 			public void Contratar(Abogado a){
-				if ( this.existe(a) )
+				if ( this.existe(a.Dni) )
 					throw new DniRepetido();
 				this.lista.Add(a);
 			}
 
 			// IndexOutOfBounds
-			public bool coincide(int i, ulong dni){
+			public override bool coincide(int i, string dni){
 				return ((Abogado)this.lista[i]).Dni == dni;
-			}
-
-			// Excepcion "FormatException()"
-			// Excepcion "InvalidCastException()"
-			// IndexOutOfBounds
-			public override bool coincide(int i, Object o){
-				if ( o.GetType() == typeof(ulong) )
-				    return coincide(i, (ulong) o);
-				else 
-					if ( o.GetType() == typeof(string) ) {
-				    	return coincide(i, ulong.Parse( (string) o )); // Excepcion "FormatException()"
-					}
-				else
-					return coincide(i, ((Abogado)o).Dni); // Excepcion "InvalidCastException()"
 			}
 			
 		}
@@ -133,7 +111,7 @@ namespace EstudioNS
 
 		// Excepcion AbogadoNoRegistrado()
 		// Excepcion "AdvertenciaConteoErroneo()" . Elimina de todos modos
-		public void Despedir(ulong dni) {
+		public void Despedir(string dni) {
 			AbogadoM a = (AbogadoM) abogados.Quitar(dni); //Excepcion AbogadoNoRegistrado()
             int j = -1;
             bool warning = false;
@@ -156,10 +134,10 @@ namespace EstudioNS
 		// Excepcion AbogadoNoRegistrado()
 		public void Agregar(Expediente exp) {
 			ExpedienteM e = new ExpedienteM( exp );
-			if ( fichero.existe(e) )
+			if ( fichero.existe(e.Numero) )
 				throw new NumExpedienteRepetido();
 			if ( e.Abogado != null )
-				if ( abogados.existe(e.Abogado) )
+				if ( abogados.existe(e.Abogado.Dni) )
 					e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
 				else
 					throw new AbogadoNoRegistrado();
@@ -181,7 +159,7 @@ namespace EstudioNS
 		// Excepcion ExpNoRegistrado()
 		// Excepcion DemasiadosExpedientes()
 		// AdvertenciaConteoErroneo() - Se completa la asignacion
-		public void Asignar(ulong dni, string numExp) {
+		public void Asignar(string dni, string numExp) {
 			AbogadoM a = (AbogadoM) abogados.Get(dni);  // AbogadoNoRegistrado
 			ExpedienteM e = (ExpedienteM) fichero.Get(numExp); // ExpNoRegistrado
 			a.CantExps++; // DemasiadosExpedientes()
