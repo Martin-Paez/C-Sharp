@@ -25,7 +25,7 @@ namespace ListaIdNS
          * Excepciones que puede lanzar
          *    "IdInvalido()"    el parametro id tiene un valor invalido
          */
-        public abstract bool coincide(int i, string id);
+        public abstract bool Coincide(int i, string id);
 
         /* Busca un elemento
          * 
@@ -38,9 +38,9 @@ namespace ListaIdNS
          * Excepciones que puede lanzar
          *    this.idErr    el elemento no se encuentra en la lista
          */
-        public int posicion(string id){
+        public int Posicion(string id){
             int i = -1;
-            while ( (++i<this.lista.Count) && ! this.coincide(i,id) ); 
+            while ( (++i<this.lista.Count) && ! this.Coincide(i,id) ); 
             if ( i >= this.lista.Count)
                  throw this.idErr; 
             return i;
@@ -55,7 +55,7 @@ namespace ListaIdNS
          *   True    el elemento se encuentra en la lista
          *   False   el elemento no fue encontrado
          */
-        public bool Existe(string id){
+        public bool Existe(string id) {
             try{
                 this.Posicion(id);
             } catch {

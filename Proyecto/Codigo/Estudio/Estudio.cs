@@ -69,7 +69,7 @@ namespace EstudioNS
 
 			// Excepcion "this.idErr()"
 			public virtual Object Quitar(string id) {
-				int i = posicion(id); //Excepcion this.idErr()
+				int i = Posicion(id); //Excepcion this.idErr()
 				Object e = this.lista[i];
 				this.lista.RemoveAt(i);
 				return e;
@@ -89,7 +89,7 @@ namespace EstudioNS
 			}
 
 			// IndexOutOfBounds
-			public override bool coincide(int i, string n) {
+			public override bool Coincide(int i, string n) {
 				return ((Expediente)this.lista[i]).Numero == n;
 			}
 
@@ -104,13 +104,13 @@ namespace EstudioNS
 
 			// Excepcion "DniRepetido()"
 			public void Contratar(Abogado a){
-				if ( this.existe(a.Dni) )
+				if ( this.Existe(a.Dni) )
 					throw new DniRepetido();
 				this.lista.Add(a);
 			}
 
 			// IndexOutOfBounds
-			public override bool coincide(int i, string dni){
+			public override bool Coincide(int i, string dni){
 				return ((Abogado)this.lista[i]).Dni == dni;
 			}
 			
@@ -184,10 +184,10 @@ namespace EstudioNS
 		 */
 		public void Agregar(Expediente exp) {
 			ExpedienteM e = new ExpedienteM( exp );
-			if ( fichero.existe(e.Numero) )
+			if ( fichero.Existe(e.Numero) )
 				throw new NumExpedienteRepetido();
 			if ( e.Abogado != null )
-				if ( abogados.existe(e.Abogado.Dni) )
+				if ( abogados.Existe(e.Abogado.Dni) )
 					e.Abogado.CantExps++;  // Excepcion DemasiadosExpedientes()
 				else
 					throw new AbogadoNoRegistrado();
@@ -240,7 +240,7 @@ namespace EstudioNS
 		 * actualiza el valor y retorna true. Caso contrario retorna false.
 		 */
 		public bool cambiarDni(string nuevo, string viejo) {
-			if ( abogados.existe(viejo) && ! abogados.existe(nuevo) )
+			if ( abogados.Existe(viejo) && ! abogados.Existe(nuevo) )
 				((AbogadoM)abogados.Get(viejo)).SetDni(nuevo);
 			else
 				return false;
@@ -251,7 +251,7 @@ namespace EstudioNS
 		 * actualiza el valor y retorna true. Caso contrario retorna false.
 		 */
 		public bool cambiarNumExp(string nuevo, string viejo) {
-			if ( fichero.existe(viejo) && ! fichero.existe(nuevo) )
+			if ( fichero.Existe(viejo) && ! fichero.Existe(nuevo) )
 				((ExpedienteM)fichero.Get(viejo)).SetNumero(nuevo);
 			else
 				return false;
