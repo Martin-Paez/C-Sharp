@@ -186,13 +186,13 @@ namespace EstudioNS
 
 
 /* ----------------------------   EXCEPCIONES -------------------------------------------- */
-	public class DniRepetido:IdInvalido {
+	public class DniRepetido:ExcepcionAbogado {
 		public DniRepetido(){
 			this.msg = "Ya existe un abogado con el mismo DNI";
 		}
 	}
 
-	public class AbogadoNoRegistrado:IdInvalido {
+	public class AbogadoNoRegistrado:ExcepcionAbogado {
 		public AbogadoNoRegistrado(){
 			this.msg = "El DNI no corresponde a ningun abogado del estudio";
 		}

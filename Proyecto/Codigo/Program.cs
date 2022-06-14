@@ -180,7 +180,9 @@ namespace TP
 					est.Agregar(exp);
 					ok=true;
 					Console.WriteLine("\n\nExpediente creado\n");	
-				} catch(DatoInvalido err) { 
+				} catch(FormatoDni err) {
+					repetir = Resolver("\n  " +err.MSG, ref d[5]);
+				}catch(DatoInvalido err) { 
 					repetir = Resolver("\n  " +err.MSG, ref d[0]);
 				}
 			} while(repetir);
@@ -224,9 +226,9 @@ namespace TP
 				} catch(AdvertenciaConteoErroneo err) { // Esta es una ExcepcionAbogado() particular
 					Console.WriteLine("\n  " +err.MSG);
 					ok = true;
-				} catch(ExcepcionAbogado err) { // DniRepetido() , DemasiadosExpedientes()
+				} catch(ExcepcionAbogado err) { // DniRepetido() , DemasiadosExpedientes(), // AbogadoNoRegistrado()
 					repetir = Resolver("\n  " +err.MSG, ref dni);
-				}
+				} 
 			} while(repetir);
 
 			if (ok)
