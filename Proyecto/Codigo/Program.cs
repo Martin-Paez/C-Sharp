@@ -13,7 +13,6 @@ namespace TP
 	
 		public static void Main(string[] args)
 		{
-			StreamReader sr = new StreamReader("Datos.txt");
 			Estudio estudio = cargarDatos(); 
 			while( ejecutar( elegirTarea(), estudio ) ); 
 		}
@@ -411,19 +410,59 @@ namespace TP
 
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
+		public static ArrayList LeerArchivo(string f)
+		{
+			ArrayList d = new ArrayList();
+			StreamReader sr ;
+			
+			try {
+			   sr = new StreamReader(f);
+			} catch(Exception) {
+			    return null;
+			}
+
+			string linea;
+			while ( (linea = sr.ReadLine()) != null)
+				d.Add(linea.Split('/'));
+			sr.Close();
+
+			return d;
+		}
+
 		public static Estudio cargarDatos()
 		{
 			Estudio estudio = new Estudio();
-			string nombre = "maxi";
-			string apellido = "lopez";
-			ulong dni = 1;
-			Persona titular = new Persona(nombre,apellido,dni);
-			string espec = "familiar";
-			Abogado abogado = new Abogado(nombre, apellido, dni, espec);
-			Expediente expediente = new Expediente("1",titular,"audiencia", "activo", DateTime.Today);
-			estudio.Agregar(expediente);
-			estudio.Contratar(abogado);
-			estudio.Asignar(abogado.Dni, expediente.Numero);
+			
+			ArrayList d = LeerArchivo("Abogados.txt");
+			for (int i=0; i < d.Count; i++ )
+			{
+				string[] s = (string[]) d[i];
+				try {
+					ulong dni = ulong.Parse(s[2]);
+					Abogado a = new Abogado(s[0], s[1], dni, s[3]);
+					estudio.Contratar(a);	
+				} catch(Exception) {
+					;
+				}
+			}
+
+			
+			d = LeerArchivo("Expedientes.txt");
+			for (int i=0; i < d.Count; i++ )
+			{
+				string[] s = (string[]) d[i];
+				try {
+					ulong dni = ulong.Parse(s[3]);
+					Persona titular = new Persona(s[1], s[2], dni);
+					Expediente e = new Expediente(s[0],titular,s[4], s[5], DateTime.Today);
+					estudio.Agregar(e);
+					dni = ulong.Parse(s[6]);
+					estudio.Asignar(dni, e.Numero);
+				} catch(Exception) {
+					;
+				}
+			}
+			
 			return estudio;
 		}
 			
