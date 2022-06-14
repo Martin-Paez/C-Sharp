@@ -508,11 +508,8 @@ namespace TP
 					sw.WriteLine(a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec);
 				}
 					
-				for (int i = 0; i < listaE.Count(); i++) {
-
-            for (int i = 0; i < listaE.Count(); i++)
-				{
-					//Toma el expediente del indice
+			
+            	for (int i = 0; i < listaE.Count(); i++) {
 					Expediente exp =(Expediente) listaE.Get(i);
 					sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
 				}
