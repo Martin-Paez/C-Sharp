@@ -431,60 +431,53 @@ namespace TP
 
          }
 		}
-		public static ArrayList LeerArchivo(string f)
+
+		public static Estudio cargarDatos(string f)
 		{
-			ArrayList d = new ArrayList();
-			StreamReader sr ;
-			
+			Estudio estudio = new Estudio();
+			StreamReader sr ;		
 			try {
 			   sr = new StreamReader(f);
 			} catch(Exception) {
-			    return null;
+				Console.WriteLine("No se cargaron los datos porque no se encontro el archivo: " + f);
+			    return estudio;
 			}
 
+			int c=0;
 			string linea;
-			while ( (linea = sr.ReadLine()) != null)
-				d.Add(linea.Split('/'));
-			sr.Close();
+			while ( (linea = sr.ReadLine()) != null) {
+				string[] s = linea.Split('/');
+				try {
+					if ( s.Length == 7 ) {
+						cargarExpediente(s, ref estudio);
+					} else if ( s.Length == 4 ) {
+						cargarAbogado(s, ref estudio);
+					}
+				} catch(DatoInvalido e) {
+					Console.WriteLine("Linea " + c + ": " + e.MSG);
+				} catch(FormatException) {
+					Console.WriteLine(longCast);
+				}
+				c++;
+			}
 
-			return d;
+			sr.Close();			
+			return estudio;
 		}
 
-		public static Estudio cargarDatos()
-		{
-			Estudio estudio = new Estudio();
-			
-			ArrayList d = LeerArchivo("Abogados.txt");
-			for (int i=0; i < d.Count; i++ )
-			{
-				string[] s = (string[]) d[i];
-				try {
-					ulong dni = ulong.Parse(s[2]);
-					Abogado a = new Abogado(s[0], s[1], dni, s[3]);
-					estudio.Contratar(a);	
-				} catch(Exception) {
-					;
-				}
-			}
+		public static void cargarAbogado(string[] s, ref Estudio estudio) {
+			ulong dni = ulong.Parse(s[2]);
+			Abogado a = new Abogado(s[0], s[1], dni, s[3]);
+			estudio.Contratar(a);	
+		}
 
-			
-			d = LeerArchivo("Expedientes.txt");
-			for (int i=0; i < d.Count; i++ )
-			{
-				string[] s = (string[]) d[i];
-				try {
-					ulong dni = ulong.Parse(s[3]);
-					Persona titular = new Persona(s[1], s[2], dni);
-					Expediente e = new Expediente(s[0],titular,s[4], s[5], DateTime.Today);
-					estudio.Agregar(e);
-					dni = ulong.Parse(s[6]);
-					estudio.Asignar(dni, e.Numero);
-				} catch(Exception) {
-					;
-				}
-			}
-			
-			return estudio;
+		public static void cargarExpediente(string[] s, ref Estudio estudio){
+			ulong dni = ulong.Parse(s[3]);
+			Persona titular = new Persona(s[1], s[2], dni);
+			Expediente e = new Expediente(s[0],titular,s[4], s[5], DateTime.Today);
+			estudio.Agregar(e);
+			dni = ulong.Parse(s[6]);
+			estudio.Asignar(dni, e.Numero);
 		}
 			
 	}
