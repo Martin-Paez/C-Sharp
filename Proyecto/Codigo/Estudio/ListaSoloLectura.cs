@@ -55,9 +55,9 @@ namespace ListaIdNS
          *   True    el elemento se encuentra en la lista
          *   False   el elemento no fue encontrado
          */
-        public bool existe(string id){
+        public bool Existe(string id){
             try{
-                this.posicion(id);
+                this.Posicion(id);
             } catch {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace ListaIdNS
          *    this.idErr    el elemento no se encuentra en la lista
          */
         public Object Get(string id) {
-            int i = this.posicion(id);  // Excepcion "this.idErr()"
+            int i = this.Posicion(id);  // Excepcion "this.idErr()"
             return this.lista[i];
         }
 
