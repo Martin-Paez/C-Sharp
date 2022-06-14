@@ -12,10 +12,10 @@ namespace ListaIdNS
     	protected DatoInvalido idErr = new IdInvalido();
 
         // Excepcion "IdInvalido()"
-        public abstract bool coincide(int i, string id);
+        public abstract bool Coincide(int i, string id);
 
         // Excepcion "this.idErr()"
-        public int posicion(string id){
+        public int Posicion(string id){
             int i = -1;
             while ( (++i<this.lista.Count) && ! this.coincide(i,id) ); 
             if ( i >= this.lista.Count)
@@ -23,9 +23,9 @@ namespace ListaIdNS
             return i;
         }
 
-        public bool existe(string id){
+        public bool Existe(string id){
             try{
-                this.posicion(id);
+                this.Posicion(id);
             } catch {
                 return false;
             }
@@ -34,7 +34,7 @@ namespace ListaIdNS
 
         // Excepcion "this.idErr()"
         public Object Get(string id) {
-            int i = this.posicion(id);  // Excepcion "this.idErr()"
+            int i = this.Posicion(id);  // Excepcion "this.idErr()"
             return this.lista[i];
         }
 
