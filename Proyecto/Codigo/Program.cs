@@ -383,37 +383,53 @@ namespace TP
 
 		public static void GuardarDatos(Estudio e)
 		{
-			File.Copy("Datos.txt", "Datos copia.txt");
-         try
-         {
-            //Pasa la ruta del archivo
-            StreamWriter sw = new StreamWriter("Datos.txt");
+			bool respaldado = false;
+			try{
+				File.Copy("Datos.txt", "Datos copia.txt");
+				respaldado = true;
+			} catch(FileNotFoundException) {
+				Console.WriteLine("\n No se encontro el archivo Datos.txt, por lo tanto, no se considera necesaria una copia de respaldo");
+			} catch {
+				Console.WriteLine("\n  No se puede realizar un respaldo del archivo Datos.txt");
+				Console.WriteLine("\n  Si desea continuar, ante un potencial fallo, no se podra garantizar la integridad de los datos");
+				if ( ! Preguntar("¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
+					return;
+			}
+
+			try
+			{
+				StreamWriter sw = new StreamWriter("Datos.txt");
 				ListaSoloLectura listaA = e.Abogados;
-            ListaSoloLectura listaE = e.Expedientes;
+				ListaSoloLectura listaE = e.Expedientes;
 
-				for (int i = 0; i < listaA.Count(); i++)
-				{
+				for (int i = 0; i < listaA.Count(); i++) {
 					Abogado a = (Abogado) listaA.Get(i);
-
 					sw.WriteLine(a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec);
 				}
-				
-            for (int i = 0; i < listaE.Count(); i++)
-				{
-					//Toma el expediente del indice
+					
+				for (int i = 0; i < listaE.Count(); i++) {
 					Expediente exp =(Expediente) listaE.Get(i);
-         		//Esribe una linea de texto (numExp/Nombre/Apellido/DNI/tipo/estado)
-         		sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
+					sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
 				}
+				
+				//Close the file
+				sw.Close();
+			}
+			catch(Exception)
+			{
+				Console.WriteLine("\n  No se pudo guardar la informacion correctamente");
+				if ( respaldado ) {
+					try {
+						File.Copy("Datos copia.txt", "Datos.txt");
+						Console.WriteLine("\n  Se restauro la copia de respaldo");
+					} catch {
+						Console.WriteLine("\n  No fue posible restaurar la copia de respaldo");
+					}
+				} else {
+					Console.WriteLine("\n  Como no pudo concretarse la copia de respaldo no es posible garantizar la integradad de los datos.");
+				}
+			}
 
-				
-         	//Close the file
-         	sw.Close();
-         }
-         catch(Exception es)
-         {
-				
-         }
 		}
 
 		public static Estudio cargarDatos(string f)
