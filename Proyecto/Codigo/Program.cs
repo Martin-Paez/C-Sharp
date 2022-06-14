@@ -520,7 +520,8 @@ namespace TP
 		 * 
 		 * Recibe:
 		 *   f     path+nombre del archivo en el que se van a guardar los datos
-		 *   r     path+nombre del archivo en el que se hara una copia de respaldo del archivo "f" original
+		 *   r     path+nombre del archivo en el que se hara una copia de respaldo en caso de que 
+		 *         ya exista un archivo con path+nombre = f
 		 */
 		public static void GuardarDatos(Estudio e, string f, string r)
 		{
@@ -583,6 +584,8 @@ namespace TP
 		 */
 		public static bool CrearRespaldo(string f, string r) {
 			try{
+				if( ! File.Exists(f) )  // evito borrar r en vano
+					throw new FileNotFoundException(); 
 				if ( File.Exists(r) )
 					File.Delete(r);
 				File.Move(f, r);
@@ -607,7 +610,7 @@ namespace TP
 			try {
 				if( ! File.Exists(r) ) {
 					Console.WriteLine("\n  No se encontro la copia de respaldo: Datos copia.txt" );
-					throw new Exception();
+					throw new FileNotFoundException();
 				}
 				if( File.Exists(f) )
 					File.Delete(f);
@@ -639,7 +642,7 @@ namespace TP
 			   sr = new StreamReader(f);
 			} catch(Exception) {
 				err = true;
-				Console.WriteLine("No se cargaron los datos porque no se encontro el archivo: " + f);
+				Console.WriteLine("No se cargaron los datos porque hubo problemas al abrir el archivo: " + f);
 			    return estudio;
 			}
 
