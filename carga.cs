@@ -15,7 +15,7 @@ namespace Ejercicio_2
 		public static void Main(string[] args)
 		{
 			ArrayList planilla = new ArrayList();
-			//Lista de datos [nombre. apellido, DNI, especialidad]
+			//Lista de datos [nombre, apellido, DNI, especialidad]
 			string[] datos = new string[4];
 
 			try
