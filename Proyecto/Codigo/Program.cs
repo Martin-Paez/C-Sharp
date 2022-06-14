@@ -410,27 +410,38 @@ namespace TP
 
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
-	/*	public static void GuardarDatosExp()
+		public static void GuardarDatos(Estudio e)
 		{
-			File.Copy("Expedientes.txt", "Expedientes2.txt");
-         	try
-         	{
-         	   //Pasa la ruta del archivo
-         	   StreamWriter sw = new StreamWriter("C:\\Test.txt");
-         	   ListaSoloLectura e = Estudio.Expedientes;
-			   for (int i = 0; i < e.Count; i++)
-			   {
-            		//Esribe una linea de texto (numExp/Nombre/Apellido/DNI/tipo/estado)
-            		sw.WriteLine(e[i].Numero + "/" + e[i].Titular.Nombre + "/" + e[i].Titular.Apellido + "/" + e[i].Titular.Dni + "/" + e[i].Tipo+ "/" + e[i].Estado);
-			   }
-            //Close the file
-            sw.Close();
-         }
-         catch(Exception e)
+			File.Copy("Datos.txt", "Datos copia.txt");
+         try
          {
+            //Pasa la ruta del archivo
+            StreamWriter sw = new StreamWriter("Datos.txt");
+				ListaSoloLectura listaA = e.Abogados;
+            ListaSoloLectura listaE = e.Expedientes;
 
+            for (int i = 0; i < listaE.Count(); i++)
+				{
+					//Toma el expediente del indice
+					Expediente exp =(Expediente) listaE.Get(i);
+         		//Esribe una linea de texto (numExp/Nombre/Apellido/DNI/tipo/estado)
+         		sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
+				}
+
+				for (int i = 0; i < listaA.Count(); i++)
+				{
+					Abogado a = (Abogado) listaA.Get(i);
+
+					sw.WriteLine(a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec);
+				}
+         	//Close the file
+         	sw.Close();
          }
-		}*/
+         catch(Exception es)
+         {
+				
+         }
+		}
 
 		public static Estudio cargarDatos(string f)
 		{
