@@ -391,6 +391,13 @@ namespace TP
 				ListaSoloLectura listaA = e.Abogados;
             ListaSoloLectura listaE = e.Expedientes;
 
+				for (int i = 0; i < listaA.Count(); i++)
+				{
+					Abogado a = (Abogado) listaA.Get(i);
+
+					sw.WriteLine(a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec);
+				}
+				
             for (int i = 0; i < listaE.Count(); i++)
 				{
 					//Toma el expediente del indice
@@ -399,12 +406,7 @@ namespace TP
          		sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
 				}
 
-				for (int i = 0; i < listaA.Count(); i++)
-				{
-					Abogado a = (Abogado) listaA.Get(i);
-
-					sw.WriteLine(a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec);
-				}
+				
          	//Close the file
          	sw.Close();
          }
