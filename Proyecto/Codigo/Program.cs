@@ -410,6 +410,27 @@ namespace TP
 
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
+		public static void GuardarDatos()
+		{
+			File.Copy("Expedientes.txt", "Expedientes2.txt");
+         try
+         {
+            //Pasa la ruta del archivo
+            StreamWriter sw = new StreamWriter("C:\\Test.txt");
+			   ListaSoloLectura e = Estudio.Expedientes;
+			   for (int i = 0; i < e.Count; i++)
+			   {
+            	 //Esribe una linea de texto (numExp/Titular.Nombre/Titular.Apellido/Titular.DNI/tipo/estado)
+            	 sw.WriteLine(e[i].Numero/e[i].Titular.Nombre/e[i].Titular.Apellido/e[i].Titular.Dni/e[i].Tipo/e[i].Estado);
+			   }
+            //Close the file
+            sw.Close();
+         }
+         catch(Exception e)
+         {
+
+         }
+		}
 		public static ArrayList LeerArchivo(string f)
 		{
 			ArrayList d = new ArrayList();
