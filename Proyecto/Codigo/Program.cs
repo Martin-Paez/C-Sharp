@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using EstudioNS;
 using ListaIdNS;
 
@@ -12,6 +13,7 @@ namespace TP
 	
 		public static void Main(string[] args)
 		{
+			StreamReader sr = new StreamReader("Datos.txt");
 			Estudio estudio = cargarDatos(); 
 			while( ejecutar( elegirTarea(), estudio ) ); 
 		}

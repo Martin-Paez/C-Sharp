@@ -102,8 +102,7 @@ namespace EstudioNS
 				    return coincide(i, (ulong) o);
 				else 
 					if ( o.GetType() == typeof(string) ) {
-						n = ; // Excepcion "FormatException()"
-				    	return coincide(i, ulong.Parse( (string) o ));
+				    	return coincide(i, ulong.Parse( (string) o )); // Excepcion "FormatException()"
 					}
 				else
 					return coincide(i, ((Abogado)o).Dni); // Excepcion "InvalidCastException()"
