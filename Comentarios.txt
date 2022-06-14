@@ -129,3 +129,16 @@
  *    False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
  *
  */
+
+/* Resuelve una pregunta del tipo SI/NO
+ *
+ * Recibe:
+ *		Pregunta: La pregunta en un string
+ *
+ * Retorna:
+ *		True 		 Si la respuesta es Si('S')
+ *		False		 Si la respuesta es No('N')
+ */
+
+// Guarda los datos en un archivo de texto y no perderlos al finalizar
+ 
