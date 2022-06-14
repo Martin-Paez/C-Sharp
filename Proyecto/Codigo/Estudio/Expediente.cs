@@ -37,7 +37,7 @@ namespace EstudioNS
 			return this.abogado;
 		}
 
-		public string Numero {
+		public virtual string Numero {
 			set{this.numero=value;}
 			get{return this.numero;}
 		}

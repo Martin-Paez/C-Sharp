@@ -12,7 +12,10 @@ namespace EstudioNS
 
 		// Es un abogado al que solo el estudio puede asignar expedientes
 		private class AbogadoM : Abogado {
-			public AbogadoM(Abogado a):base(a.Nombre,a.Apellido,a.Dni,a.Espec) {
+			public AbogadoM(Abogado a) {
+				this.SetDni( a.Dni ); // FormatoDni
+				this.Nombre = a.Nombre;
+				this.Apellido = a.Apellido;
 			}
 
 			public uint CantExps {
@@ -22,6 +25,17 @@ namespace EstudioNS
 					this.cantExps = value; 
 					}
 				get{ return this.cantExps; } // Por practicidad, tambien esta el getter en la clase publica Abogado.
+			}
+
+			// Ya no se permite modificar el dni de un abogado que pertenece al estudio
+			public override string Dni {
+				set{throw new NotImplementedException();}
+				get{return base.Dni;}
+			}
+
+			// Solo el estudio es responsable de modificarlo, para evitar que pudan darse dni repetidos
+			public void SetDni(string dni) {
+				base.Dni = dni;
 			}
 
 		}
@@ -37,8 +51,20 @@ namespace EstudioNS
 				get{ return (AbogadoM) this.abogado; } // Por practicidad, tambien esta el getter en la clase publica Expediente.
 			}
 
+			// ya no se permite modificar el numero de un expediente que pertenezca al estudio
+			public override string Numero {
+				set{throw new NotImplementedException();}
+				get{return base.Numero;}
+			}
+
+			// Solo el estudio es responsable de modificarlo, para evitar que pudan darse valores repetidos
+			public void SetNumero(string n){
+				base.Numero = n;
+			}
+
 		}
 
+		// Lista abstracta que brinda la posibilidad de eliminar sus elementos
 		private abstract class ListaId:ListaSoloLectura {
 
 			// Excepcion "this.idErr()"
@@ -51,6 +77,7 @@ namespace EstudioNS
 			
 		}
 
+		// Lista de expedientes, con posibilidad de agregar elementos 
 		private class Fichero:ListaId {
 
 			public Fichero(){
@@ -68,6 +95,7 @@ namespace EstudioNS
 
 		}
 
+		// Lista de abogados, con posibilidad de agregar elementos
 		private class Staff:ListaId {
 
 			public Staff(){
@@ -104,13 +132,28 @@ namespace EstudioNS
 			this.fichero = new Fichero();
 		}
 
-		// Excepcion DniRepetido()
+		/* Contrata un abogado
+		 *
+		 * Recibe:
+		 *   a     Abogado a contratar
+		 *
+		 * Posibles excepciones :
+		 *   DniRepetido()    el estudio tiene un abogado con el mismo dni
+		 */
 		public void Contratar(Abogado a) {
 			abogados.Contratar( new AbogadoM(a) ); //DniRepetido()
 		}
 
-		// Excepcion AbogadoNoRegistrado()
-		// Excepcion "AdvertenciaConteoErroneo()" . Elimina de todos modos
+		/* Despide un abogado
+		 *
+		 * Recibe:
+		 *   dni     deni del abogado a despedir
+		 *
+		 * Posibles excepciones :
+		 *   AbogadoNoRegistrado()            El abogado no trabaja en el estudio
+		 *   AdvertenciaConteoErroneo()       El abogado creia tener mas expedientes de los que realmente tenia asignado
+		 *                                    El abogado es despedido de todos modos.
+		 */
 		public void Despedir(string dni) {
 			AbogadoM a = (AbogadoM) abogados.Quitar(dni); //Excepcion AbogadoNoRegistrado()
             int j = -1;
@@ -129,9 +172,16 @@ namespace EstudioNS
 				throw new AdvertenciaConteoErroneo();
         }
 
-		// Excepcion NumExpedienteRepetido()
-		// Excepcion DemasiadosExpedientes()
-		// Excepcion AbogadoNoRegistrado()
+		/* Agrega un expediente al fichero
+		 *
+		 * Recibe:
+		 *   exp      expediente para agregar
+		 *
+		 * Posibles excepciones :
+		 *   Excepcion NumExpedienteRepetido()    El estudio ya tiene registrado un expediente con ese mismo numero identificatorio
+		 *   Excepcion DemasiadosExpedientes()    El expediente pretende tener asignado un abogado que no puede aceptar mas trabajos
+		 *   Excepcion AbogadoNoRegistrado()      El expediente pretende tener asignado un abogado que no trabaja en el estudio
+		 */
 		public void Agregar(Expediente exp) {
 			ExpedienteM e = new ExpedienteM( exp );
 			if ( fichero.existe(e.Numero) )
@@ -144,8 +194,16 @@ namespace EstudioNS
 			fichero.Agregar(e);
 		}
 
-		//Excepcion "AdvertenciaConteoErroneo()" . Elimina de todos modos
-        //Excepcion "ExpNoRegistrado()"
+		/* Elimina un expediente del fichero
+		 *
+		 * Recibe:
+		 *   numero      numero del expediente a eliminar
+		 *
+		 * Posibles excepciones :
+		 *   AdvertenciaConteoErroneo()     Se detecto que el abogado que figuraba en el expediente creia no tener expedientes asignados
+		 *                                  El expediente se elimina de todos modos
+         *   ExpNoRegistrado()              Se intenta eliminar un expediente que no pertenece al estudio    
+		 */
         public void Eliminar(string numero) {
 			ExpedienteM e = (ExpedienteM) fichero.Quitar(numero); //Excepcion "ExpNoRegistrado"
 			if (e.Abogado != null) {
@@ -155,10 +213,19 @@ namespace EstudioNS
 			}
 		}
 
-		// Excepcion AbogadoNoRegistrado()
-		// Excepcion ExpNoRegistrado()
-		// Excepcion DemasiadosExpedientes()
-		// AdvertenciaConteoErroneo() - Se completa la asignacion
+		/* Asigna un abogado a un expediente
+		 *
+		 * Recibe:
+		 *   numero      numero del expediente 
+		 *   dni         dni del abogado
+		 *
+		 * Posibles excepciones :
+		 *   AbogadoNoRegistrado()                 El abogado no trabaja en el estudio
+		 *   Excepcion ExpNoRegistrado()           El expediente no pertenece al estudio
+		 *   Excepcion DemasiadosExpedientes()     El abogado no puede hacerse cargo de mas expedientes
+		 *   AdvertenciaConteoErroneo() 	       El abogado que estaba registrado previamente en el expediente creia no tener expedientes asignados
+		 *                                         La operacion se concreta de todos modos
+		 */
 		public void Asignar(string dni, string numExp) {
 			AbogadoM a = (AbogadoM) abogados.Get(dni);  // AbogadoNoRegistrado
 			ExpedienteM e = (ExpedienteM) fichero.Get(numExp); // ExpNoRegistrado
@@ -169,15 +236,44 @@ namespace EstudioNS
 				b.CantExps--;  // AdvertenciaConteoErroneo() 
 		}
 
+		/* Si el abogado trabaja para el estudio y no hay otro abogado registrado con el nuevo dni,
+		 * actualiza el valor y retorna true. Caso contrario retorna false.
+		 */
+		public bool cambiarDni(string nuevo, string viejo) {
+			if ( abogados.existe(viejo) && ! abogados.existe(nuevo) )
+				((AbogadoM)abogados.Get(viejo)).SetDni(nuevo);
+			else
+				return false;
+			return true;
+		}
+
+		/* Si el expediente pertenece al estudio y no hay otro expediente registrado con el mismo numero, 
+		 * actualiza el valor y retorna true. Caso contrario retorna false.
+		 */
+		public bool cambiarNumExp(string nuevo, string viejo) {
+			if ( fichero.existe(viejo) && ! fichero.existe(nuevo) )
+				((ExpedienteM)fichero.Get(viejo)).SetNumero(nuevo);
+			else
+				return false;
+			return true;
+		}
 
 
 /* -----------------------------   GETTERS  ----------------------------------------------- */
 
-
+		/* Retorna una lista con los abogados que trabajan en el estudio
+		 * No se pueden agregar o eliminar abogados, pero si trabajar con ellos para reflejar cualquier cambio PERMITIDO
+		 * por ejemplo modificar su especialidad.
+		 */
 		public ListaSoloLectura Abogados {
 			get{return this.abogados;}
 		}
 
+		
+		/* Retorna una lista con los expedientes que tiene el estudio
+		 * No se pueden agregar o eliminar expedientes, pero si trabajar con ellos para reflejar cualquier cambio PERMITIDO
+		 * por ejemplo modificar el nombre del titular.
+		 */
 		public ListaSoloLectura Expedientes {
 			get{return this.fichero;}
 		}

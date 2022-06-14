@@ -1,0 +1,3 @@
+Martin/Lopez/1/familia
+2/M/2/P
+1/Juan/Gomez/2/audiencia/activo/1

@@ -9,6 +9,8 @@ namespace EstudioNS
 		private string apellido;
 		private string dni;
 		
+		public Persona(){}
+
 		// FormatoDni
 		public Persona(string nombre, string apellido, string dni)
 		{
@@ -28,7 +30,7 @@ namespace EstudioNS
 		}
 
 		// FormatoDni
-		public string Dni {
+		public virtual string Dni {
 			set{
 				try {
 					ulong.Parse(value);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Text;
 using EstudioNS;
 using ListaIdNS;
 
@@ -9,14 +10,25 @@ namespace TP
 	class Program 
 	{
 		private static string datosLeidos = "\n\nValidando la informacion con la base de datos...";
-		private static string longCast = "Se esperaba un numero entero (sin puntos)";
-	
+		private static string copiaRespaldo = "Datos copia.txt";
+		private static string datos = "Datos.txt";
+
 		public static void Main(string[] args)
 		{
-			Estudio estudio = CargarDatos("Datos.txt"); 
+			Estudio estudio = CargarDatos(datos); 
 			while( ejecutar( elegirTarea(), estudio ) ); 
 		}
 		
+		/* Realiza una tarea del menu
+		 *
+		 * Recibe:
+		 *   item     Numero de la opcion del menu elegida
+		 *   e        Estudio sobre el cual se ejecutaran las ordenes
+		 *
+		 * Retorna:
+		 *   True     Si esta preparado para realizar otra operacion
+		 *   False    Si el usuario indico el fin del programa
+		 */
 		private static bool ejecutar(string item, Estudio e)
 		{
 			Console.Clear();
@@ -49,10 +61,15 @@ namespace TP
 				case "9":
 					Asignar(e, null);
 					break;
+				case "10":
+					GuardarDatos(e, datos, copiaRespaldo);
+					break;
 				case "s": 
-					if (Preguntar(" ¿Esta seguro de que quiere cerrar el programa? S/N "))
-						return false;
-						break;
+					if (Preguntar(" ¿Desea guardar los cambios? S/N ")) {
+						GuardarDatos(e, datos, copiaRespaldo);
+						Console.ReadKey();
+					}
+					return false;					
 				default:
 					Console.WriteLine("Opcion invalida. Debe ingresar un numero de 1 al 9.");
 					break;
@@ -64,6 +81,8 @@ namespace TP
 			return true;
 		}
 
+		/* Muestra el menu y lee la opcion elegida por el usuario
+ 		 */
 		public static string elegirTarea()
 		{
 			Console.Clear();
@@ -76,6 +95,7 @@ namespace TP
 			Console.WriteLine("7) Eliminar expediente por numero ");
 			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
 			Console.WriteLine("9) Asignar expediente a un abogado");
+			Console.WriteLine("10) Guardar datos");
 			Console.WriteLine("s) Salir \n");
 			Console.Write("> Numero de Opcion: ");
 			return Console.ReadLine().Trim();
@@ -83,7 +103,9 @@ namespace TP
 
 
 		/* ---------------------------  OPERACIONES CON ESTUDIO ---------------------------------- */
-			/* Elimina el expediente indicado por el usuario 
+
+
+		/* Elimina el expediente indicado por el usuario 
 		 *
 		 * Recibe:
 		 * 	Estudio:    Estudio que guarda el expediente
@@ -97,7 +119,7 @@ namespace TP
 			Console.WriteLine("Opcion: ELIMINAR EXPEDIENTE : ");
 
 			string n = "";
-			if( ! LeerUnDato(ref n, "\nNumero de expediente : ") )
+			if( ! LeerUnDato(ref n, "\nNumero de expediente") )
 				return false;
 
 			bool ok = false, repetir=false;
@@ -383,11 +405,12 @@ namespace TP
 
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
 
+
 		/* Imprime una lista los elementos 
  		 *
  		 * Recibe:
  		 *   lista:     La lista que se va a imprimir
- 		 *   titulo:    El nombre de la lista
+ 		 *   t:    		El nombre/titulo de la lista
  		 *	
  		 */	
 		public static void ImprimirLista(ListaSoloLectura lista, string t) 
@@ -422,12 +445,15 @@ namespace TP
 		/* Pide un dato particular al usuario
 		 *
 		 * Recibe:
-		 *   dato:		 Variable por referencia donde se guardará el dato 
 		 *   etiqueta:	 Nombre del dato que se pide al usuario
+		 *				 Sera mostrado al usuario para indicarle que valor debe ingresar.	
+		 *
+		 * Parametro de salida:
+		 *	dato:	 	 Referencia a la variable donde se guardará el nuevo dato ingresado por el usuario
 		 *
 		 * Retorna:
-		 *   True       El dato fue guardado 
-		 *   False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 *   True       El dato fue leido 
+		 *   False		El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
 		 */
 		public static bool LeerUnDato(ref string dato, string etiqueta) 
 		{
@@ -441,15 +467,17 @@ namespace TP
 			return ok;
 		}
 
-		/* Resuelve una operacion con un ingreso errono de datos
+		/* Da a elegir al usuario entre ingresar un nuevo valor o cancelar una determinada operacion.
 		 *
 		 * Recibe:
-		 *   mensaje:	 Mensaje de error particular a la operacion a resolver
-		 *   dato:	 	 Variable por referencia donde se guardará el nuevo dato
+		 *   mensaje:	 Mensaje de error que identifica la operacion y/o el dato requerido
+		 *   
+		 * Parametro de salida:
+		 *	dato:	 	 Referencia a la variable donde se guardará el nuevo dato ingresado por el usuario
 		 *
 		 * Retorna
 		 *   True       El nuevo valor es valido
-		 *   False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 *   False		El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
 		 */
 		public static bool Resolver(string msg, ref string s){
 			Console.WriteLine("\n  "+msg);
@@ -462,7 +490,7 @@ namespace TP
 		/* Resuelve una pregunta del tipo SI/NO
 		 *
 		 * Recibe:
-		 *		Pregunta: La pregunta en un string
+		 *		Pregunta: 	La pregunta en un string
 		 *
 		 * Retorna:
 		 *		True 		 Si la respuesta es Si('S')
@@ -478,69 +506,124 @@ namespace TP
 			return rta=="S";
 		}
 
+
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
-		// Guarda los datos en un archivo de texto y no perderlos al finalizar
-		public static void GuardarDatos(Estudio e)
+
+		/* Guarda los abogados y expedientes en un archivo de texto.
+		 * 
+		 * Recibe:
+		 *   f     path+nombre del archivo en el que se van a guardar los datos
+		 *   r     path+nombre del archivo en el que se hara una copia de respaldo del archivo "f" original
+		 */
+		public static void GuardarDatos(Estudio e, string f, string r)
 		{
-			bool respaldado = CrearRespaldo();
+			bool respaldado = CrearRespaldo(f, r);
 			if ( !respaldado )
-				if ( ! Preguntar("¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
+				if ( ! Preguntar("\n  ¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
 					return ;
 
+			FileStream fs = null;
 			try
 			{
-				StreamWriter sw = new StreamWriter("Datos.txt");
 				ListaSoloLectura listaA = e.Abogados;
 				ListaSoloLectura listaE = e.Expedientes;
 
+				if ( File.Exists(f) )
+					File.Delete(f);
+				fs =  File.Create(f);
+
 				for (int i = 0; i < listaA.Count(); i++) {
 					Abogado a = (Abogado) listaA.Get(i);
-					sw.WriteLine(a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec);
+					string s = a.Nombre +"/"+ a.Apellido +"/"+ a.Dni +"/"+ a.Espec+"\n";
+					byte[] info = new UTF8Encoding(true).GetBytes(s);
+                	fs.Write(info, 0, info.Length);
 				}
 					
-			
+				Console.WriteLine("\nAbogados almacenados correctamente");
+
             	for (int i = 0; i < listaE.Count(); i++) {
 					Expediente exp =(Expediente) listaE.Get(i);
-					sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
+					string s = exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado+ "/" + exp.GetAbogado().Dni+"\n";
+					byte[] info = new UTF8Encoding(true).GetBytes(s);
+                	fs.Write(info, 0, info.Length);
 				}
 				
-				//Close the file
-				sw.Close();
+				Console.WriteLine("\nExpedientes almacenados correctamente");
+				
 			}
 			catch(Exception)
 			{
 				Console.WriteLine("\n  No se pudo guardar la informacion correctamente");
 				if ( respaldado ) {
-					UsarRespaldo();
+					UsarRespaldo(f, r);
 				} else {
 					Console.WriteLine("\n  Como no pudo realizarse la copia de respaldo, no es posible garantizar la integradad de los datos.");
 				}
 			}
+			finally
+			{
+				if ( fs != null)
+					fs.Close();
+			}
 
 		}
 
-		public static bool CrearRespaldo() {
+		/* Crea una copia de respaldo de un archivo.
+		 * 
+		 * Recibe:
+		 *   f     path+nombre del archivo a respaldar
+		 *   r     path+nombre del archivo en el que se hara la copia de respaldo
+		 */
+		public static bool CrearRespaldo(string f, string r) {
 			try{
-				File.Copy("Datos.txt", "Datos copia.txt");
+				if ( File.Exists(r) )
+					File.Delete(r);
+				File.Move(f, r);
+				Console.WriteLine("\nCopia de respaldo creada");
 			} catch(FileNotFoundException) {
-				Console.WriteLine("\n No se encontro el archivo Datos.txt, por lo tanto, no se considera necesaria una copia de respaldo");
+				Console.WriteLine("\n No se encontro el archivo "+f+", por lo tanto, no se considera necesaria una copia de respaldo");
 			} catch {
-				Console.WriteLine("\n  No se puede realizar un respaldo del archivo Datos.txt");
+				Console.WriteLine("\n  No se puede realizar un respaldo del archivo "+f);
 				Console.WriteLine("\n  Ante un potencial fallo, no se podra garantizar la integridad de los datos");
 				return false;
 			}
 			return true;
 		}
-		public static bool UsarRespaldo() {
+
+		/* Restaura el contenido de un archivo
+		 * 
+		 * Recibe:
+		 *   f     path+nombre del archivo que se va a recuperar (copia exacta del respaldo)
+		 *   r     path+nombre del archivo de respaldo que contiene la informacion
+		 */
+		public static void UsarRespaldo(string f, string r) {
 			try {
-				File.Copy("Datos copia.txt", "Datos.txt");
+				if( ! File.Exists(r) ) {
+					Console.WriteLine("\n  No se encontro la copia de respaldo: Datos copia.txt" );
+					throw new Exception();
+				}
+				if( File.Exists(f) )
+					File.Delete(f);
+				File.Move(r, f);
 				Console.WriteLine("\n  Se restauro la copia de respaldo");
 			} catch {
-				Console.WriteLine("\n  No fue posible restaurar la copia de respaldo. Es posible que se vea comprometida la integridad del archivo Datos.txt");
+				Console.WriteLine("\n  No fue posible restaurar la copia de respaldo. Es posible que se vea comprometida la integridad del archivo "+f);
 			}
 		}
 
+		/* Carga los abogados y expedientes desde un archivo. Se mostrara por consola , si llegara a ser necesario, los
+		 * errores encontrados durante la validacion de datos.
+		 * 
+		 * Recibe:
+		 *   f     path+nombre del archivo que contiene la informacion necesaria para crear abogados y expedientes
+		 *
+		 * Formato del archivo: En cada linea los datos de un unico abogado/expediente con el siguiente formato
+		 *
+		 *   formato para un abogado:      Nombre/Apellido/Dni/Especialidad
+		 *	 formato para un expediente:   Numero_expediente/Nombre/Apellido/Dni/Tipo/Estado/Dni_abogado
+		 *   Se consideraran erroneas las lines en blanco. 
+		 */
 		public static Estudio CargarDatos(string f)
 		{
 			Estudio estudio = new Estudio();
@@ -573,10 +656,7 @@ namespace TP
 				} catch(DatoInvalido e) {
 					err = true;
 					Console.WriteLine("Linea " + c + ": " + e.MSG);
-				} catch(FormatException) {
-					err = true;
-					Console.WriteLine("Linea " + c + ": " + longCast);
-				}
+				} 
 				c++;
 			}
 
