@@ -456,7 +456,7 @@ namespace TP
 				} catch(DatoInvalido e) {
 					Console.WriteLine("Linea " + c + ": " + e.MSG);
 				} catch(FormatException) {
-					Console.WriteLine(longCast);
+					Console.WriteLine("Linea " + c + ": " + longCast);
 				}
 				c++;
 			}
