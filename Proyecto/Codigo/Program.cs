@@ -9,11 +9,11 @@ namespace TP
 	class Program 
 	{
 		private static string datosLeidos = "\n\nValidando la informacion con la base de datos...";
-		private static string longCast = "\n  Se esperaba un numero entero (sin puntos)";
+		private static string longCast = "Se esperaba un numero entero (sin puntos)";
 	
 		public static void Main(string[] args)
 		{
-			Estudio estudio = cargarDatos(); 
+			Estudio estudio = cargarDatos("Datos.txt"); 
 			while( ejecutar( elegirTarea(), estudio ) ); 
 		}
 		
@@ -410,7 +410,7 @@ namespace TP
 
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
-		public static void GuardarDatosExp()
+	/*	public static void GuardarDatosExp()
 		{
 			File.Copy("Expedientes.txt", "Expedientes2.txt");
          	try
@@ -430,20 +430,22 @@ namespace TP
          {
 
          }
-		}
+		}*/
 
 		public static Estudio cargarDatos(string f)
 		{
 			Estudio estudio = new Estudio();
+			bool err = false;
 			StreamReader sr ;		
 			try {
 			   sr = new StreamReader(f);
 			} catch(Exception) {
+				err = true;
 				Console.WriteLine("No se cargaron los datos porque no se encontro el archivo: " + f);
 			    return estudio;
 			}
 
-			int c=0;
+			int c=1;
 			string linea;
 			while ( (linea = sr.ReadLine()) != null) {
 				string[] s = linea.Split('/');
@@ -452,16 +454,24 @@ namespace TP
 						cargarExpediente(s, ref estudio);
 					} else if ( s.Length == 4 ) {
 						cargarAbogado(s, ref estudio);
+					} else { 
+						Console.WriteLine("Linea " + c + ": Cantidad de parametros incorrecta");
+						err = true;
 					}
 				} catch(DatoInvalido e) {
+					err = true;
 					Console.WriteLine("Linea " + c + ": " + e.MSG);
 				} catch(FormatException) {
+					err = true;
 					Console.WriteLine("Linea " + c + ": " + longCast);
 				}
 				c++;
 			}
 
-			sr.Close();			
+			sr.Close();		
+			if ( err )
+				Console.ReadKey();
+			Console.Clear();	
 			return estudio;
 		}
 
