@@ -1,55 +1,33 @@
-
 using System;
 using System.IO;
-using System.Collections;
-
-namespace Ejercicio_2
+namespace Escribir
 {
-	class Program
-	{
-		/* public static string[] CargaDatos()
-		   {
+    class Class1
+    {
+        [STAThread]
+        static void Main(string[] args)
+        {
+			File.Copy("Expedientes.txt", "Expedientes2.txt");
 
-		   }
-		 */
-		public static void Main(string[] args)
-		{
-			ArrayList planilla = new ArrayList();
-			//Lista de datos [nombre, apellido, DNI, especialidad]
-			string[] datos = new string[4];
+            try
+            {
+                //Pasa la ruta del archivo
+                StreamWriter sw = new StreamWriter("C:\\Test.txt");
+			    ListaSoloLectura e = Estudio.Expedientes;
 
-			try
-			{
-			   //Pasar la direccion y el nombre del archivo
-			   StreamReader sr = new StreamReader("Datos.txt");
-			   
-				//Lee la primera linea de texto
-			   string linea = sr.ReadLine();
-			   
-				//Sigue leyendo hasta el final del archivo
-			   while (linea != null)
-			   {
-					//Separa los datos y los guarda en la lista
-					datos = linea.Split('/');
-					
-					//Guarda los datos en la planilla
-					planilla.Add(datos);
+			        for (int i = 0; i < e.Count; i++)
+			        {
+                        //Esribe una linea de texto (numExp/Titular.Nombre/Titular.Apellido/Titular.DNI/tipo/estado)
+                        sw.WriteLine(e[i].Numero/e[i].Titular.Nombre/e[i].Titular.Apellido/e[i].Titular.Dni/e[i].Tipo/e[i].Estado);
+			        }
+                //Close the file
+                sw.Close();
+            }
+            catch(Exception e)
+            {
 
-			      //Lee la siguiente linea
-			      linea = sr.ReadLine();
-			   }
-			   //Cierra el archivo
-			   sr.Close();
-			   Console.ReadLine();
-			}
-			catch(Exception e)
-			{
-			    Console.WriteLine("Exception: " + e.Message);
-			}
-			finally
-			{
-			    Console.WriteLine("Ejecutando bloque final.");
-			}
-		}
-	}
+            }
+
+        }
+    }
 }
