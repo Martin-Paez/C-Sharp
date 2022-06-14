@@ -478,25 +478,13 @@ namespace TP
 			return rta=="S";
 		}
 
-
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
 		// Guarda los datos en un archivo de texto y no perderlos al finalizar
 		public static void GuardarDatos(Estudio e)
 		{
-			bool respaldado = false;
-			try{
-				File.Copy("Datos.txt", "Datos copia.txt");
-				respaldado = true;
-			} catch(FileNotFoundException) {
-				Console.WriteLine("\n No se encontro el archivo Datos.txt, por lo tanto, no se considera necesaria una copia de respaldo");
-			} catch {
-				Console.WriteLine("\n  No se puede realizar un respaldo del archivo Datos.txt");
-				Console.WriteLine("\n  Si desea continuar, ante un potencial fallo, no se podra garantizar la integridad de los datos");
-				if ( ! Preguntar("¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
-					return;
-			}
-
+			bool respaldado = CrearRespaldo();
+			
 			try
 			{
 				StreamWriter sw = new StreamWriter("Datos.txt");
@@ -521,17 +509,34 @@ namespace TP
 			{
 				Console.WriteLine("\n  No se pudo guardar la informacion correctamente");
 				if ( respaldado ) {
-					try {
-						File.Copy("Datos copia.txt", "Datos.txt");
-						Console.WriteLine("\n  Se restauro la copia de respaldo");
-					} catch {
-						Console.WriteLine("\n  No fue posible restaurar la copia de respaldo");
-					}
+					UsarRespaldo();
 				} else {
-					Console.WriteLine("\n  Como no pudo concretarse la copia de respaldo no es posible garantizar la integradad de los datos.");
+					Console.WriteLine("\n  Como no pudo realizarse la copia de respaldo, no es posible garantizar la integradad de los datos.");
 				}
 			}
 
+		}
+
+		public static bool crearRespaldo() {
+			try{
+				File.Copy("Datos.txt", "Datos copia.txt");
+			} catch(FileNotFoundException) {
+				Console.WriteLine("\n No se encontro el archivo Datos.txt, por lo tanto, no se considera necesaria una copia de respaldo");
+			} catch {
+				Console.WriteLine("\n  No se puede realizar un respaldo del archivo Datos.txt");
+				Console.WriteLine("\n  Si desea continuar, ante un potencial fallo, no se podra garantizar la integridad de los datos");
+				if ( ! Preguntar("¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
+					return false;
+			}
+			return true;
+		}
+				public static bool UsarRespaldo() {
+			try {
+				File.Copy("Datos copia.txt", "Datos.txt");
+				Console.WriteLine("\n  Se restauro la copia de respaldo");
+			} catch {
+				Console.WriteLine("\n  No fue posible restaurar la copia de respaldo. Es posible que se vea comprometida la integridad del archivo Datos.txt");
+			}
 		}
 
 		public static Estudio cargarDatos(string f)
