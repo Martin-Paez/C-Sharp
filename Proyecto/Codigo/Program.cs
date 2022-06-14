@@ -82,8 +82,16 @@ namespace TP
 		}
 
 
-/* ---------------------------  OPERACIONES CON ESTUDIO ---------------------------------- */
-
+		/* ---------------------------  OPERACIONES CON ESTUDIO ---------------------------------- */
+			/* Elimina el expediente indicado por el usuario 
+		 *
+		 * Recibe:
+		 * 	Estudio:    Estudio que guarda el expediente
+		 *
+		 * Retorna:
+		 * 	True        El expediente fue eliminado
+		 * 	False       El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		public static bool Eliminar(Estudio e)
 		{
 			Console.WriteLine("Opcion: ELIMINAR EXPEDIENTE : ");
@@ -109,6 +117,15 @@ namespace TP
 			return ok;
 		}
 
+		/* Despide al abogado indicado por el usuario
+ 		 *
+ 		 * Recibe:
+ 		 *   Estudio:   Estudio en el que trabaja el abogado
+ 		 *
+ 		 * Retorna:
+ 		 *   True       El abogado fue despedido
+ 		 *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+ 		 */
 		public static bool Despedir(Estudio e)
 		{
 			Console.WriteLine("Opcion: DESPEDIR ABOGADO: ");
@@ -134,6 +151,15 @@ namespace TP
 			return ok;
 		}
 
+		/* Contrata un abogado con los datos ingresados por el usuario
+		 * 
+		 * Recibe:
+		 *   Estudio:   Estudio que contratara al abogado
+		 *
+		 * Retorna:
+		 *   True       El abogado fue contratado
+		 *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		public static bool Contratar(Estudio e)
 		{
 			Console.WriteLine("Opcion: AGREGAR ABOGADO\n");
@@ -160,6 +186,15 @@ namespace TP
 			return ok;
 		}
 
+		/* Agrega un expediente con los datos ingresados por el usuario
+		 *
+		 * Recibe:
+		 *   Estudio:   Estudio que guardara el expediente
+		 *
+		 * Retorna:
+		 *   True       El expediente fue agregado (con o sin un abogado asignado)
+		 *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		public static bool Agregar(Estudio est) 
 		{
 			Console.WriteLine("Opcion: AGREGAR EXPEDIENTE");
@@ -200,6 +235,16 @@ namespace TP
 			return ok;
 		}
 
+		/* Asigna un abogado indicado por el usuario a un expediente determinado
+		 *
+		 * Recibe:
+		 *   e:         Estudio que guarda el expediene y en el que trabaja el abogado 
+		 *   numExp:    Numero del expediente al cual será asignado el abogado
+		 *
+		 * Retorna:
+		 *   True       El abogado fue asignado al expediente	
+		 *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		public static bool Asignar(Estudio e, string numExp) 
 		{
 			Console.WriteLine("Opcion: ASIGNAR ABOGADO A UN EXPEDIENTE\n");
@@ -295,6 +340,15 @@ namespace TP
 			return i;
 		}
 
+		/* Imprime los expedientes de tipo audiencia creados durante el mes que indique el usuario
+		 *
+		 * Recibe:
+		 *   lista:     Lista de expedientes a filtrar
+		 *
+		 * Retorna:
+		 *   True       Los expedientes filtados fueron mostrados por consola
+		 *   False      El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		private static bool FiltrarAudiencias(ListaSoloLectura exps)
 		{
 			Console.WriteLine("Opcion: FILTRAR AUDIENCIAS POR MES\n");
@@ -328,7 +382,14 @@ namespace TP
 
 
 /*-------------------------INTERACTUAR CON EL USUARIIO--------------------------------*/
-		
+
+		/* Imprime una lista los elementos 
+ 		 *
+ 		 * Recibe:
+ 		 *   lista:     La lista que se va a imprimir
+ 		 *   titulo:    El nombre de la lista
+ 		 *	
+ 		 */	
 		public static void ImprimirLista(ListaSoloLectura lista, string t) 
 		{
 			Console.WriteLine("Opcion: IMPRIMIR "+ t.ToUpper());
@@ -338,6 +399,16 @@ namespace TP
 				Console.WriteLine(lista);
 		}
 
+		/* Pide una serie de datos al usuario
+		 * 
+		 * Recibe:
+		 *   nombres:   Etiquetas que identifican cada dato, separadas por "\". 
+		 *              Seran mostradas al usuario para indicarle que valor ingresar en cada caso.
+		 *
+		 * Retorna:
+		 *   Lista      Lista con los datos ingresados. Se respeta el orden de las etiquetas recibidas.
+		 *   null       El usuario decidio cancelar el ingreso de datos. Se descartan los datos ingresados previamente.
+		 */
 		public static string[] LeerDatos(string nombres)
 		{
 			string[] split = nombres.Split('/');
@@ -348,6 +419,16 @@ namespace TP
 			return split;
 		}
 
+		/* Pide un dato particular al usuario
+		 *
+		 * Recibe:
+		 *   dato:		 Variable por referencia donde se guardará el dato 
+		 *   etiqueta:	 Nombre del dato que se pide al usuario
+		 *
+		 * Retorna:
+		 *   True       El dato fue guardado 
+		 *   False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		public static bool LeerUnDato(ref string dato, string etiqueta) 
 		{
 			Console.Write(etiqueta+": ");
@@ -359,7 +440,17 @@ namespace TP
 				dato = nuevo;
 			return ok;
 		}
-		
+
+		/* Resuelve una operacion con un ingreso errono de datos
+		 *
+		 * Recibe:
+		 *   mensaje:	 Mensaje de error particular a la operacion a resolver
+		 *   dato:	 	 Variable por referencia donde se guardará el nuevo dato
+		 *
+		 * Retorna
+		 *   True       El nuevo valor es valido
+		 *   False		 El usuario decidio cancelar el ingreso de datos (posiblemente por no disponer de datos validos)
+		 */
 		public static bool Resolver(string msg, ref string s){
 			Console.WriteLine("\n  "+msg);
 			bool ok=false;
@@ -368,6 +459,15 @@ namespace TP
 			return ok;
 		}
 
+		/* Resuelve una pregunta del tipo SI/NO
+		 *
+		 * Recibe:
+		 *		Pregunta: La pregunta en un string
+		 *
+		 * Retorna:
+		 *		True 		 Si la respuesta es Si('S')
+		 *		False		 Si la respuesta es No('N')
+		 */
 		public static bool Preguntar(string pregunta)
 		{
 			string rta="";
@@ -381,6 +481,7 @@ namespace TP
 
 /*------------------------------  ARCHIVOS --------------------------------------*/
 
+		// Guarda los datos en un archivo de texto y no perderlos al finalizar
 		public static void GuardarDatos(Estudio e)
 		{
 			bool respaldado = false;
@@ -408,6 +509,10 @@ namespace TP
 				}
 					
 				for (int i = 0; i < listaE.Count(); i++) {
+
+            for (int i = 0; i < listaE.Count(); i++)
+				{
+					//Toma el expediente del indice
 					Expediente exp =(Expediente) listaE.Get(i);
 					sw.WriteLine(exp.Numero + "/" + exp.Titular.Nombre + "/" + exp.Titular.Apellido + "/" + exp.Titular.Dni + "/" + exp.Tipo+ "/" + exp.Estado);
 				}
