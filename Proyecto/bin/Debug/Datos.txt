@@ -1,2 +1,4 @@
 Martin/Lopez/1/familia
-1/Juan/Gomez/2/audiencia/activo/1
+M/P/2/F
+1/Juan/Gomez/10/audiencia/activo/2
+2/N/A/11/T/E/1

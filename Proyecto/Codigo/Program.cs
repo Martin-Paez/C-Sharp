@@ -35,31 +35,31 @@ namespace TP
 			bool ok = true;
 			switch(item){
 				case "1": 
-					ok = Contratar(e);
-					break;
-				case "2": 
-					ok = Despedir(e);
-					break;
-				case "3": 
 					ImprimirLista(e.Abogados, "abogados");
 					break;
-				case "4": 
+				case "2": 
 					ImprimirLista(e.Expedientes, "expedientes");
+					break;
+				case "3": 
+					ok = Contratar(e);
+					break;
+				case "4": 
+					ok = Despedir(e);
 					break;
 				case "5": 
 					ok = Agregar(e);
 					break;
 				case "6": 
-					ok = ModifEstado(e.Expedientes);
-					break;
-				case "7": 
 					ok = Eliminar(e);
 					break;
-				case "8": 
-					FiltrarAudiencias(e.Expedientes);
-					break;
-				case "9":
+				case "7":
 					Asignar(e, null);
+					break;
+				case "8": 
+					ok = ModifEstado(e.Expedientes);
+					break;
+				case "9": 
+					FiltrarAudiencias(e.Expedientes);
 					break;
 				case "10":
 					GuardarDatos(e, datos, copiaRespaldo);
@@ -86,15 +86,16 @@ namespace TP
 		public static string elegirTarea()
 		{
 			Console.Clear();
-			Console.WriteLine("1) Agregar abogado");
-			Console.WriteLine("2) Eliminar abogado");
-			Console.WriteLine("3) Listado de abogados");
-			Console.WriteLine("4) Listado de expedientes");
+			
+			Console.WriteLine("1) Listado de abogados");
+			Console.WriteLine("2) Listado de expedientes");
+			Console.WriteLine("3) Contratar abogado");
+			Console.WriteLine("4) Despedir abogado");
 			Console.WriteLine("5) Agregar expediente");
-			Console.WriteLine("6) Modificar el estado de un expediente");
-			Console.WriteLine("7) Eliminar expediente por numero ");
-			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
-			Console.WriteLine("9) Asignar expediente a un abogado");
+			Console.WriteLine("6) Eliminar expediente");
+			Console.WriteLine("7) Asignar expediente a un abogado");
+			Console.WriteLine("8) Modificar el estado de un expediente");
+			Console.WriteLine("9) Listado de expedientes de tipo ‘audiencia'");
 			Console.WriteLine("10) Guardar datos");
 			Console.WriteLine("s) Salir \n");
 			Console.Write("> Numero de Opcion: ");
@@ -196,7 +197,7 @@ namespace TP
 			bool ok=false, repetir=false;
 			do {
 				try{
-					a = new Abogado(d[0],d[1],d[0],d[2]);
+					a = new Abogado(d[1],d[2],d[0],d[3]);
 					repetir = false;
 					e.Contratar(a);
 					Console.WriteLine("\n\nAgregado con exito\n");
@@ -286,7 +287,6 @@ namespace TP
 				try {
 					repetir = false;
 					e.Asignar(dni, numExp); 
-					Console.WriteLine("El expediente fue asignado al abogado exitosamente.");
 					ok = true;
 				} catch(ExpNoRegistrado err) {
 					repetir = Resolver("\n  " +err.MSG, ref numExp);
@@ -320,7 +320,7 @@ namespace TP
 			if (e==null)
 				return false;
 			
-			Console.WriteLine("El estado actual es: " + e.Estado);
+			Console.WriteLine("\nEl estado actual es: " + e.Estado);
 			string dato = "";			
 			if ( LeerUnDato(ref dato,"\nNuevo estado") ) {
 				e.Estado = dato;
@@ -343,7 +343,7 @@ namespace TP
 		private static Object Buscar(ListaSoloLectura lista, string etiqueta) 
 		{
 			string id = "";
-			if ( ! LeerUnDato(ref id, etiqueta+": ") )
+			if ( ! LeerUnDato(ref id, etiqueta) )
 				return null;
 
 			Object i=null;
@@ -392,13 +392,19 @@ namespace TP
 					return false;
 			} while(repetir);
 
+			bool existe = false;
 			Console.WriteLine("\n-----------------------------------------------\n");
 			for (int i = 0; i<exps.Count(); i++)
 			{
 				Expediente e = (Expediente) exps.Get(i); //Las excepciones fueron evitadas con el metodo 'Count()'
-				if (e.FechaCreacion.Month == (int)mes)
+				if (e.FechaCreacion.Month == (int)mes && e.Tipo == "AUDIENCIA") {
 					Console.WriteLine(e + "\n\n-----------------------------------------------\n");
+					existe = true;
+				}
 			}
+			if( !existe )
+				Console.WriteLine("\nNo se encontraron audiencias \n");
+				
 			return true;
 		}
 
@@ -640,7 +646,7 @@ namespace TP
 			int c=1;
 			string linea;
 			while ( (linea = sr.ReadLine()) != null) {
-				string[] s = linea.Split('/');
+				string[] s = linea.ToUpper().Split('/');
 				try {
 					if ( s.Length == 7 ) {
 						Persona titular = new Persona(s[1], s[2], s[3]);

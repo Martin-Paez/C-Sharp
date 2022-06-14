@@ -16,6 +16,7 @@ namespace EstudioNS
 				this.SetDni( a.Dni ); // FormatoDni
 				this.Nombre = a.Nombre;
 				this.Apellido = a.Apellido;
+				this.Espec = a.Espec;
 			}
 
 			public uint CantExps {
