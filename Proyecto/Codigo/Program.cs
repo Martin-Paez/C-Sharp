@@ -484,7 +484,10 @@ namespace TP
 		public static void GuardarDatos(Estudio e)
 		{
 			bool respaldado = CrearRespaldo();
-			
+			if ( !respaldado )
+				if ( ! Preguntar("¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
+					return ;
+
 			try
 			{
 				StreamWriter sw = new StreamWriter("Datos.txt");
@@ -524,13 +527,12 @@ namespace TP
 				Console.WriteLine("\n No se encontro el archivo Datos.txt, por lo tanto, no se considera necesaria una copia de respaldo");
 			} catch {
 				Console.WriteLine("\n  No se puede realizar un respaldo del archivo Datos.txt");
-				Console.WriteLine("\n  Si desea continuar, ante un potencial fallo, no se podra garantizar la integridad de los datos");
-				if ( ! Preguntar("¿ Desea intentar sobreescribir el archivo con los nuevos datos de todos modos ? S/N : ") )
-					return false;
+				Console.WriteLine("\n  Ante un potencial fallo, no se podra garantizar la integridad de los datos");
+				return false;
 			}
 			return true;
 		}
-				public static bool UsarRespaldo() {
+		public static bool UsarRespaldo() {
 			try {
 				File.Copy("Datos copia.txt", "Datos.txt");
 				Console.WriteLine("\n  Se restauro la copia de respaldo");
