@@ -1,1 +1,6 @@
 C:\Users\54911\Documents\GitHub\Estudio-Abogados\Proyecto\obj\Debug\Proyecto.csprojResolveAssemblyReference.cache
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\Proyecto\bin\Debug\Proyecto.exe.config
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\Proyecto\bin\Debug\Proyecto.exe
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\Proyecto\bin\Debug\Proyecto.pdb
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\Proyecto\obj\Debug\Proyecto.exe
+C:\Users\54911\Documents\GitHub\Estudio-Abogados\Proyecto\obj\Debug\Proyecto.pdb
