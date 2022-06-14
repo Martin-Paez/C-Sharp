@@ -13,7 +13,7 @@ namespace TP
 	
 		public static void Main(string[] args)
 		{
-			Estudio estudio = cargarDatos("Datos.txt"); 
+			Estudio estudio = CargarDatos("Datos.txt"); 
 			while( ejecutar( elegirTarea(), estudio ) ); 
 		}
 		
@@ -520,7 +520,7 @@ namespace TP
 
 		}
 
-		public static bool crearRespaldo() {
+		public static bool CrearRespaldo() {
 			try{
 				File.Copy("Datos.txt", "Datos copia.txt");
 			} catch(FileNotFoundException) {
@@ -541,7 +541,7 @@ namespace TP
 			}
 		}
 
-		public static Estudio cargarDatos(string f)
+		public static Estudio CargarDatos(string f)
 		{
 			Estudio estudio = new Estudio();
 			bool err = false;
