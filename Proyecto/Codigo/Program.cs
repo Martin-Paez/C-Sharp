@@ -34,38 +34,39 @@ namespace TP
 			Console.Clear();
 			bool ok = true;
 			switch(item){
-				case "1": 
+				case "0": 
 					ImprimirLista(e.Abogados, "abogados");
 					break;
-				case "2": 
+				case "1": 
 					ImprimirLista(e.Expedientes, "expedientes");
 					break;
-				case "3": 
+				case "2": 
 					ok = Contratar(e);
 					break;
-				case "4": 
+				case "3": 
 					ok = Despedir(e);
 					break;
-				case "5": 
+				case "4": 
 					ok = Agregar(e);
 					break;
-				case "6": 
+				case "5": 
 					ok = Eliminar(e);
 					break;
-				case "7":
+				case "6":
 					Asignar(e, null);
 					break;
-				case "8": 
+				case "7": 
 					ok = ModifEstado(e.Expedientes);
 					break;
-				case "9": 
+				case "8": 
 					FiltrarAudiencias(e.Expedientes);
 					break;
-				case "10":
+				case "9":
 					GuardarDatos(e, datos, copiaRespaldo);
 					break;
 				case "s": 
-					if (Preguntar(" ¿Desea guardar los cambios? S/N ")) {
+					if (Preguntar("¿Desea guardar los cambios? S/N ")) {
+						Console.WriteLine("");
 						GuardarDatos(e, datos, copiaRespaldo);
 						Console.ReadKey();
 					}
@@ -87,19 +88,19 @@ namespace TP
 		{
 			Console.Clear();
 			
-			Console.WriteLine("1) Listado de abogados");
-			Console.WriteLine("2) Listado de expedientes");
-			Console.WriteLine("3) Contratar abogado");
-			Console.WriteLine("4) Despedir abogado");
-			Console.WriteLine("5) Agregar expediente");
-			Console.WriteLine("6) Eliminar expediente");
-			Console.WriteLine("7) Asignar expediente a un abogado");
-			Console.WriteLine("8) Modificar el estado de un expediente");
-			Console.WriteLine("9) Listado de expedientes de tipo ‘audiencia'");
-			Console.WriteLine("10) Guardar datos");
+			Console.WriteLine("0) Listado de abogados");
+			Console.WriteLine("1) Listado de expedientes");
+			Console.WriteLine("2) Contratar abogado");
+			Console.WriteLine("3) Despedir abogado");
+			Console.WriteLine("4) Agregar expediente");
+			Console.WriteLine("5) Eliminar expediente");
+			Console.WriteLine("6) Asignar expediente a un abogado");
+			Console.WriteLine("7) Modificar el estado de un expediente");
+			Console.WriteLine("8) Listado de expedientes de tipo ‘audiencia'");
+			Console.WriteLine("9) Guardar datos");
 			Console.WriteLine("s) Salir \n");
 			Console.Write("> Numero de Opcion: ");
-			return Console.ReadLine().Trim();
+			return Console.ReadKey().KeyChar.ToString();
 		}
 
 
@@ -507,7 +508,7 @@ namespace TP
 			string rta="";
 			while ( rta != "S" & rta != "N" ) {
 				Console.Write(pregunta);
-				rta = Console.ReadLine().ToUpper();
+				rta = Console.ReadKey().KeyChar.ToString().ToUpper();
 			}
 			return rta=="S";
 		}

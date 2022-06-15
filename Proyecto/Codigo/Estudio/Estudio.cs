@@ -23,6 +23,8 @@ namespace EstudioNS
 				set{ 
 					if ( value < 0 )
 						throw new AdvertenciaConteoErroneo();
+					else if ( value > this.MaxExp )
+						throw new DemasiadosExpedientes();
 					this.cantExps = value; 
 					}
 				get{ return this.cantExps; } // Por practicidad, tambien esta el getter en la clase publica Abogado.
