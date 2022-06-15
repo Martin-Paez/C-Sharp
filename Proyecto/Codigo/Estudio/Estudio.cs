@@ -242,7 +242,7 @@ namespace EstudioNS
 		/* Si el abogado trabaja para el estudio y no hay otro abogado registrado con el nuevo dni,
 		 * actualiza el valor y retorna true. Caso contrario retorna false.
 		 */
-		public bool cambiarDni(string nuevo, string viejo) {
+		public bool CambiarDni(string nuevo, string viejo) {
 			if ( abogados.Existe(viejo) && ! abogados.Existe(nuevo) )
 				((AbogadoM)abogados.Get(viejo)).SetDni(nuevo);
 			else
@@ -253,13 +253,14 @@ namespace EstudioNS
 		/* Si el expediente pertenece al estudio y no hay otro expediente registrado con el mismo numero, 
 		 * actualiza el valor y retorna true. Caso contrario retorna false.
 		 */
-		public bool cambiarNumExp(string nuevo, string viejo) {
+		public bool CambiarNumExp(string nuevo, string viejo) {
 			if ( fichero.Existe(viejo) && ! fichero.Existe(nuevo) )
 				((ExpedienteM)fichero.Get(viejo)).SetNumero(nuevo);
 			else
 				return false;
 			return true;
 		}
+
 
 
 /* -----------------------------   GETTERS  ----------------------------------------------- */

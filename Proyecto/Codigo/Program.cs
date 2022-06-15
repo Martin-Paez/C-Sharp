@@ -586,13 +586,13 @@ namespace TP
 		public static bool CrearRespaldo(string f, string r) {
 			try{
 				if( ! File.Exists(f) )  // evito borrar r en vano
-					throw new FileNotFoundException(); 
-				if ( File.Exists(r) )
-					File.Delete(r);
-				File.Move(f, r);
-				Console.WriteLine("\nCopia de respaldo creada");
-			} catch(FileNotFoundException) {
-				Console.WriteLine("\n No se encontro el archivo "+f+", por lo tanto, no se considera necesaria una copia de respaldo");
+					Console.WriteLine("\n No se encontro el archivo "+f+", por lo tanto, no se considera necesaria una copia de respaldo"); 
+				else {
+					if ( File.Exists(r) )
+						File.Delete(r);
+					File.Move(f, r);
+					Console.WriteLine("\nCopia de respaldo creada");
+				}
 			} catch {
 				Console.WriteLine("\n  No se puede realizar un respaldo del archivo "+f);
 				Console.WriteLine("\n  Ante un potencial fallo, no se podra garantizar la integridad de los datos");
