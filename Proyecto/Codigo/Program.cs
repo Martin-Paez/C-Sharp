@@ -357,7 +357,7 @@ namespace TP
 					repetir=false;
 				} catch(ExpNoRegistrado err) {
 					repetir = Resolver("\n  " +err.MSG, ref id);
-				} catch(IdInvalido err) { 						// Chequear, es para cuando se busca por abogado 
+				} catch(DatoInvalido err) { 						// Chequear, es para cuando se busca por abogado 
 					repetir = Resolver("\n  " + err.MSG, ref id);
 				}
 			} while(repetir);

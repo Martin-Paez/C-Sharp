@@ -39,7 +39,7 @@ namespace EstudioNS{
 	}
 	
 
-	public class ExcepcionAbogado:IdInvalido {
+	public class ExcepcionAbogado:DatoInvalido {
 		public ExcepcionAbogado(){
 			this.msg = "No se pudo completar la operacion con el abogado.";
 		}

@@ -298,19 +298,19 @@ namespace EstudioNS
 		}
 	}
 
-	public class NumExpedienteRepetido:IdInvalido {
+	public class NumExpedienteRepetido:DatoInvalido {
 		public NumExpedienteRepetido(){
 			this.msg = "Ya existe un expediente registrado con el mismo numero";
 		}
 	}
 
-	public class ExpNoRegistrado:IdInvalido {
+	public class ExpNoRegistrado:DatoInvalido {
 		public ExpNoRegistrado(){
 			this.msg = "El numero de expediente no esta registrado";
 		}
 	}
 
-	public class AdvertenciaConteoErroneo:ExcepcionAbogado {
+	public class AdvertenciaConteoErroneo:DatoInvalido {
 		public AdvertenciaConteoErroneo() {
 			this.msg = "ADVERTENCIA: Se detecto que un abogado tenia un conteo erroneo en la cantidad de expedientes asignados";
 		}

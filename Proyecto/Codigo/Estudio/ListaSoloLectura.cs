@@ -10,7 +10,7 @@ namespace ListaIdNS
     {
         protected ArrayList lista = new ArrayList();
 
-    	protected DatoInvalido idErr = new IdInvalido();
+    	protected DatoInvalido idErr = new DatoInvalido();
 
         /* Chequea si en una posicion se encuentra un elemento
          * 
@@ -119,12 +119,6 @@ namespace ListaIdNS
 
 		public string MSG {
 			get{return msg;}
-		}
-	}
-
-	public class IdInvalido:DatoInvalido{
-        public IdInvalido() {
-    		this.msg = "Se intenta realizar la comparacion de un elemento de la lista contra un objeto de tipo invalido";
 		}
 	}
 
