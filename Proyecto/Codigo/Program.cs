@@ -13,8 +13,6 @@ namespace TP
 		private static string copiaRespaldo = "Datos copia.txt";
 		private static string datos = "Datos.txt";
 
-		private static bool ctrlC = false;
-
 		public static void Main(string[] args)
 		{
 			// Nota 1, al final del archivo
