@@ -13,8 +13,11 @@ namespace TP
 		private static string copiaRespaldo = "Datos copia.txt";
 		private static string datos = "Datos.txt";
 
+		private static bool ctrlC = false;
+
 		public static void Main(string[] args)
 		{
+			// Nota 1, al final del archivo
 			Estudio estudio = CargarDatos(datos); 
 			while( ejecutar( elegirTarea(), estudio ) ); 
 		}
@@ -466,11 +469,15 @@ namespace TP
 		{
 			Console.Write(etiqueta+": ");
 			bool ok = true;
-			string nuevo = Console.ReadLine().ToUpper().Trim();
-			if( nuevo == "" || nuevo == null )
+			string nuevo = Console.ReadLine();
+			
+			if( nuevo == "" )
 				ok = Resolver("\n  No se ingreso ningun valor", ref dato);
+			else if ( nuevo == null )  // Ver Nota 1 al final del archivo
+				ok = false;
+
 			if (ok)
-				dato = nuevo;
+				dato = nuevo.ToUpper().Trim();
 			return ok;
 		}
 
@@ -680,4 +687,43 @@ namespace TP
 	}
 
 }
+
+/* NOTA 1
+
+	El siguiente codigo excede los conocimientos de la materia. 
+	Permite que no se cuelgue la consola al presionar CTRL+C.
+	De este modo se puede aprobechar el null que retorna Console.ReadLine().
+
+	Console.CancelKeyPress  += (sender, eventArgs) => {
+                                	eventArgs.Cancel = true; 
+								}; 
+
+
+	PASAJES DE FUNCIONES POR PARAMETROS:
+
+		Delegate en C# ~= Punteros a funcion
+		https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/using-delegates
+
+		Variance con delegate
+		https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/covariance-contravariance/using-variance-in-delegates
+
+
+	FUNCIONES ANONIMAS:
+
+		Lambda expression
+		https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions
+
+	
+	EVENTOS:
+
+		Suscribirse/Desuscribirse a eventos
+		https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-subscribe-to-and-unsubscribe-from-events
+		
+		Crear eventos:
+		https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-publish-events-that-conform-to-net-framework-guidelines
+		
+		EventHandler con pasaje de datos:
+		https://docs.microsoft.com/en-us/dotnet/api/system.eventhandler-1?view=net-6.0
+
+*/
 
