@@ -65,7 +65,7 @@ namespace TP
 				case "9":
 					GuardarDatos(e, datos, copiaRespaldo);
 					break;
-				case "s": 
+				case "S": 
 					if (Preguntar("¿Desea guardar los cambios? S/N ")) {
 						Console.WriteLine("");
 						GuardarDatos(e, datos, copiaRespaldo);
@@ -101,7 +101,7 @@ namespace TP
 			Console.WriteLine("9) Guardar datos");
 			Console.WriteLine("s) Salir \n");
 			Console.Write("> Numero de Opcion: ");
-			return Console.ReadKey().KeyChar.ToString();
+			return Console.ReadKey().KeyChar.ToString().ToUpper();
 		}
 
 
