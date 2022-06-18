@@ -641,41 +641,42 @@ namespace TP
 		 */
 		public static Estudio CargarDatos(string f)
 		{
-			Estudio estudio = new Estudio();
 			bool err = false;
-			StreamReader sr ;		
+			StreamReader sr = null;		
 			try {
 			   sr = new StreamReader(f);
 			} catch(Exception) {
 				err = true;
 				Console.WriteLine("No se cargaron los datos porque hubo problemas al abrir el archivo: " + f);
-			    return estudio;
 			}
 
-			int c=1;
-			string linea;
-			while ( (linea = sr.ReadLine()) != null) {
-				string[] s = linea.ToUpper().Split('/');
-				try {
-					if ( s.Length == 7 ) {
-						Persona titular = new Persona(s[1], s[2], s[3]);
-						estudio.Agregar( new Expediente(s[0],titular,s[4], s[5], DateTime.Today) );
-						estudio.Asignar(s[6], s[0]);
-					} else if ( s.Length == 4 ) {
-						Abogado a = new Abogado(s[0], s[1], s[2], s[3]);
-						estudio.Contratar(a);	
-					} else { 
-						Console.WriteLine("Linea " + c + ": Cantidad de parametros incorrecta");
+			Estudio estudio = new Estudio();
+			if ( sr != null ) {
+				int c=1;
+				string linea;
+				while ( (linea = sr.ReadLine()) != null) {
+					string[] s = linea.ToUpper().Split('/');
+					try {
+						if ( s.Length == 7 ) {
+							Persona titular = new Persona(s[1], s[2], s[3]);
+							estudio.Agregar( new Expediente(s[0],titular,s[4], s[5], DateTime.Today) );
+							estudio.Asignar(s[6], s[0]);
+						} else if ( s.Length == 4 ) {
+							Abogado a = new Abogado(s[0], s[1], s[2], s[3]);
+							estudio.Contratar(a);	
+						} else { 
+							Console.WriteLine("Linea " + c + ": Cantidad de parametros incorrecta");
+							err = true;
+						}
+					} catch(DatoInvalido e) {
 						err = true;
-					}
-				} catch(DatoInvalido e) {
-					err = true;
-					Console.WriteLine("Linea " + c + ": " + e.MSG);
-				} 
-				c++;
+						Console.WriteLine("Linea " + c + ": " + e.MSG);
+					} 
+					c++;
+				}
+				sr.Close();		
 			}
-
-			sr.Close();		
+			
 			if ( err )
 				Console.ReadKey();
 			Console.Clear();	
