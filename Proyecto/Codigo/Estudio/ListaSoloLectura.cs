@@ -60,7 +60,7 @@ namespace ListaIdNS
             try{
                  this.Posicion(id);
             } catch {
-                ok = false;
+                ok = false; // Si tube problemas para encontrarlo
             }
             return  ok;
         }
