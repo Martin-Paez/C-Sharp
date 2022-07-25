@@ -71,7 +71,7 @@ namespace EstudioNS
 		private abstract class ListaId:ListaSoloLectura {
 
 			// Excepcion "this.idErr()"
-			public virtual Object Quitar(string id) {
+			public Object Quitar(string id) {
 				int i = Posicion(id); //Excepcion this.idErr()
 				Object e = this.lista[i];
 				this.lista.RemoveAt(i);

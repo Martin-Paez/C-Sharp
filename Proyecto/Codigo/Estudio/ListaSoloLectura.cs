@@ -56,7 +56,7 @@ namespace ListaIdNS
          *   False   el elemento no fue encontrado
          */
         public bool Existe(string id) {
-            int ok = true;
+            bool ok = true;
             try{
                  this.Posicion(id);
             } catch {
