@@ -35,36 +35,16 @@ namespace TP
 			Console.Clear();
 			bool ok = true;
 			switch(item){
-				case "0": 
-					ImprimirLista(e.Abogados, "abogados");
-					break;
-				case "1": 
-					ImprimirLista(e.Expedientes, "expedientes");
-					break;
-				case "2": 
-					ok = Contratar(e);
-					break;
-				case "3": 
-					ok = Despedir(e);
-					break;
-				case "4": 
-					ok = Agregar(e);
-					break;
-				case "5": 
-					ok = Eliminar(e);
-					break;
-				case "6":
-					Asignar(e, null);
-					break;
-				case "7": 
-					ok = ModifEstado(e.Expedientes);
-					break;
-				case "8": 
-					FiltrarAudiencias(e.Expedientes);
-					break;
-				case "9":
-					GuardarDatos(e, datos, copiaRespaldo);
-					break;
+				case "0": ImprimirLista(e.Abogados, "abogados"); break;
+				case "1": ImprimirLista(e.Expedientes, "expedientes"); break;
+				case "2": ok = Contratar(e); break;
+				case "3": ok = Despedir(e); break;
+				case "4": ok = Agregar(e); break;
+				case "5": ok = Eliminar(e);break;
+				case "6": Asignar(e, null); break;
+				case "7": ok = ModifEstado(e.Expedientes); break;
+				case "8": FiltrarAudiencias(e.Expedientes); break;
+				case "9": GuardarDatos(e, datos, copiaRespaldo); break;
 				case "S": 
 					if (Preguntar("¿Desea guardar los cambios? S/N ")) {
 						Console.WriteLine("");
