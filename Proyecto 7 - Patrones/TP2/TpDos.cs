@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TP.Main;
+using TP.TP2.Clases;
 using TP.TP2.Colecciones;
 using TP.TP2.Interfaces;
-using TP.TP2.Clases;
-using System.Diagnostics;
-using TP.Main;
 
 namespace TP.TP2
 {
@@ -15,7 +9,7 @@ namespace TP.TP2
     {
         public static bool TpMenu()
         {
-            Func<bool>[] f = { EjDos};
+            Func<bool>[] f = { EjDos };
             Menu.run(ref f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
@@ -119,8 +113,8 @@ namespace TP.TP2
             Console.WriteLine("El más grande es {0}\n", c.Maximo());
             T? f = default;
             while (f == null && e != null)
-                f = (T?) LeerComparableDelTipo(e);
-            if ( f != null )
+                f = (T?)LeerComparableDelTipo(e);
+            if (f != null)
                 if (c.Contiene(f))
                     Console.WriteLine("\n{0}, está en la colección\n", f);
                 else
@@ -174,7 +168,7 @@ namespace TP.TP2
                         break;
                     default:
                         Console.WriteLine("Solo se permite buscar por Personas, Alumnos y Numeros");
-                        o = null;   
+                        o = null;
                         break;
                 }
             }
@@ -186,7 +180,7 @@ namespace TP.TP2
 
             return o;
         }
-        
+
     }
 
 }

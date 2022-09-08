@@ -8,7 +8,7 @@ using TP.TP2.Clases;
 
 namespace TP.TP2.Interfaces
 {
-    public interface Comparador<in T>
+    public interface SComparador<in T>
     {
         bool SosIgual(T a, T b);
         bool SosMayor(T a, T b);

@@ -7,15 +7,15 @@ using TP.TP2.Interfaces;
 
 namespace TP.TP2.Colecciones
 {
-    public class Coleccion<T> : Coleccionable<T> where T : Comparable<T>
+    public class Coleccion<T> : Coleccionable<T>, Iterable<T> where T : Comparable<T>
     {
-        private List<T> elementos = new List<T>();
+        protected List<T> elementos = new List<T>();
 
         // TODO, ¿¿ Esta bien usar T como parametro y ListComparable<T> , para 
         //      asegurarme de que solo guarden T y que ademas T sea Comparable ??
         // TODO, porque me obliga a chequear por null, si no tiene '?' el parametro
         // ¿ Generics no soporta '?' ?
-        public void Agregar(T c)
+        public virtual void Agregar(T c)
         {
             if (c == null)
                 return;
@@ -28,6 +28,11 @@ namespace TP.TP2.Colecciones
                 if (c.SosIgual(e))
                     return true;
             return false;
+        }
+
+        public Iterador<T> CrearItr()
+        {
+            throw new NotImplementedException();
         }
 
         public int Cuantos()

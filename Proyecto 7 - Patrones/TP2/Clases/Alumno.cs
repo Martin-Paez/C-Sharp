@@ -11,7 +11,7 @@ namespace TP.TP2.Clases
     {
         public int? Leg { get; }
         public int Prom { get; }
-        public Comparador<Alumno> CmpA { get; set; }
+        public SComparador<Alumno> CmpA { get; set; }
 
         public Alumno(string n, int? d, int? l, int pr) : base(n, d)
         {

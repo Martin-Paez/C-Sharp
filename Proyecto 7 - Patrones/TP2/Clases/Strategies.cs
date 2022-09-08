@@ -8,7 +8,7 @@ using TP.TP2.Interfaces;
 
 namespace TP.TP2.Clases
 {
-    public class PorDni : Comparador<Alumno>
+    public class PorDni : SComparador<Alumno>
     {
         public bool SosIgual(Alumno a, Alumno b)
         {
@@ -26,7 +26,7 @@ namespace TP.TP2.Clases
         }
     }
 
-    public class PorLeg : Comparador<Alumno>
+    public class PorLeg : SComparador<Alumno>
     {
         public bool SosIgual(Alumno a, Alumno b)
         {
@@ -44,7 +44,7 @@ namespace TP.TP2.Clases
         }
     }
 
-    public class PorNom : Comparador<Alumno>
+    public class PorNom : SComparador<Alumno>
     {
         public bool SosIgual(Alumno a, Alumno b)
         {
@@ -62,7 +62,7 @@ namespace TP.TP2.Clases
         }
     }
 
-    public class PorProm : Comparador<Alumno>
+    public class PorProm : SComparador<Alumno>
     {
         public bool SosIgual(Alumno a, Alumno b)
         {
