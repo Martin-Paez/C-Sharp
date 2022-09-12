@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TP.TP2.Colecciones.Iteradores;
 using TP.TP2.Interfaces;
 using TP.TP2.Interfaces.Comparar;
 using TP.TP2.Interfaces.Iterador;

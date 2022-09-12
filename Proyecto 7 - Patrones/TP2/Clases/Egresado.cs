@@ -19,15 +19,15 @@ namespace TP.TP2.Clases
         }
         public bool SosIgual(Egresado c)
         {
-            return Cmp!.SosIgual(this, c);
+            return Cmp!.Comparar(this, c) == 0;
         }
         public bool SosMayor(Egresado c)
         {
-            return Cmp!.SosMayor(this, c);
+            return Cmp!.Comparar(this, c) > 0;
         }
         public bool SosMenor(Egresado c)
         {
-            return Cmp!.SosMenor(this, c);
+            return Cmp!.Comparar(this, c) < 0;
         }
         public override string ToString()
         {

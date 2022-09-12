@@ -10,8 +10,6 @@ namespace TP.TP2.Interfaces.Comparar
 {
     public interface Comparador<in T>
     {
-        bool SosIgual(T a, T b);
-        bool SosMayor(T a, T b);
-        bool SosMenor(T a, T b);
+        int Comparar(T a, T b);
     }
 }

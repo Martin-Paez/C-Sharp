@@ -10,17 +10,9 @@ namespace TP.TP2.Clases.Estrategias
 {
     public class PorDni : Comparador<Persona>
     {
-        public bool SosIgual(Persona a, Persona b)
+        public int Comparar(Persona a, Persona b)
         {
-            return a.Dni == b.Dni;
-        }
-        public bool SosMayor(Persona a, Persona b)
-        {
-            return a.Dni > b.Dni;
-        }
-        public bool SosMenor(Persona a, Persona b)
-        {
-            return a.Dni < b.Dni;
+            return (int)a.Dni! - (int)b.Dni!;
         }
     }
 }

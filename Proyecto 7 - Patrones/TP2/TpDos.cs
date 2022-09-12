@@ -15,6 +15,7 @@ using TP.TP2.Colecciones.Diccionario;
 using System.Net;
 using TP.TP1.Colecciones;
 using TP.TP2.Clases.Utiles;
+using TP.TP2.Colecciones.Iteradores;
 
 namespace TP.TP2
 {
@@ -22,16 +23,19 @@ namespace TP.TP2
     {
         public static bool TpMenu()
         {
-            Func<bool>[] f = { EjDos, EjOcho, EjDiez, EjOnce, EjPropioUno };
+            Func<bool>[] f = { EjDos, EjOcho, EjDiez, EjCatorce, EjOnce, EjPropioUno };
             Menu.run(ref f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
                 + " 1)Ejercicio 2 (tp.ej7)  \n"
                 + " 2)Ejercicio 8           \n"
-                + " 3)Ejercicio 10          \n\n"
+                + " 3)Ejercicio 10          \n"
+                + " 4)Ejercicio 14          \n"
+                + " \n"
                 + "Optativos:               \n"
                 + "----------               \n"
-                + " 4)Ejercicio 11          \n\n"
+                + " 4)Ejercicio 11          \n"
+                + "\n"
                 + "Propios:                 \n"
                 + "----------               \n"
                 + " 5)CompMulti con ColecMulti\n"
@@ -165,6 +169,19 @@ namespace TP.TP2
             Pila<Alumno> pila = new();
             LlenarAlumnos(pila);
             ComparacionMultiCriterio(pila, CriteriosDeCompAlumnos<Alumno>());
+            Console.WriteLine("\n"
+                + "Conclusion:\n"
+                + "-----------\n"
+                + " La redundancia de datos deberia evitarse. No es lo mismo el criterio de\n"
+                + " comparacion de un alumno, que el de todos los elementos de una coleccion \n"
+                + " entre si. Si cada alumno tiene su comparador esta bien, pero la coleccion\n"
+                + " deberia tener el propio, en una simple accion se cambia sin necesiad de \n"
+                + " iterar por todos los elementos. Se evitan posibles problemas por inconsistencias\n"
+                + " , que se darian en caso de que el criterio de comparacion de un alumno sea\n"
+                + " diferente al de otros (lo cual deberia ser totalmente valido y propio del\n"
+                + " alumno, por eso mismo se llama atributo de instancia).\n"
+            );
+
             return true;
         }
         public static bool EjOnce()
@@ -213,6 +230,30 @@ namespace TP.TP2
 
             return true;
         }
+        public static bool EjCatorce()
+        {
+            Console.WriteLine("Ejercicio 14:\n-------------\n");
+            Pila<Alumno> pila = new();
+            LlenarAlumnos(pila);
+            //CambiarEstrategia(pila, ... ); muy mal, esto no deberia de pedirse asi
+            Iterador<Alumno>[] itrs = new Iterador<Alumno>[3];
+            bool[] fin = new bool[3];
+            int i = 0;
+            for (i = 0; i < 3; i++) {
+                itrs[i] = pila.crearItr();
+                fin[i] = false;
+            }
+            int cont = 0;
+            Random r = new((int)DateTime.Now.Ticks);
+            while (!fin[0] && !fin[1] && !fin[2])
+                if (itrs[i = r.Next()%3].Sig())
+                    Console.WriteLine(itrs[i].Elem());
+                else
+                    fin[i] = true;
+            Console.WriteLine(cont);
+            return true;
+        }
+
         public static bool EjPropioUno()
         {
             Console.WriteLine("Ejercicio Propio 1:\n-------------\n");
@@ -271,9 +312,10 @@ namespace TP.TP2
                 Informar(c);
             }
         }
+        
         public static void CambiarEstrategia<T>(Coleccionable<T> c, Comparador<T> cmp) 
             where T : Comparable<T>, StrategyComparable<T>
-        {
+        {   // muy mala implementacion, informacion repetida, mala implementacion 
             Iterador<T> i = c.crearItr();
             while (i.Sig())
                 i.Elem().Cmp = cmp;

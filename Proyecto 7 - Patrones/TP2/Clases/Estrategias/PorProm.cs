@@ -10,19 +10,9 @@ namespace TP.TP2.Clases.Estrategias
 {
     public class PorProm : Comparador<Alumno>
     {
-        public bool SosIgual(Alumno a, Alumno b)
+        public int Comparar(Alumno a, Alumno b)
         {
-            return a.Prom == b.Prom;
-        }
-
-        public bool SosMayor(Alumno a, Alumno b)
-        {
-            return a.Prom > b.Prom;
-        }
-
-        public bool SosMenor(Alumno a, Alumno b)
-        {
-            return a.Prom < b.Prom;
+            return (int)a.Prom - (int)b.Prom;
         }
     }
 }

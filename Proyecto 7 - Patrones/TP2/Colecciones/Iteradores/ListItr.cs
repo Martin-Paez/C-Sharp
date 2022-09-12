@@ -27,7 +27,7 @@ namespace TP.TP2.Interfaces.Iterador
         {
             Index = 0;
         }
-        public bool Sig()
+        public virtual bool Sig()
         {
             bool ok = Index != Elems.Count - 1;
             // si sumo de mas, cuando agreguen un elemento a la lista me lo pierdo

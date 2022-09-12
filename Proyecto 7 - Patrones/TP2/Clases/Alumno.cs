@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TP.TP2.Interfaces.Comparar;
 using TP.TP2.Clases.Estrategias;
+using TP.TP2.Colecciones.Iteradores;
+using TP.TP2.Interfaces.Iterador;
 
 namespace TP.TP2.Clases
 {
@@ -33,15 +35,15 @@ namespace TP.TP2.Clases
         }
         public virtual bool SosIgual(Alumno a)
         {
-            return Cmp.SosIgual(this,a);
+            return Cmp.Comparar(this,a) == 0;
         }
         public virtual bool SosMayor(Alumno a)
         {
-            return Cmp.SosMayor(this,a);
+            return Cmp.Comparar(this,a) > 0;
         }   
         public virtual bool SosMenor(Alumno a)
         {
-            return Cmp.SosMenor(this,a);
+            return Cmp.Comparar(this,a) < 0;
         }
         public override string ToString()
         {
