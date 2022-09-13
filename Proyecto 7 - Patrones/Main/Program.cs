@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using TP.TP1;
 using TP.TP2;
+using TP.TP3;
 
 namespace TP.Main
 {
@@ -11,12 +12,13 @@ namespace TP.Main
     {
         public static void Main(string[] args)
         {
-            Func<bool>[] f = { TpUno.TpMenu, TpDos.TpMenu };
+            Func<bool>[] f = { TpUno.TpMenu, TpDos.TpMenu, TpTres.TpMenu };
             Menu.run(ref f, 
                   "TPs:         \n"
                 + "----         \n"
                 + " 1) TP 1     \n"
                 + " 2) TP 2     \n"
+                + " 2) TP 3     \n"
                 + " s) Salir    \n");
 
         }
