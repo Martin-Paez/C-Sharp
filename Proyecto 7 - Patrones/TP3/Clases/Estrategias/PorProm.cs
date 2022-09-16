@@ -12,7 +12,7 @@ namespace TP.TP3.Clases.Estrategias
     {
         public int Comparar(Alumno a, Alumno b)
         {
-            return (int)a.Prom - (int)b.Prom;
+            return (int)a.Prom! - (int)b.Prom!;
         }
     }
 }

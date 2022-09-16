@@ -8,14 +8,14 @@ namespace TP.TP3.Clases.Utiles
 {
     public class LectorDeDatos
     {
-        public Numero numeroPorTeclado()
+        static public int NumeroPorTeclado(string etiqueta)
         {
             while (true)
             {
-                Console.WriteLine("Numero: ");
+                Console.WriteLine(etiqueta);
                 try
                 {
-                    return new Numero(int.Parse(Console.ReadLine()!));
+                    return int.Parse(Console.ReadLine()!);
                 }
                 catch(Exception)
                 {
@@ -23,9 +23,9 @@ namespace TP.TP3.Clases.Utiles
                 }
             }
         }
-        public string stringPorTeclado()
+        static public string StringPorTeclado(string etiqueta)
         {
-            Console.WriteLine("Texto: ");
+            Console.WriteLine(etiqueta);
             return Console.ReadLine()!;
         }
     }

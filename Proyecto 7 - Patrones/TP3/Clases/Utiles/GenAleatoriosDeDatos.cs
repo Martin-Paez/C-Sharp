@@ -8,11 +8,11 @@ namespace TP.TP3.Clases.Utiles
 {
     public class GenAleatoriosDeDatos
     {
-        public Numero NumeroAleatorio(int max)
+        static public int NumeroAleatorio(int max)
         {
-            return new Numero(new Random((int)DateTime.Now.Ticks).Next()%max);
+            return new Random((int)DateTime.Now.Ticks).Next(1,max);
         }
-        public string StringAleatorio(int cant)
+        static public string StringAleatorio(int cant)
         {
             Random r = new Random((int)DateTime.Now.Ticks);
             string s = "";
@@ -20,5 +20,20 @@ namespace TP.TP3.Clases.Utiles
                 s += (char)r.Next();
             return s;
         }
+        static public int DniAleatorio()
+        {
+            int d = 0;
+            // un numero razonable para un DNI actual
+            while (d < 1000000 || d > 200000000)
+                d = new Random().Next();
+            return d;
+        }
+        static public string NombreAleatorio()
+        {
+            string[] noms = new string[] { "Carlos", "Esteban", "Ana",
+            "Maria", "Juan", "Pablo", "Lucia", "Nicolas", "Diego"};
+            return noms[new Random().Next() % 8];
+        }
+
     }
 }

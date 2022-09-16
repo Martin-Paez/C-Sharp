@@ -10,10 +10,10 @@ namespace TP.TP3.Clases
 {
     public class Persona : Comparable<Persona>
     {
-        public string Nombre { get; }
+        public string? Nombre { get; }
         public int? Dni { get; }
 
-        public Persona(string n, int? d)
+        public Persona(string? n, int? d)
         {
             Nombre = n;
             Dni = d;
@@ -36,7 +36,7 @@ namespace TP.TP3.Clases
 
         public override string ToString()
         {
-            string s = Nombre;
+            string s = (Nombre==null)?"":Nombre;
             if (String.Compare(Nombre, "") != 0)
                 s += " ";
             if (Dni != null)

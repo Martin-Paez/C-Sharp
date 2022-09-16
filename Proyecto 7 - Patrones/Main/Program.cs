@@ -18,7 +18,7 @@ namespace TP.Main
                 + "----         \n"
                 + " 1) TP 1     \n"
                 + " 2) TP 2     \n"
-                + " 2) TP 3     \n"
+                + " 3) TP 3     \n"
                 + " s) Salir    \n");
 
         }
