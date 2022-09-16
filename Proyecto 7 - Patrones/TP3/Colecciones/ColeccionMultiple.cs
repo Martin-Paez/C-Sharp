@@ -12,9 +12,9 @@ namespace TP.TP3.Colecciones
 {
     public class ColeccionMultiple<T> : Coleccionable<T> where T : Comparable<T>
     {
-        Pila<T> p;
-        Cola<T> c;
-        public ColeccionMultiple(Pila<T> p, Cola<T> c)
+        Coleccionable<T> p;
+        Coleccionable<T> c;
+        public ColeccionMultiple(Coleccionable<T> p, Coleccionable<T> c)
         {
             this.p = p;
             this.c = c;

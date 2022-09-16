@@ -7,6 +7,7 @@ using TP.TP3.Interfaces.Iterador;
 using TP.TP3.Clases.Estrategias;
 using TP.TP3.Clases.Utiles;
 using TP.TP3.Clases.Fabricas;
+using TP.TP2.Colecciones.Diccionario;
 
 namespace TP.TP3
 {
@@ -22,6 +23,12 @@ namespace TP.TP3
                 + " s)Salir                 \n");
             return false;
         }
+        public abstract class FabColeccionables<T> where T : Comparable<T>{ 
+            public static Coleccionable<T> PorTeclado()
+            {
+                return null!;
+            } 
+        }
         public static bool EjSeis()
         {
             Console.WriteLine("Ejercicio 6:\n"
@@ -36,15 +43,15 @@ namespace TP.TP3
         }
         public static bool mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
         {
-            Pila<T> p = new();
-            Cola<T> c = new();
-            ColeccionMultiple<T> m = new(p, c);
-            Llenar(p);
-            Llenar(c);
+            Coleccionable<T> a = FabColeccionables<T>.PorTeclado();
+            Coleccionable<T> b = FabColeccionables<T>.PorTeclado();
+            ColeccionMultiple<T> m = new(b, a);
+            Llenar(b);
+            Llenar(a);
             Console.WriteLine("Pila\n");
-            Informar(p);
+            Informar(b);
             Console.WriteLine("Cola\n");
-            Informar(c);
+            Informar(a);
             Console.WriteLine("Coleccion Multiple\n");
             Informar(m, cmp);
             return true;
