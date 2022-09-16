@@ -24,10 +24,21 @@ namespace TP.TP3
         }
         public static bool EjSeis()
         {
-            Console.WriteLine("Ejercicio 6:\n-------------\n");
-            Pila<Alumno> p = new();
-            Cola<Alumno> c = new();
-            ColeccionMultiple<Alumno> m = new(p, c);
+            Console.WriteLine("Ejercicio 6:\n"
+                            + "------------\n\n"
+                            + "Con Numeros:\n"
+                            + "------------\n");
+            mixTp1Ejs9y17<Numero>();
+            Console.WriteLine("\nCon Alumnos:\n"
+                                + "------------\n");
+            mixTp1Ejs9y17(new PorProm());
+            return true;
+        }
+        public static bool mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
+        {
+            Pila<T> p = new();
+            Cola<T> c = new();
+            ColeccionMultiple<T> m = new(p, c);
             Llenar(p);
             Llenar(c);
             Console.WriteLine("Pila\n");
@@ -35,7 +46,7 @@ namespace TP.TP3
             Console.WriteLine("Cola\n");
             Informar(c);
             Console.WriteLine("Coleccion Multiple\n");
-            Informar(m, new PorProm());
+            Informar(m, cmp);
             return true;
         }
 

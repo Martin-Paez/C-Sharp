@@ -16,6 +16,8 @@ namespace TP.TP3.Clases.Fabricas
 
         private static object Tipo(Comparador<T>? cmp)
         {
+            if (typeof(T) == typeof(Numero))
+                return new FabNumeros();
             if (typeof(T) == typeof(Persona))
                 return new FabPersonas();
             Criterio = cmp;
