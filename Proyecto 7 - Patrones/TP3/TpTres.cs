@@ -48,9 +48,9 @@ namespace TP.TP3
             ColeccionMultiple<T> m = new(b, a);
             Llenar(b);
             Llenar(a);
-            Console.WriteLine("Pila\n");
+            Console.WriteLine(a.GetType().Name + "\n");
             Informar(b);
-            Console.WriteLine("Cola\n");
+            Console.WriteLine(b.GetType().Name + "\n");
             Informar(a);
             Console.WriteLine("Coleccion Multiple\n");
             Informar(m, cmp);
