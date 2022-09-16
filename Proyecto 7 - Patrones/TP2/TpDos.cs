@@ -34,11 +34,11 @@ namespace TP.TP2
                 + " \n"
                 + "Optativos:               \n"
                 + "----------               \n"
-                + " 4)Ejercicio 11          \n"
+                + " 5)Ejercicio 11          \n"
                 + "\n"
                 + "Propios:                 \n"
                 + "----------               \n"
-                + " 5)CompMulti con ColecMulti\n"
+                + " 6)CompMulti con ColecMulti\n"
                 + " s)Salir                 \n");
             return false;
         }
@@ -245,7 +245,7 @@ namespace TP.TP2
             }
             int cont = 0;
             Random r = new((int)DateTime.Now.Ticks);
-            while (!fin[0] && !fin[1] && !fin[2])
+            while (!fin[0] && !fin[1] && !fin[2] && ++cont>0 )
                 if (itrs[i = r.Next()%3].Sig())
                     Console.WriteLine(itrs[i].Elem());
                 else

@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TP.TP2.Clases;
+using TP.TP3.Interfaces.Comparar;
 
 namespace TP.TP2.Interfaces.Comparar
 {
     public interface Comparador<in T>
     {
-        int Comparar(T a, T b);
+        public int Comparar(T a, T b);
     }
-}
+ }
