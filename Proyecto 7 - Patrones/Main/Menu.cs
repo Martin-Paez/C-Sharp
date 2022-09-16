@@ -8,22 +8,31 @@ namespace TP.Main
 {
     public class Menu
     {
-        public static void run(ref Func<bool> [] f, string menu)
+        public static T? run<T>(ref Func<T> [] f, string menu, bool mostrarFin = true, bool soloUnaVez = false
+                                , bool borrarPantalla = true)
         {
             while (true)
             {
-                Console.Clear();
-                Console.Write(menu);
+                if (borrarPantalla)
+                    Console.Clear();
+                Console.Write(menu + "\nOpcion: ");
                 char? opt = Console.ReadKey().KeyChar;
-                Console.Clear();
+                Console.WriteLine();
+                if (borrarPantalla) 
+                    Console.Clear();
                 if (opt == 's' || opt == 'S')
-                    return;
+                    return default;
                 if ((opt = (char?)(opt - '0' - 1)) >= 0 && opt < f.Length)
-                    if (f[(int)opt]())
+                {
+                    T o = f[(int)opt]();
+                    if (mostrarFin)
                     {
                         Console.WriteLine("\nPresione cualquier tecla para voler al menu");
                         Console.ReadKey();
                     }
+                    if (soloUnaVez)
+                        return o;
+                }
                 else
                     Console.WriteLine("\nOpcion invalida\n");
             }

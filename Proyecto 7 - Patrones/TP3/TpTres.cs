@@ -7,7 +7,8 @@ using TP.TP3.Interfaces.Iterador;
 using TP.TP3.Clases.Estrategias;
 using TP.TP3.Clases.Utiles;
 using TP.TP3.Clases.Fabricas;
-using TP.TP2.Colecciones.Diccionario;
+using TP.TP3.Colecciones.Diccionario;
+using System;
 
 namespace TP.TP3
 {
@@ -15,21 +16,16 @@ namespace TP.TP3
     {
         public static bool TpMenu()
         {
-            Func<bool>[] f = { EjSeis };
+            Func<bool>[] f = { Ej6y7 };
             Menu.run(ref f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
-                + " 1)Ejercicio 6           \n"
-                + " s)Salir                 \n");
+                + " 1)Ejercicios 6 y 7      \n"
+                + " s)Salir                 \n"
+                );
             return false;
         }
-        public abstract class FabColeccionables<T> where T : Comparable<T>{ 
-            public static Coleccionable<T> PorTeclado()
-            {
-                return null!;
-            } 
-        }
-        public static bool EjSeis()
+        public static bool Ej6y7()
         {
             Console.WriteLine("Ejercicio 6:\n"
                             + "------------\n\n"
@@ -37,13 +33,15 @@ namespace TP.TP3
                             + "------------\n");
             mixTp1Ejs9y17<Numero>();
             Console.WriteLine("\nCon Alumnos:\n"
-                                + "------------\n");
+                              + "------------\n");
             mixTp1Ejs9y17(new PorProm());
             return true;
         }
         public static bool mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
         {
+            Console.WriteLine("Coleccion multiple. Elija el primer tipo : \n");
             Coleccionable<T> a = FabColeccionables<T>.PorTeclado();
+            Console.WriteLine("\n\nAhora elija el segundo tipo: \n");
             Coleccionable<T> b = FabColeccionables<T>.PorTeclado();
             ColeccionMultiple<T> m = new(b, a);
             Llenar(b);
@@ -56,7 +54,7 @@ namespace TP.TP3
             Informar(m, cmp);
             return true;
         }
-
+        
         public static Tupla<IList<Comparador<T>>, IList<string>> CriteriosDeCompAlumnos<T>() where T : Alumno
         {
             Comparador<T>[] cmps = { new PorDni(), new PorLeg(), new PorNom(), new PorProm() };
