@@ -7,7 +7,6 @@ using TP.TP2.Colecciones;
 using TP.TP2.Interfaces;
 using TP.TP2.Clases;
 using System.Diagnostics;
-using TP.Main;
 using TP.TP2.Interfaces.Comparar;
 using TP.TP2.Interfaces.Iterador;
 using TP.TP2.Clases.Estrategias;
@@ -16,15 +15,16 @@ using System.Net;
 using TP.TP1.Colecciones;
 using TP.TP2.Clases.Utiles;
 using TP.TP2.Colecciones.Iteradores;
+using TP.Main.NSMenu.Fabrica;
 
 namespace TP.TP2
 {
     public class TpDos
     {
-        public static bool TpMenu()
+        public static void TpMenu()
         {
-            Func<bool>[] f = { EjDos, EjOcho, EjDiez, EjCatorce, EjOnce, EjPropioUno };
-            Menu.run(ref f,
+            Action[] f = { EjDos, EjOcho, EjDiez, EjCatorce, EjOnce, EjPropioUno };
+            FabMenu.Crear(f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
                 + " 1)Ejercicio 2 (tp.ej7)  \n"
@@ -39,10 +39,9 @@ namespace TP.TP2
                 + "Propios:                 \n"
                 + "----------               \n"
                 + " 6)CompMulti con ColecMulti\n"
-                + " s)Salir                 \n");
-            return false;
+                + " s)Salir                 \n").Ejecutar();
         }
-        public static bool EjDos()
+        public static void EjDos()
         {
             Console.WriteLine("Ejercicio 17:\n-------------\n...invocando al ejercicio 17...\n");
             exEjDiecisiete();
@@ -61,9 +60,8 @@ namespace TP.TP2
                             + " LeerComparableDelTipo() para que setee el comparador del objeto \n"
                             + " creado para buscar, de modo que tenga el mismo tipo de comparador\n"
                             + " que el parametro recibido.\n");
-            return true;
         }
-        public static bool exEjDiecisiete()
+        public static void exEjDiecisiete()
         {
             Console.WriteLine("Ejercicio 17:\n-------------\n");
             Pila<Alumno> p = new();
@@ -74,9 +72,8 @@ namespace TP.TP2
             LlenarAlumnos(c);
             Console.WriteLine("Pila + Cola\n");
             Informar(m);
-            return true;
         }
-        public static bool EjOcho()
+        public static void EjOcho()
         {
             Console.WriteLine("Ejercicio 8:\n-------------\n");
             Pila<Alumno> pila = new();
@@ -161,9 +158,8 @@ namespace TP.TP2
             , ((Coleccionable<ClaveValor<Numero, Alumno>>)dic).Minimo()
             , ((Coleccion<ClaveValor<Numero, Alumno>>)dic).Minimo()
             );
-            return true;
         }
-        public static bool EjDiez()
+        public static void EjDiez()
         {
             Console.WriteLine("Ejercicio 10:\n-------------\n");
             Pila<Alumno> pila = new();
@@ -181,10 +177,8 @@ namespace TP.TP2
                 + " diferente al de otros (lo cual deberia ser totalmente valido y propio del\n"
                 + " alumno, por eso mismo se llama atributo de instancia).\n"
             );
-
-            return true;
         }
-        public static bool EjOnce()
+        public static void EjOnce()
         {
             Console.WriteLine("Ejercicio 11:\n-------------\n");
             Pila <Egresado> pila = new();
@@ -227,10 +221,8 @@ namespace TP.TP2
                 + " con un if : Egresado is Alumno == true.\n"
                 + " "
             );
-
-            return true;
         }
-        public static bool EjCatorce()
+        public static void EjCatorce()
         {
             Console.WriteLine("Ejercicio 14:\n-------------\n");
             Pila<Alumno> pila = new();
@@ -251,10 +243,9 @@ namespace TP.TP2
                 else
                     fin[i] = true;
             Console.WriteLine(cont);
-            return true;
         }
 
-        public static bool EjPropioUno()
+        public static void EjPropioUno()
         {
             Console.WriteLine("Ejercicio Propio 1:\n-------------\n");
             Pila<Egresado> p = new();
@@ -283,7 +274,6 @@ namespace TP.TP2
                 + " Iterador<T> desde cero. Se opto, ademas, por convertirlo en un iterador para mas de 2 posibles\n"
                 + " coleccines, cuya implementacion requirio muy pocas lineas de codigo."
                 );
-            return true;
         }
 
         public static Tupla<IList<Comparador<T>>, IList<string>> CriteriosDeCompAlumnos<T>() where T : Alumno

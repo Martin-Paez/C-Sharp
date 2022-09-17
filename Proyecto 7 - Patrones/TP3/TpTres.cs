@@ -1,7 +1,6 @@
 ﻿using TP.TP3.Colecciones;
 using TP.TP3.Interfaces;
 using TP.TP3.Clases;
-using TP.Main;
 using TP.TP3.Interfaces.Comparar;
 using TP.TP3.Interfaces.Iterador;
 using TP.TP3.Clases.Estrategias;
@@ -9,23 +8,26 @@ using TP.TP3.Clases.Utiles;
 using TP.TP3.Clases.Fabricas;
 using TP.TP3.Colecciones.Diccionario;
 using System;
+using TP.Main.NSMenu;
+using TP.Main.NSMenu.Decoradores;
+using TP.Main.NSMenu.Back;
+using TP.Main.NSMenu.Fabrica;
 
 namespace TP.TP3
 {
     public class TpTres
     {
-        public static bool TpMenu()
+        public static void TpMenu()
         {
-            Func<bool>[] f = { Ej6y7 };
-            Menu.run(ref f,
+            Action[] f = { Ej6y7 };
+            FabMenu.Crear(f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
                 + " 1)Ejercicios 6 y 7      \n"
                 + " s)Salir                 \n"
-                );
-            return false;
+                ).Ejecutar();
         }
-        public static bool Ej6y7()
+        public static void Ej6y7()
         {
             Console.WriteLine("Ejercicio 6:\n"
                             + "------------\n\n"
@@ -35,7 +37,6 @@ namespace TP.TP3
             Console.WriteLine("\nCon Alumnos:\n"
                               + "------------\n");
             mixTp1Ejs9y17(new PorProm());
-            return true;
         }
         public static bool mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
         {

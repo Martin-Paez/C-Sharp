@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TP.Main;
 using TP.TP3.Interfaces.Comparar;
 using TP.TP3.Interfaces;
 using TP.TP3.Colecciones;
 using TP.TP3.Colecciones.Diccionario;
+using TP.Main.NSMenu.Fabrica;
 
 namespace TP.TP3.Clases.Fabricas
 {
@@ -23,7 +23,7 @@ namespace TP.TP3.Clases.Fabricas
                                                                     keyGen = new SimpleKeyGen() };
                                                      }
                                               };
-            Coleccionable<T>? o = Menu.run(ref f
+            Coleccionable<T>? o = FabMenu.Crear(f
                                             , "Colecciones:     \n"
                                             + "-----------      \n"
                                             + " 1) Pila         \n"
@@ -31,10 +31,8 @@ namespace TP.TP3.Clases.Fabricas
                                             + " 3) Conjunto     \n"
                                             + " 4) Diccionario  \n"
                                             + " s)Salir         \n"
-                                            , mostrarFin: false
-                                            , soloUnaVez: true
-                                            , borrarPantalla: false
-                                          );
+                                            , limpiarConsola : false
+                                          ).Ejecutar();
             if (o is null)
                 throw new Exception("Tipo no soportado. No se puede fabricar un " + typeof(T));
             return o;

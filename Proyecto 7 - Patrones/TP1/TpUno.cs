@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 using TP.TP1.Colecciones;
 using TP.TP1.Interfaces;
 using TP.TP1.Clases;
-using TP.Main;
+using TP.Main.NSMenu.Fabrica;
 
 namespace TP.TP1
 {
     public class TpUno
     {
 
-        public static bool TpMenu()
+        public static void TpMenu()
         {
-            Func<bool>[] f = { EjSiete, EjNueve, EjTrece, UltimosTresEj };
-            Menu.run(ref f,
+            Action[] f = { EjSiete, EjNueve, EjTrece, UltimosTresEj };
+            FabMenu.Crear(f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
                 + " 1)Ejercicio 7           \n"
                 + " 2)Ejercicio 9           \n"
                 + " 3)Ejercicio 13          \n"
                 + " 4)Ejercicio 17-18-19    \n"
-                + " s)Salir                 \n");
-            return false;
+                + " s)Salir                 \n"
+                ).Ejecutar();
         }
 
-        public static bool EjSiete()
+        public static void EjSiete()
         {
             Console.WriteLine("Ejercicio 7:\n-------------\n");
             Pila p = new Pila();
@@ -38,10 +38,9 @@ namespace TP.TP1
             Informar(p);
             Console.WriteLine("Cola\n");
             Informar(c);
-            return true;
         }
 
-        public static bool EjNueve()
+        public static void EjNueve()
         {
             Console.WriteLine("Ejercicio 9:\n-------------\n");
             Pila p = new Pila();
@@ -57,10 +56,9 @@ namespace TP.TP1
             Informar(m);
             Console.WriteLine("Ejercicio 10:\n-------------");
             Console.WriteLine("   No fue necesario modificar nada de lo anterior");
-            return true;
         }
 
-        public static bool EjTrece()
+        public static void EjTrece()
         {
             Console.WriteLine("Ejercicio 13:\n-------------\n");
             Pila p = new Pila();
@@ -74,10 +72,9 @@ namespace TP.TP1
             Console.WriteLine("Ejercicio 14:\n-------------");
             Console.WriteLine("   Se modifico un metodo empleado por Informar(), porque al buscar un");
             Console.WriteLine("   elemento fue necesario instaciar Persona.");
-            return true;
         }
 
-        public static bool UltimosTresEj()
+        public static void UltimosTresEj()
         {
             Console.WriteLine("Ejercicio 17:\n-------------\n");
             Pila p = new Pila();
@@ -160,7 +157,6 @@ namespace TP.TP1
                 + "   Por ultimo, en los casos en que sea estricatamente necesario , y habria que buscar un\n"
                 + "   ejemplo, se puede simular herencia multiple, con todas las limitaciones que eso conlleva,\n"
                 + "   tal es el caso de la implementacion de metodos o los atributos. \n");
-            return true;
         }
 
         // Para simplificar agrega numeros del 0 al 100
