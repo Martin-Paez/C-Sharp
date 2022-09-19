@@ -23,15 +23,14 @@ namespace TP.TP3
         {
             Action[] f = { Ej6_7y9 };
             FabMenu.Crear(f,
-                  "Ejercicios:              \n"
-                + "-----------              \n"
-                + " 1)Ejercicios 6, 7 y 9   \n"
+                  "Ejercicios:                \n"
+                + "-----------                \n"
+                + "  1) Ejercicios 6, 7 y 9   \n"
+                + "  s) Salir                 \n"
                 ).Ejecutar();
         }
         public static void Ej6_7y9()
         {
-            Console.WriteLine("Ejercicio 6:\n"
-                            + "------------\n");
             Action[] f = { () => { mixTp1Ejs9y17<Numero>(); }
                          , () => { mixTp1Ejs9y17(FabricaDeComparables<Persona>.CrearCriterio()); }
                          , () => { mixTp1Ejs9y17(FabricaDeComparables<Alumno>.CrearCriterio()); }
@@ -40,13 +39,13 @@ namespace TP.TP3
             FabMenu.Crear(f,
                           "Informar:        \n"
                         + "---------        \n"
-                        + "  1) Numeros     \n"
-                        + "  2) Personas    \n"
-                        + "  3) Alumnos     \n"
-                        + "  4) Egresados   \n"
-                        + "  5) Vendedores  \n"
+                        + " 1) Numeros     \n"
+                        + " 2) Personas    \n"
+                        + " 3) Alumnos     \n"
+                        + " 4) Egresados   \n"
+                        + " 5) Vendedores  \n"
                         , limpiarConsola: false
-                        , pedirTeclaFinal: false
+                        , leerTeclaPosEjecutar: false
                         , bucle: false
                         ).Ejecutar();
         }

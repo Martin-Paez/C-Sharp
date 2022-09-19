@@ -19,10 +19,11 @@ namespace TP.TP1
             FabMenu.Crear(f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
-                + " 1)Ejercicio 7           \n"
-                + " 2)Ejercicio 9           \n"
-                + " 3)Ejercicio 13          \n"
-                + " 4)Ejercicio 17-18-19    \n"
+                + "  1)Ejercicio 7          \n"
+                + "  2)Ejercicio 9          \n"
+                + "  3)Ejercicio 13         \n"
+                + "  4)Ejercicio 17-18-19   \n"
+                + "  s) Salir               \n"
                 ).Ejecutar();
         }
 

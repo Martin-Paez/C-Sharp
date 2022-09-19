@@ -6,23 +6,21 @@ using System.Threading.Tasks;
 using TP.Main.NSMenu.Front.Interfaces;
 using TP.Main.NSMenu.Back;
 
-namespace TP.Main.Menu.Back.NSMenuBool
+namespace TP.Main.Menu.Back
 {
-    public class MenuAction : MenuBool
+    public class MenuAction : Menu<int, Action>
     {
-        protected IList<Action> F { get; set; }
+        public override IList<Action> F { get; set; }
 
         public MenuAction(IList<Action> F, IMenuFront mf) : base(mf)
         {
             this.F = F;
         }
-        public override bool Ejecutar()
+        public override int Ejecutar()
         {
-            int i = m.Run(F.Count);
-            if (i < 0)
-                return false;
-            F![i]();
-            return true;
+            int opt = mf.GetOpcionValida(F.Count);
+            F![opt]();
+            return opt;
         }
     }
 }

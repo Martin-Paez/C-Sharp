@@ -3,36 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TP.Main.Menu.Front.Interfaces;
 using TP.Main.NSMenu.Front;
 using TP.Main.NSMenu.Front.Interfaces;
 
 namespace TP.Main.Menu.Front.Decoradores
 {
-    public class DMenuConsola : IMenuConsola
+    public class DMenuConsola : MenuFront
     {
-        protected IMenuConsola mc;
-        public string Opciones { get { return mc.Opciones;  } set { mc.Opciones = value; } }
+        protected MenuFront m;
 
-
-        public DMenuConsola(IMenuConsola mc)
+        public DMenuConsola(MenuFront mf) : base (mf.Opciones)
         {
-            this.mc = mc;
+            m = mf;
         }
 
-        public virtual char ElegirOpcion()
+        public override char ElegirOpcion()
         {
-            return mc.ElegirOpcion();
+            return m.ElegirOpcion();
         }
 
-        public virtual int Interpretar(char opt, int max)
+        public override int Interpretar(char opt, int max)
         {
-            return mc.Interpretar(opt, max);
-        }
-
-        public virtual int Run(int max)
-        {
-            return mc.Run(max);
+            return m.Interpretar(opt, max);
         }
     }
 }

@@ -25,24 +25,26 @@ namespace TP.TP2
         {
             Action[] f = { EjDos, EjOcho, EjDiez, EjCatorce, EjOnce, EjPropioUno };
             FabMenu.Crear(f,
-                  "Ejercicios:              \n"
-                + "-----------              \n"
-                + " 1)Ejercicio 2 (tp.ej7)  \n"
-                + " 2)Ejercicio 8           \n"
-                + " 3)Ejercicio 10          \n"
-                + " 4)Ejercicio 14          \n"
+                  "Ejercicios:                      \n"
+                + "-----------                      \n"
+                + "  1)Ejercicio 2 (tp.ej7)         \n"
+                + "  2)Ejercicio 8                  \n"
+                + "  3)Ejercicio 10                 \n"
+                + "  4)Ejercicio 14                 \n"
+                + "  \n"
+                + "Optativos:                       \n"
+                + "----------                       \n"
+                + "  5)Ejercicio 11                 \n"
                 + " \n"
-                + "Optativos:               \n"
-                + "----------               \n"
-                + " 5)Ejercicio 11          \n"
-                + "\n"
-                + "Propios:                 \n"
-                + "----------               \n"
-                + " 6)CompMulti con ColecMulti\n").Ejecutar();
+                + "Propios:                         \n"
+                + "----------                       \n"
+                + "  6)CompMulti con ColecMulti     \n"
+                + "  s) Salir                       \n"
+            ).Ejecutar();
         }
         public static void EjDos()
         {
-            Console.WriteLine("Ejercicio 17:\n-------------\n...invocando al ejercicio 17...\n");
+            Console.WriteLine("Ejercicio 12:\n-------------\n...invocando al ejercicio 17...\n");
             exEjDiecisiete();
             Console.WriteLine(" El enunciado pedia modificar LlenarAlumnos(), sin embargo\n"
                             + " se deberia haber modificado Informar() , para que solo se\n"

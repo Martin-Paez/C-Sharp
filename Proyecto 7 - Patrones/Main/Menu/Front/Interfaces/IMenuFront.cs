@@ -8,6 +8,6 @@ namespace TP.Main.NSMenu.Front.Interfaces
 {
     public interface IMenuFront
     {
-        int Run(int max);
+        int GetOpcionValida(int max);
     }
 }
