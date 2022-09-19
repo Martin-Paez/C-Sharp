@@ -8,7 +8,6 @@ namespace TP.Main.NSMenu.Front.Interfaces
 {
     public interface IMenuFront
     {
-        char Mostrar();
-        int Seleccionar(int max);
+        int Run(int max);
     }
 }

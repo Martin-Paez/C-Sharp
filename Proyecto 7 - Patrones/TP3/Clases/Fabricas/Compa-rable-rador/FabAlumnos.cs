@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TP.Main.NSMenu.Fabrica;
+using TP.TP3.Clases.Estrategias;
 using TP.TP3.Clases.Utiles;
 using TP.TP3.Interfaces.Comparar;
 
-namespace TP.TP3.Clases.Fabricas
+namespace TP.TP3.Clases.Fabricas.Comparables
 {
     public class FabAlumnos : _FabAlumnos<Alumno> { }
 
@@ -17,7 +19,7 @@ namespace TP.TP3.Clases.Fabricas
 
         protected void PromRand()
         {
-            Prom = 10;//GenAleatoriosDeDatos.NumeroAleatorio(11);
+            Prom = GenAleatoriosDeDatos.NumeroAleatorio(11);
         }
         protected void LegRand()
         {
@@ -36,6 +38,19 @@ namespace TP.TP3.Clases.Fabricas
             if (Criterio != null)
                 a.Cmp = (Comparador<Alumno>)Criterio;
             return (T)(object)a;
+        }
+        protected override IList<Func<Comparador<T>>> Comparadores()
+        { 
+            List<Func<Comparador<T>>> list = (List<Func<Comparador<T>>>)base.Comparadores();
+            list.Add(() => { return new PorLeg(); });
+            list.Add(() => { return new PorProm(); });
+            return list;
+        }
+        protected override string CriterioMenu()
+        {
+            return base.CriterioMenu()
+                 + "  3) Legajo  \n"
+                 + "  4) Pormedio\n";
         }
     }
 }

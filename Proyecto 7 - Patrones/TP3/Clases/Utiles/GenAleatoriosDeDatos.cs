@@ -8,9 +8,9 @@ namespace TP.TP3.Clases.Utiles
 {
     public class GenAleatoriosDeDatos
     {
-        static public int NumeroAleatorio(int max)
+        static public int NumeroAleatorio(int max, int min=1)
         {
-            return new Random((int)DateTime.Now.Ticks).Next(1,max);
+            return new Random((int)DateTime.Now.Ticks).Next(min,max);
         }
         static public string StringAleatorio(int cant)
         {

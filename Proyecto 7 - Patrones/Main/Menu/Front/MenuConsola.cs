@@ -3,37 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TP.Main.Menu.Front.Interfaces;
 using TP.Main.NSMenu.Front.Interfaces;
 
 namespace TP.Main.NSMenu.Front
 {
-    public class MenuConsola : IMenuFront
+    public class MenuConsola : IMenuConsola
     {
-        public string Opciones { get; }
+        public string Opciones { get; set; }
 
         public MenuConsola(string opciones)
         {
             Opciones = opciones;
         }
 
-        public virtual char Mostrar()
+        public virtual char ElegirOpcion()
         {
             Console.Write(Opciones + "\nOpcion: ");
             char opt = Console.ReadKey().KeyChar;
-            Console.WriteLine();
+            Console.WriteLine("\n");
             return opt;
         }
-        public int Seleccionar(int max)
+        public virtual int Interpretar(char opt, int max)
         {
-            while (true)
-            {
-                char opt = Mostrar();
-                if (opt == 's' || opt == 'S')
-                    return -1;
-                int i = opt - '0' - 1;
-                if (i >= 0 && i < max)
-                    return i;
-            }
+            int i = opt - '0' - 1;
+            if (i >= 0 && i < max)
+                return i;
+            return max;
+        }
+        public int Run(int max)
+        {
+            int o;
+            while ((o = Interpretar(ElegirOpcion(), max)) == max);
+            return o;
         }
     }
 }

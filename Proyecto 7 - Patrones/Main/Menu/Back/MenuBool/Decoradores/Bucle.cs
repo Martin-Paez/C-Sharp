@@ -11,6 +11,7 @@ namespace TP.Main.Menu.Back.Decoradores
     public class Bucle : MenuBool
     {
         public Menu<bool> mb { get; set; }
+
         public Bucle(Menu<bool> m) : base(m.m)
         {
             mb = m;

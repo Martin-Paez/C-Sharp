@@ -23,7 +23,6 @@ namespace TP.TP1
                 + " 2)Ejercicio 9           \n"
                 + " 3)Ejercicio 13          \n"
                 + " 4)Ejercicio 17-18-19    \n"
-                + " s)Salir                 \n"
                 ).Ejecutar();
         }
 

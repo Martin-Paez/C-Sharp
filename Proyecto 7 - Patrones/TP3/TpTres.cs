@@ -12,6 +12,8 @@ using TP.Main.NSMenu;
 using TP.Main.NSMenu.Decoradores;
 using TP.Main.NSMenu.Back;
 using TP.Main.NSMenu.Fabrica;
+using TP.Main;
+using TP.TP3.Clases.Fabricas.Comparables;
 
 namespace TP.TP3
 {
@@ -19,43 +21,52 @@ namespace TP.TP3
     {
         public static void TpMenu()
         {
-            Action[] f = { Ej6y7 };
+            Action[] f = { Ej6_7y9 };
             FabMenu.Crear(f,
                   "Ejercicios:              \n"
                 + "-----------              \n"
-                + " 1)Ejercicios 6 y 7      \n"
-                + " s)Salir                 \n"
+                + " 1)Ejercicios 6, 7 y 9   \n"
                 ).Ejecutar();
         }
-        public static void Ej6y7()
+        public static void Ej6_7y9()
         {
             Console.WriteLine("Ejercicio 6:\n"
-                            + "------------\n\n"
-                            + "Con Numeros:\n"
                             + "------------\n");
-            mixTp1Ejs9y17<Numero>();
-            Console.WriteLine("\nCon Alumnos:\n"
-                              + "------------\n");
-            mixTp1Ejs9y17(new PorProm());
+            Action[] f = { () => { mixTp1Ejs9y17<Numero>(); }
+                         , () => { mixTp1Ejs9y17(FabricaDeComparables<Persona>.CrearCriterio()); }
+                         , () => { mixTp1Ejs9y17(FabricaDeComparables<Alumno>.CrearCriterio()); }
+                         , () => { mixTp1Ejs9y17(FabricaDeComparables<Egresado>.CrearCriterio()); }
+                         , () => { mixTp1Ejs9y17(FabricaDeComparables<Vendedor>.CrearCriterio()); } };
+            FabMenu.Crear(f,
+                          "Informar:        \n"
+                        + "---------        \n"
+                        + "  1) Numeros     \n"
+                        + "  2) Personas    \n"
+                        + "  3) Alumnos     \n"
+                        + "  4) Egresados   \n"
+                        + "  5) Vendedores  \n"
+                        , limpiarConsola: false
+                        , pedirTeclaFinal: false
+                        , bucle: false
+                        ).Ejecutar();
         }
-        public static bool mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
+        public static void mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
         {
             Console.WriteLine("Coleccion multiple. Elija el primer tipo : \n");
             Coleccionable<T> a = FabColeccionables<T>.PorTeclado();
-            Console.WriteLine("\n\nAhora elija el segundo tipo: \n");
+            Console.WriteLine("Ahora elija el segundo tipo: \n");
             Coleccionable<T> b = FabColeccionables<T>.PorTeclado();
             ColeccionMultiple<T> m = new(b, a);
             Llenar(b);
             Llenar(a);
-            Console.WriteLine(a.GetType().Name + "\n");
-            Informar(b);
-            Console.WriteLine(b.GetType().Name + "\n");
-            Informar(a);
+            Console.WriteLine("\n{0}\n", Helper.GetTypeName(a));
+            Informar(b, cmp);
+            Console.WriteLine(Helper.GetTypeName(b) + "\n");
+            Informar(a, cmp);
             Console.WriteLine("Coleccion Multiple\n");
             Informar(m, cmp);
-            return true;
         }
-        
+
         public static Tupla<IList<Comparador<T>>, IList<string>> CriteriosDeCompAlumnos<T>() where T : Alumno
         {
             Comparador<T>[] cmps = { new PorDni(), new PorLeg(), new PorNom(), new PorProm() };
@@ -114,7 +125,7 @@ namespace TP.TP3
             Console.WriteLine("El más chico es {0}\n", e);
             Console.WriteLine("El más grande es {0}\n", c.Maximo());
             StrategyComparable<T>? sc = (e is StrategyComparable<T>) ? (StrategyComparable<T>)e : null;
-            e = FabricaDeComparables<T>.CrearAleatorio(cmp,sc);
+            e = FabricaDeComparables<T>.CrearAleatorio(cmp,sc, soloComparador : true);
             if (e != null)
                 if (c.Contiene(e))
                     Console.WriteLine("\nLa colección contiene al menos un elemento con el valor ingresado.\n");

@@ -20,7 +20,6 @@ namespace TP.Main
                 + " 1) TP 1     \n"
                 + " 2) TP 2     \n"
                 + " 3) TP 3     \n"
-                + " s) Salir    \n"
                 , pedirTeclaFinal : false).Ejecutar();
         }
 

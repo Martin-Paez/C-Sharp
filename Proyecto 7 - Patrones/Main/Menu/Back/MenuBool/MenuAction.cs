@@ -10,15 +10,15 @@ namespace TP.Main.Menu.Back.NSMenuBool
 {
     public class MenuAction : MenuBool
     {
-        protected Action[] F { get; set; }
+        protected IList<Action> F { get; set; }
 
-        public MenuAction(Action[] F, IMenuFront mf) : base(mf)
+        public MenuAction(IList<Action> F, IMenuFront mf) : base(mf)
         {
             this.F = F;
         }
         public override bool Ejecutar()
         {
-            int i = m.Seleccionar(F.Length);
+            int i = m.Run(F.Count);
             if (i < 0)
                 return false;
             F![i]();

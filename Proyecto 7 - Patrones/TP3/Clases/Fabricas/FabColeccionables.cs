@@ -17,12 +17,12 @@ namespace TP.TP3.Clases.Fabricas
         {
             //TODO , no hace falta que sea ref f
             Func<Coleccionable<T>>[] f = { () => { return new Pila<T>(); }
-                                              ,() => { return new Cola<T>(); }
-                                              ,() => { return new Conjunto<T>(); }
-                                              ,() => { return new Diccionario<Numero,T> {
-                                                                    keyGen = new SimpleKeyGen() };
-                                                     }
-                                              };
+                                          ,() => { return new Cola<T>(); }
+                                          ,() => { return new Conjunto<T>(); }
+                                          ,() => { return new Diccionario<Numero,T> {
+                                                            keyGen = new SimpleKeyGen() };
+                                                }
+                                          };
             Coleccionable<T>? o = FabMenu.Crear(f
                                             , "Colecciones:     \n"
                                             + "-----------      \n"
@@ -30,7 +30,6 @@ namespace TP.TP3.Clases.Fabricas
                                             + " 2) Cola         \n"
                                             + " 3) Conjunto     \n"
                                             + " 4) Diccionario  \n"
-                                            + " s)Salir         \n"
                                             , limpiarConsola : false
                                           ).Ejecutar();
             if (o is null)

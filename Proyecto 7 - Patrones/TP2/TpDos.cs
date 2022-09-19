@@ -38,8 +38,7 @@ namespace TP.TP2
                 + "\n"
                 + "Propios:                 \n"
                 + "----------               \n"
-                + " 6)CompMulti con ColecMulti\n"
-                + " s)Salir                 \n").Ejecutar();
+                + " 6)CompMulti con ColecMulti\n").Ejecutar();
         }
         public static void EjDos()
         {

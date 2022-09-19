@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TP.TP3.Clases.Estrategias;
 
-namespace TP.TP3.Clases.Fabricas
+namespace TP.TP3.Clases.Fabricas.Comparables
 {
-    public class ComAlumnos : _CmpAlumnos<Alumno> { }
+    public class CmpAlumnos : _CmpAlumnos<Alumno> { }
     public class _CmpAlumnos<T> : _FabAlumnos<T> where T : Alumno
     {
         protected new void SetRand()
@@ -16,9 +16,7 @@ namespace TP.TP3.Clases.Fabricas
                 LegRand();
             else if (Criterio is PorProm)
                 PromRand();
-            else if (Criterio is PorNom)
-                NombreRand();
-            else if (Criterio is PorDni)
+            else 
                 ((_CmpPersonas<T>)this).SetRand();
         }
     }

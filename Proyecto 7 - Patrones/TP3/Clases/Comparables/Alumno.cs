@@ -13,7 +13,7 @@ namespace TP.TP3.Clases
     public class Alumno : Persona, Comparable<Alumno>, StrategyComparable<Alumno>
     {
         public int? Leg { get; }
-        public virtual Comparador<Alumno>? Cmp { get; set; }
+        public virtual new Comparador<Alumno>? Cmp { get; set; }
         public float? Prom { 
             get 
             {

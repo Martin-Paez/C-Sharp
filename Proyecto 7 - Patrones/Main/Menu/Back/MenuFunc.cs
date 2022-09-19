@@ -9,15 +9,15 @@ namespace TP.Main.NSMenu.Back
 {
     public class MenuFunc<T> : Menu<T>
     {
-        protected Func<T>[] F { get; set; }
+        protected IList<Func<T>> F { get; set; }
 
-        public MenuFunc(Func<T>[] f, IMenuFront mf) : base(mf)
+        public MenuFunc(IList<Func<T>> f, IMenuFront mf) : base(mf)
         {
             F = f;
         }
         public override T? Ejecutar()
         {
-            int i = m.Seleccionar(F.Length);
+            int i = m.Run(F.Count);
             if (i > -1)
                 return F![i]();
             return default;
