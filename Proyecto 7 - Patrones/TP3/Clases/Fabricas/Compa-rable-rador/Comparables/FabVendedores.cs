@@ -23,7 +23,7 @@ namespace TP.TP3.Clases.Fabricas.Comparables
             SueldoBasicoRand();
             ((_FabPersonas<T>)this).SetRand();
         }
-        protected override T Rand()
+        public override T Rand()
         {
             SetRand();
             Vendedor v = new(Nombre, Dni, SueldoBasico);
@@ -31,9 +31,9 @@ namespace TP.TP3.Clases.Fabricas.Comparables
                 v.Cmp = (Comparador<Vendedor>)Criterio;
             return (T)(object)v;
         }
-        protected override IList<Func<Comparador<T>>> Comparadores()
+        protected override IList<Func<Comparador<T>?>> Comparadores()
         {
-            List<Func<Comparador<T>>> list = (List<Func<Comparador<T>>>)base.Comparadores();
+            List<Func<Comparador<T>?>> list = (List<Func<Comparador<T>?>>)base.Comparadores();
             list.Add(() => { return new PorBonus(); });
             list.Add(() => { return new PorSueldoBasico(); });
             return list;

@@ -38,7 +38,7 @@ namespace TP.TP3.Clases.Fabricas
             EgresoRand();
             ((_FabAlumnos<T>)this).SetRand();
         }
-        protected override T Rand()
+        public override T Rand()
         {
             SetRand();
             Egresado a = new(Nombre, Dni, Leg, Prom, Egreso);
@@ -46,9 +46,9 @@ namespace TP.TP3.Clases.Fabricas
                 a.Cmp = (Comparador<Egresado>)Criterio;
             return (T)(object)a;
         }
-        protected override IList<Func<Comparador<T>>> Comparadores()
+        protected override IList<Func<Comparador<T>?>> Comparadores()
         {
-            List<Func<Comparador<T>>> list = (List<Func<Comparador<T>>>)base.Comparadores();
+            List<Func<Comparador<T>?>> list = (List<Func<Comparador<T>?>>)base.Comparadores();
             list.Add(() => { return new PorEgreso(); });
             return list;
         }

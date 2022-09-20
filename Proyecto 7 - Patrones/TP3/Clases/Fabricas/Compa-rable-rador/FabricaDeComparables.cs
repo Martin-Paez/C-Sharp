@@ -42,11 +42,12 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         {
             return ((FabricaDeComparables<T>)Tipo(cmp, e)).CrearCriterio();
         }
-        public static T CrearAleatorio(Comparador<T>? cmp = null, StrategyComparable<T>? e = null, bool soloComparador=false)
+        public static FabricaDeComparables<T> Crear(Comparador<T>? cmp = null, StrategyComparable<T>? e = null, bool soloComparador=false)
         {   
-            return ((FabricaDeComparables<T>)Tipo(cmp,e,soloComparador)).Rand();
+            return (FabricaDeComparables<T>)Tipo(cmp,e,soloComparador);
         }
-        protected abstract T Rand();
+        public abstract T Rand();
+        public abstract T Teclado();
         protected abstract Comparador<T>? CrearCriterio();
     }
 }

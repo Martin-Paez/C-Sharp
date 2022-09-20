@@ -29,23 +29,25 @@ namespace TP.TP3.Clases.Fabricas.Comparables
             DniRand();
             NombreRand();
         }
-        protected override T Rand()
+        public override T Rand()
         {
             SetRand();
             Persona p = new(Nombre, Dni);
             if (Criterio != null)
-                p.Cmp = (Comparador<Persona>)Criterio;
+                p.Cmp = (Comparador<Persona?>)Criterio;
             return (T)(object)p;
         }
         protected override Comparador<T>? CrearCriterio()
         {
             return FabMenu.Crear(Comparadores(), CriterioMenu(), limpiarConsola: false).Ejecutar();
         }
-        protected virtual IList<Func<Comparador<T>>> Comparadores()
+        protected virtual IList<Func<Comparador<T>?>> Comparadores()
         {
-            List<Func<Comparador<T>>> list = new();
-            list.Add(() => { return new PorDni(); });
-            list.Add(() => { return new PorNom(); });
+            List<Func<Comparador<T>?>> list = new()
+            {
+                () => { return new PorDni(); },
+                () => { return new PorNom(); }
+            };
             return list;
         }
         protected virtual string CriterioMenu()
@@ -54,6 +56,11 @@ namespace TP.TP3.Clases.Fabricas.Comparables
                  + "---------    \n"
                  + "  1) DNI     \n"
                  + "  2) Nombre  \n";
+        }
+
+        public override T Teclado()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -103,7 +103,7 @@ namespace TP.TP3
         public static void Llenar<T>(Coleccionable<T> c, Comparador<T>? cmp = null) where T : Comparable<T>
         {
             for (int i = 0; i < 20; i++)
-                c.Agregar(FabricaDeComparables<T>.CrearAleatorio(cmp:cmp));
+                c.Agregar(FabricaDeComparables<T>.Crear(cmp:cmp).Rand());
         }
         public static void ImprimirElementos<T>(Coleccionable<T> c) where T : Comparable<T>
         {
@@ -124,7 +124,7 @@ namespace TP.TP3
             Console.WriteLine("El más chico es {0}\n", e);
             Console.WriteLine("El más grande es {0}\n", c.Maximo());
             StrategyComparable<T>? sc = (e is StrategyComparable<T>) ? (StrategyComparable<T>)e : null;
-            e = FabricaDeComparables<T>.CrearAleatorio(cmp,sc, soloComparador : true);
+            e = FabricaDeComparables<T>.Crear(cmp,sc, soloComparador : true).Rand();
             if (e != null)
                 if (c.Contiene(e))
                     Console.WriteLine("\nLa colección contiene al menos un elemento con el valor ingresado.\n");
