@@ -129,7 +129,7 @@ namespace TP.TP3
                 if (c.Contiene(e))
                     Console.WriteLine("\nLa colección contiene al menos un elemento con el valor ingresado.\n");
                 else
-                    Console.WriteLine("\nNo se encontro ningun elemento para el valor ingresado. asdasdasd\n");
+                    Console.WriteLine("\nNo se encontro ningun elemento para el valor ingresado. \n");
             Console.WriteLine("");
         }
     }
