@@ -32,6 +32,28 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         public override T Rand()
         {
             SetRand();
+            return CrearPersona();
+        }
+        public void DniTeclado()
+        {
+            Dni = Helper.LeerNumero(1000000, 200000000, "DNI: ");
+        }
+        public void NombreTeclado()
+        {
+            Nombre = Helper.LeerLetras("Nombre: ");
+        }
+        public virtual void SetTeclado()
+        {
+            DniTeclado();
+            NombreTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearPersona();
+        }
+        public T CrearPersona()
+        {
             Persona p = new(Nombre, Dni);
             if (Criterio != null)
                 p.Cmp = (Comparador<Persona?>)Criterio;
@@ -56,11 +78,6 @@ namespace TP.TP3.Clases.Fabricas.Comparables
                  + "---------    \n"
                  + "  1) DNI     \n"
                  + "  2) Nombre  \n";
-        }
-
-        public override T Teclado()
-        {
-            throw new NotImplementedException();
         }
     }
 }

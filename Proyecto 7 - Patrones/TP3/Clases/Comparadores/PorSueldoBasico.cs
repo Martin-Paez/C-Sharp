@@ -13,5 +13,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return (int)a.SueldoBasico! - (int)b.SueldoBasico!;
         }
+        public override string ToString()
+        {
+            return "Por Sueldo Basico";
+        }
     }
 }

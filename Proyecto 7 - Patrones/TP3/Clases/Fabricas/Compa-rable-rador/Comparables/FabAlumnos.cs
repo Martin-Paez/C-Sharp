@@ -34,6 +34,29 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         public override T Rand()
         {
             SetRand();
+            return CrearAlumno();
+        }
+        protected void PromTeclado()
+        {
+            Prom = Helper.LeerNumero(1,10,"Promerdio: ");
+        }
+        protected void LegTeclado()
+        {
+            Leg = Helper.LeerNumero(0, 99999999, "Legajo: ");
+        }
+        public new void SetTeclado()
+        {
+            LegRand();
+            PromRand();
+            ((_FabPersonas<T>)this).SetTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearAlumno();
+        }
+        public T CrearAlumno()
+        {
             Alumno a = new(Nombre, Dni, Leg, Prom);
             if (Criterio != null)
                 a.Cmp = (Comparador<Alumno>)Criterio;

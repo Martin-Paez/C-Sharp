@@ -14,5 +14,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return (int)a.Leg! - (int)b.Leg!;
         }
+        public override string ToString()
+        {
+            return "Por Legajo";
+        }
     }
 }

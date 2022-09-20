@@ -17,5 +17,17 @@ namespace TP.TP3.Clases.Fabricas.Comparables
             else
                 ((_CmpPersonas<T>)this).SetRand();
         }
+        protected new void SetTeclado()
+        {
+            if (Criterio is PorSueldoBasico)
+                SueldoBasicoTeclado();
+            else
+                ((_CmpPersonas<T>)this).SetTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearVendedor();
+        }
     }
 }

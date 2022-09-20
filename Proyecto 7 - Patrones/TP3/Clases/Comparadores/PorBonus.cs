@@ -13,5 +13,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return (int)a.Bonus! - (int)b.Bonus!;
         }
+        public override string ToString()
+        {
+            return "Por Bonus";
+        }
     }
 }

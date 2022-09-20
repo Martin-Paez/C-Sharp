@@ -14,5 +14,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return string.Compare(a.Nombre, b.Nombre);
         }
+        public override string ToString()
+        {
+            return "Por Nombre";
+        }
     }
 }

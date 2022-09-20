@@ -21,7 +21,7 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         }
         public override T Teclado()
         {
-            throw new NotImplementedException();
+            return (T)new Numero(Helper.LeerNumero(0,100,"Numero: "));
         }
     }
 }

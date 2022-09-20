@@ -12,7 +12,6 @@ using TP.Main.NSMenu;
 using TP.Main.NSMenu.Decoradores;
 using TP.Main.NSMenu.Back;
 using TP.Main.NSMenu.Fabrica;
-using TP.Main;
 using TP.TP3.Clases.Fabricas.Comparables;
 
 namespace TP.TP3
@@ -124,7 +123,12 @@ namespace TP.TP3
             Console.WriteLine("El más chico es {0}\n", e);
             Console.WriteLine("El más grande es {0}\n", c.Maximo());
             StrategyComparable<T>? sc = (e is StrategyComparable<T>) ? (StrategyComparable<T>)e : null;
-            e = FabricaDeComparables<T>.Crear(cmp,sc, soloComparador : true).Rand();
+            e = FabricaDeComparables<T>.Crear(cmp,sc, soloComparador : true).Teclado();
+            Console.Write(e.ToString() + " ");
+            if (sc != null && sc.Cmp != null)
+                Console.Write(sc.Cmp.ToString());
+            if (cmp != null)
+                Console.Write("cmp: " + cmp.ToString());
             if (e != null)
                 if (c.Contiene(e))
                     Console.WriteLine("\nLa colección contiene al menos un elemento con el valor ingresado.\n");

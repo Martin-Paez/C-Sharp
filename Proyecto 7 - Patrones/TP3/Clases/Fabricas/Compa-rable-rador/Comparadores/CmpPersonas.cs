@@ -20,5 +20,19 @@ namespace TP.TP3.Clases.Fabricas.Comparables
             else if (Criterio is PorDni)
                 DniRand();
         }
+        public new void SetTeclado()
+        {
+            if (Criterio is PorNom)
+                NombreTeclado();
+            else if (Criterio is PorDni)
+                DniTeclado();
+        }
+        // Es necesario ya que SetTeclado no usa override ( para que nuestro hijo
+        // acceda al metodo de nuestro padre ).
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearPersona();
+        }
     }
 }

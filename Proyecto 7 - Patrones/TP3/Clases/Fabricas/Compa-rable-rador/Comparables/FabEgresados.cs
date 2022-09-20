@@ -20,18 +20,7 @@ namespace TP.TP3.Clases.Fabricas
 
         protected void EgresoRand()
         {
-            int dia,mes,anio;
-            dia = GenAleatoriosDeDatos.NumeroAleatorio(31);
-            mes = GenAleatoriosDeDatos.NumeroAleatorio(12);
-            anio = GenAleatoriosDeDatos.NumeroAleatorio(DateTime.Now.Year,1900);
-            string fecha = anio.ToString();
-            fecha += (mes < 10) ? "0" : "";
-            fecha += mes.ToString();
-            fecha += (dia < 10) ? "0" : "";
-            fecha += dia.ToString();
-            DateTime.TryParseExact(fecha, "yyyyMMdd"
-                         , CultureInfo.InvariantCulture
-                         , DateTimeStyles.None, out Egreso);
+            Egreso = GenAleatoriosDeDatos.FechaAleatoria();
         }
         public new void SetRand()
         {
@@ -41,6 +30,24 @@ namespace TP.TP3.Clases.Fabricas
         public override T Rand()
         {
             SetRand();
+            return CrearEgresado();
+        }
+        protected void EgresoTeclado()
+        {
+            Egreso = Helper.LeerFecha(DateTime.Parse("01/01/1900"),DateTime.Now,"Fecha de Egreso: ");
+        }
+        public new void SetTeclado()
+        {
+            EgresoTeclado();
+            ((_FabAlumnos<T>)this).SetTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearEgresado();
+        }
+        public T CrearEgresado()
+        {
             Egresado a = new(Nombre, Dni, Leg, Prom, Egreso);
             if (Criterio != null)
                 a.Cmp = (Comparador<Egresado>)Criterio;

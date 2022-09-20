@@ -14,5 +14,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return (int)a.Dni! - (int)b.Dni!;
         }
+        public override string ToString()
+        {
+            return "Por DNI";
+        }
     }
 }

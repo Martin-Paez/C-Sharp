@@ -16,8 +16,22 @@ namespace TP.TP3.Clases.Fabricas.Comparables
                 LegRand();
             else if (Criterio is PorProm)
                 PromRand();
-            else 
+            else
                 ((_CmpPersonas<T>)this).SetRand();
+        }
+        protected new void SetTeclado()
+        {
+            if (Criterio is PorLeg)
+                LegTeclado();
+            else if (Criterio is PorProm)
+                PromTeclado();
+            else
+                ((_CmpPersonas<T>)this).SetTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearAlumno();
         }
     }
 }

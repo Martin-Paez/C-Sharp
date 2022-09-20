@@ -14,5 +14,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return (int)a.Prom! - (int)b.Prom!;
         }
+        public override string ToString()
+        {
+            return "Por Promedio";
+        }
     }
 }

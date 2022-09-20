@@ -9,7 +9,7 @@ using TP.TP3.Interfaces.Comparar;
 
 namespace TP.TP3.Clases
 {
-    public class Persona : Comparable<Persona>
+    public class Persona : Comparable<Persona>, StrategyComparable<Persona>
     {
         public string? Nombre { get; }
         public int? Dni { get; }

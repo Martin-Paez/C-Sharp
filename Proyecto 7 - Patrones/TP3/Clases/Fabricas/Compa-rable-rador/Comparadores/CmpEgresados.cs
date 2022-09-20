@@ -14,9 +14,21 @@ namespace TP.TP3.Clases.Fabricas.Compa_rable_rador
         protected new void SetRand()
         {
             if (Criterio is PorEgreso)
-                NombreRand();
+                EgresoRand();
             else
                 ((_CmpAlumnos<T>)this).SetRand();
+        }
+        protected new void SetTeclado()
+        {
+            if (Criterio is PorEgreso)
+                EgresoTeclado();
+            else
+                ((_CmpAlumnos<T>)this).SetTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearEgresado();
         }
     }
 }

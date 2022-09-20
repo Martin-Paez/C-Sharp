@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TP.TP2.Clases;
 
 namespace TP.TP3.Clases.Utiles
 {
@@ -34,6 +36,22 @@ namespace TP.TP3.Clases.Utiles
             "Maria", "Juan", "Pablo", "Lucia", "Nicolas", "Diego"};
             return noms[new Random().Next() % 8];
         }
-
+        public static DateTime FechaAleatoria()
+        {
+            int dia, mes, anio;
+            dia = GenAleatoriosDeDatos.NumeroAleatorio(31);
+            mes = GenAleatoriosDeDatos.NumeroAleatorio(12);
+            anio = GenAleatoriosDeDatos.NumeroAleatorio(DateTime.Now.Year, 1900);
+            string fecha = anio.ToString();
+            fecha += (mes < 10) ? "0" : "";
+            fecha += mes.ToString();
+            fecha += (dia < 10) ? "0" : "";
+            fecha += dia.ToString();
+            DateTime d;
+            DateTime.TryParseExact(fecha, "yyyyMMdd"
+            , CultureInfo.InvariantCulture
+                         , DateTimeStyles.None, out d);
+            return d;
+        }
     }
 }

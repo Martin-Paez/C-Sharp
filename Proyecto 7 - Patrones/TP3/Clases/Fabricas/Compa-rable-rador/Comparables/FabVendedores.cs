@@ -31,6 +31,27 @@ namespace TP.TP3.Clases.Fabricas.Comparables
                 v.Cmp = (Comparador<Vendedor>)Criterio;
             return (T)(object)v;
         }
+        protected void SueldoBasicoTeclado()
+        {
+            SueldoBasico = Helper.LeerNumero(100,800000,"Sueldo basico: ");
+        }
+        public new void SetTeclado()
+        {
+            SueldoBasicoTeclado();
+            ((_FabPersonas<T>)this).SetTeclado();
+        }
+        public override T Teclado()
+        {
+            SetTeclado();
+            return CrearVendedor();
+        }
+        public T CrearVendedor()
+        {
+            Vendedor v = new(Nombre, Dni, SueldoBasico);
+            if (Criterio != null)
+                v.Cmp = (Comparador<Vendedor>)Criterio;
+            return (T)(object)v;
+        }
         protected override IList<Func<Comparador<T>?>> Comparadores()
         {
             List<Func<Comparador<T>?>> list = (List<Func<Comparador<T>?>>)base.Comparadores();

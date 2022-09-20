@@ -13,5 +13,9 @@ namespace TP.TP3.Clases.Estrategias
         {
             return DateTime.Compare(a.Egreso, b.Egreso);
         }
+        public override string ToString()
+        {
+            return "Por Egreso";
+        }
     }
 }
