@@ -46,8 +46,8 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         }
         public new void SetTeclado()
         {
-            LegRand();
-            PromRand();
+            LegTeclado();
+            PromTeclado();
             ((_FabPersonas<T>)this).SetTeclado();
         }
         public override T Teclado()

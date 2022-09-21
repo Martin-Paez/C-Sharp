@@ -20,7 +20,7 @@ namespace TP1_Arbol_Binario
                 {
                     char[] colores = new char[] { 'G', 'B', 'N' };
                     int min = (y == 1) ? 1 : 0;
-                    int c = new Random().Next(min, 3);
+                    int c = new Random().Next(min, niveles);
                     return colores[c]; 
                 });
             Console.WriteLine(tree);
