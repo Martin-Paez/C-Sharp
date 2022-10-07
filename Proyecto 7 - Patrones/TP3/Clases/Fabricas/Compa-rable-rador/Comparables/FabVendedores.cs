@@ -16,7 +16,7 @@ namespace TP.TP3.Clases.Fabricas.Comparables
 
         protected void SueldoBasicoRand()
         {
-            SueldoBasico = GenAleatoriosDeDatos.NumeroAleatorio(800000);
+            SueldoBasico = GenAleatorioDeDatos.NumeroAleatorio(800000);
         }
         public new void SetRand()
         {

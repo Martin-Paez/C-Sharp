@@ -19,11 +19,11 @@ namespace TP.TP3.Clases.Fabricas.Comparables
 
         protected void PromRand()
         {
-            Prom = GenAleatoriosDeDatos.NumeroAleatorio(11);
+            Prom = GenAleatorioDeDatos.NumeroAleatorio(11);
         }
         protected void LegRand()
         {
-            Leg = GenAleatoriosDeDatos.NumeroAleatorio(10000);
+            Leg = GenAleatorioDeDatos.NumeroAleatorio(10000);
         }
         public new void SetRand()
         {

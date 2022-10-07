@@ -13,6 +13,8 @@ using TP.Main.NSMenu.Decoradores;
 using TP.Main.NSMenu.Back;
 using TP.Main.NSMenu.Fabrica;
 using TP.TP3.Clases.Fabricas.Comparables;
+using TP.TP3.Clases.Comparables;
+using TP.TP3.Clases.Comparables.XD;
 
 namespace TP.TP3
 {
@@ -20,11 +22,12 @@ namespace TP.TP3
     {
         public static void TpMenu()
         {
-            Action[] f = { Ej6_7y9 };
+            Action[] f = { Ej6_7y9, Ej14y15 };
             FabMenu.Crear(f,
                   "Ejercicios:                \n"
                 + "-----------                \n"
                 + "  1) Ejercicios 6, 7 y 9   \n"
+                + "  2) Ejercicio 14 y 15     \n"
                 + "  s) Salir                 \n"
                 ).Ejecutar();
         }
@@ -64,7 +67,28 @@ namespace TP.TP3
             Console.WriteLine("Coleccion Multiple\n");
             Informar(m, cmp);
         }
-
+        public static void Ej14y15()
+        {
+            Coleccionable<Vendedor> p = new Pila<Vendedor>();
+            Llenar(p);
+            Gerente g = new(GenAleatorioDeDatos.NombreAleatorio(), GenAleatorioDeDatos.DniAleatorio());
+            VendedorPauperrimo pepe = new VendedorPauperrimo("Pepe AR", 30876148, 100000);
+            p.Agregar(pepe);
+            pepe.Suscribir(new Cliente("Maria E", 23716976));
+            pepe.Suscribir(new Seguridad("Gorgori", 23716976));
+            pepe.Suscribir(g);
+            Iterador<Vendedor> itr = p.crearItr();
+            while (itr.Sig())
+                itr.Elem().Suscribir(g);
+            JornadaVentas(p);
+            g.Cerrar();
+        }
+        public static void JornadaVentas(Coleccionable<Vendedor> c)
+        {
+            Iterador<Vendedor> itr = c.crearItr();
+            while (itr.Sig())
+                itr.Elem().Venta(GenAleatorioDeDatos.NumeroAleatorio(6000,50));
+        }
         public static Tupla<IList<Comparador<T>>, IList<string>> CriteriosDeCompAlumnos<T>() where T : Alumno
         {
             Comparador<T>[] cmps = { new PorDni(), new PorLeg(), new PorNom(), new PorProm() };

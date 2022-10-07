@@ -18,11 +18,11 @@ namespace TP.TP3.Clases.Fabricas.Comparables
 
         public void DniRand()
         {
-            Dni = GenAleatoriosDeDatos.DniAleatorio();
+            Dni = GenAleatorioDeDatos.DniAleatorio();
         }
         public void NombreRand()
         {
-            Nombre = GenAleatoriosDeDatos.NombreAleatorio();
+            Nombre = GenAleatorioDeDatos.NombreAleatorio();
         }
         public virtual void SetRand()
         {

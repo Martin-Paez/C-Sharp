@@ -83,7 +83,8 @@ namespace TP1_Arbol_Binario.Arboles
             }
             return max < nodos ? nodos : max;
         }
-        public int MinHoja(int cant)
+        // Reparte 'cant' entre los hijos y retorna la el minimo valor recibido por una hoja.
+        public int MinHerenciaEquitativa(int cant)
         {
             if (Hijos.Count == 0)
                 return cant;
@@ -91,7 +92,7 @@ namespace TP1_Arbol_Binario.Arboles
             int min = cant;
             foreach (ArbolGeneral<T> hijo in Hijos)
             {
-                int aux = hijo.MinHoja(cant);
+                int aux = hijo.MinHerenciaEquitativa(cant);
                 min = (aux < min) ? aux : min;
             }
             return min;
