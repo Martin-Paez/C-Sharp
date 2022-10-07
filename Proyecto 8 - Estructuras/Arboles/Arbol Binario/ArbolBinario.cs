@@ -160,49 +160,49 @@ namespace TP1_Arbol_Binario
 			entreNiveles(n, m, (x) => Console.Write(x.dato + " "));
 		}
         public void entreNiveles(int n,int m, Action<ArbolBinario<T>> f) {
-            if (n < 0)
-                throw new Exception("n debe ser mayor o igual a 0");
-            if (m < n)
-                throw new Exception("m debe ser mayor o igual a n");
+				if (n < 0)
+					throw new Exception("n debe ser mayor o igual a 0");
+				if (m < n)
+					throw new Exception("m debe ser mayor o igual a n");
 
-            Queue<ArbolBinario<T>> c = new Queue<ArbolBinario<T>>();
-            ArbolBinario<T> arbolAux;
-            int nivelParaEncolar = 0;
-            int nodosCheckeadosDelNivel = 1;
+				Queue<ArbolBinario<T>> c = new Queue<ArbolBinario<T>>();
+				ArbolBinario<T> arbolAux;
+				int nivelParaEncolar = 0;
+				int nodosCheckeadosDelNivel = 1;
 			
-            c.Enqueue(this);
-            while (c.Count != 0)
-            {
-                // Si todos los nodos del nivel ya fueron chequeados
-                if (nodosCheckeadosDelNivel >= Math.Pow(2, nivelParaEncolar))
+				c.Enqueue(this);
+				while (c.Count != 0)
 				{
-					nivelParaEncolar++;
-                    nodosCheckeadosDelNivel = 0;
+					// Si todos los nodos del nivel ya fueron chequeados
+					if (nodosCheckeadosDelNivel >= Math.Pow(2, nivelParaEncolar))
+					{
+						nivelParaEncolar++;
+						nodosCheckeadosDelNivel = 0;
+					}
+
+					/* Siempre se cumple que : se Desencola el primer nodo de un nivel
+					 * despues de haber terminado de chequear el ultimo de dicho nivel.
+					 */
+					arbolAux = c.Dequeue();
+					// Si ya encole completo el primer nivel a mostrar
+					if (nivelParaEncolar > n)
+						f(arbolAux);
+
+					// Me quedan niveles por encolar
+					if (nivelParaEncolar <= m)
+					{
+						if (arbolAux.hijoIzquierdo != null)
+							c.Enqueue(arbolAux.hijoIzquierdo);
+
+						if (arbolAux.hijoDerecho != null)
+							c.Enqueue(arbolAux.hijoDerecho);
+
+						nodosCheckeadosDelNivel += 2;
+					}
 				}
 
-                /* Siempre se cumple que : se Desencola el primer nodo de un nivel
-                 * despues de haber terminado de chequear el ultimo de dicho nivel.
-                 */
-                arbolAux = c.Dequeue();
-				// Si ya encole completo el primer nivel a mostrar
-				if (nivelParaEncolar > n)
-					f(arbolAux);
-
-                // Me quedan niveles por encolar
-                if (nivelParaEncolar <= m)
-                {
-					if (arbolAux.hijoIzquierdo != null)
-						c.Enqueue(arbolAux.hijoIzquierdo);
-
-					if (arbolAux.hijoDerecho != null)
-						c.Enqueue(arbolAux.hijoDerecho);
-
-                    nodosCheckeadosDelNivel += 2;
-                }
-            }
-
-			// Si no habian nodos suficientes para completar el nivel m
-			if (nivelParaEncolar != ++m)
+				// Si no habian nodos suficientes para completar el nivel m
+				if (nivelParaEncolar != ++m)
 				throw new Exception("el arbol no tiene tantos niveles");
         }
 	}
