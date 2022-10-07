@@ -17,7 +17,7 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         }
         public override T Rand()
         {
-            return (T)new Numero(GenAleatoriosDeDatos.NumeroAleatorio(100));
+            return (T)new Numero(GenAleatorioDeDatos.NumeroAleatorio(100));
         }
         public override T Teclado()
         {

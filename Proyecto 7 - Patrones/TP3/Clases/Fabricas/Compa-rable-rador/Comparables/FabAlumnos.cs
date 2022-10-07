@@ -19,11 +19,11 @@ namespace TP.TP3.Clases.Fabricas.Comparables
 
         protected void PromRand()
         {
-            Prom = GenAleatoriosDeDatos.NumeroAleatorio(11);
+            Prom = GenAleatorioDeDatos.NumeroAleatorio(11);
         }
         protected void LegRand()
         {
-            Leg = GenAleatoriosDeDatos.NumeroAleatorio(10000);
+            Leg = GenAleatorioDeDatos.NumeroAleatorio(10000);
         }
         public new void SetRand()
         {
@@ -46,8 +46,8 @@ namespace TP.TP3.Clases.Fabricas.Comparables
         }
         public new void SetTeclado()
         {
-            LegRand();
-            PromRand();
+            LegTeclado();
+            PromTeclado();
             ((_FabPersonas<T>)this).SetTeclado();
         }
         public override T Teclado()

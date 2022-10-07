@@ -20,7 +20,7 @@ namespace TP.TP3.Clases.Fabricas
 
         protected void EgresoRand()
         {
-            Egreso = GenAleatoriosDeDatos.FechaAleatoria();
+            Egreso = GenAleatorioDeDatos.FechaAleatoria();
         }
         public new void SetRand()
         {

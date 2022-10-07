@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Linq.Expressions;
 using TP1_Arbol_Binario.Arboles;
+using TP1_Arbol_Binario.Hash;
 using TP1_Arbol_Binario.Heap;
+using TP1_Arbol_Binario.Utiles;
 
 namespace TP1_Arbol_Binario
 {
@@ -9,43 +11,73 @@ namespace TP1_Arbol_Binario
     {
         public static void Main(string[] args)
         {
-            CaudalMinimo();
+        }
+
+        public static void ConSinHashTest()
+        { 
+            Console.WriteLine("Con override de GetHashCode: \n");
+            ConGetHashCode();
+            Console.WriteLine("El empleado NO se encuentra. Fin de programa");
+            Console.WriteLine("\nCon Diccionario Hash: \n");
+            ConDiccionario();
+            Console.WriteLine("El empleado NO se encuentra. Fin de programa");
             Console.ReadKey();
         }
-        public static void CaudalMinimo()
+
+        /*----------------------------------------------------------------------*/
+        /*------------------------------ HASHING -------------------------------*/
+        /*----------------------------------------------------------------------*/
+        public static void ConGetHashCode()
         {
-            int niveles = 3;
-            ArbolGeneral<char> tree = Crear<char>(niveles, 'G', 4, 'N'
-                , (x, y) =>
-                {
-                    char[] colores = new char[] { 'G', 'B', 'N' };
-                    int min = (y == 1) ? 1 : 0;
-                    int c = new Random().Next(min, 3);
-                    return colores[c]; 
-                });
-            Console.WriteLine(tree);
-            Console.WriteLine(tree.SumHojas(1024, 'N'));
+            HashTable<Empleado> hashT = new(11);
+            Empleado e;
+            for (int i = 0; i < 20; i++)
+            {
+                e = new Empleado(Helper.GenNombre(), Helper.GenDni(), i);
+                hashT.Add(e);
+            }
+            Console.WriteLine(hashT);
+            while (hashT.Contains(new Empleado("", Helper.LeerNum("Ingrese un Numero: "), 0)))
+                 Console.WriteLine("El empleado se encuentra en la coleccion.");
         }
-        
+
+        public static void ConDiccionario() 
+        {
+            Diccionario<int, Empleado> dic = new(11, (x) => { return x; });
+            for (int i = 0; i < 20; i++)
+            {
+                Empleado e = new Empleado(Helper.GenNombre(), Helper.GenDni(), i);
+                dic.Add(e, e.Dni);
+            }
+            Console.WriteLine(dic);
+            while (dic.Contains(Helper.LeerNum("Ingrese un Numero: ")))
+                Console.WriteLine("El empleado se encuentra en la coleccion.");
+        }
         /*--------------------- ARBOL GENERAL (AUXILIARES) ---------------------*/
         public static ArbolGeneral<T> Crear<T>(int n, T r, int nodosPorNivel, T stop
-                                            , Func<int, int,T> genDatos) where T : IComparable<T>
+                                            , Func<int, int,T> genDatos
+                                            , bool agregarStop = true) where T : IComparable<T>
         {
             ArbolGeneral<T> raiz = new(r);
-            LlenarArbolG(n-1, raiz, nodosPorNivel, stop, genDatos);
+            LlenarArbolG(n-1, raiz, nodosPorNivel, stop, genDatos, agregarStop);
             return raiz;
         }
         public static void LlenarArbolG<T>(int altura, ArbolGeneral<T> raiz, int nodosPorNivel
-                                       , T stop, Func<int,int,T> genDatos) where T : IComparable<T>
+                                       , T stop, Func<int,int,T> genDatos
+                                       , bool agregarStop = true) where T : IComparable<T>
         {
             if (altura > 0)
                 for (int i = 0; i < nodosPorNivel; i++)
                 {
                     T dato = genDatos(i, altura);
                     ArbolGeneral<T> hijo = new(dato);
-                    if(dato.CompareTo(stop)!=0)
-                        LlenarArbolG(altura - 1, hijo, nodosPorNivel, stop, genDatos);
-                    raiz.AgregarHijo(hijo);
+                    if (dato.CompareTo(stop) != 0)
+                    {
+                        LlenarArbolG(altura - 1, hijo, nodosPorNivel, stop, genDatos, agregarStop);
+                        raiz.AgregarHijo(hijo);
+                    }
+                    else if (agregarStop)
+                        raiz.AgregarHijo(hijo);
                 }
             return;
         }
@@ -53,6 +85,25 @@ namespace TP1_Arbol_Binario
         /*----------------------------------------------------------------------*/
         /*-------------------------- ARBOL GENERAL -----------------------------*/
         /*----------------------------------------------------------------------*/
+        public static void CaudalMinimo()
+        {
+            ArbolGeneral<int> t = Crear<int>(5, 0, 3, 1, (x,y) => { return new Random().Next(0,10); }, false);
+            Console.WriteLine("Caudal inicial = 1000.\nCaudal minimo entregado: {0}\n{1}", t.MinHerenciaEquitativa(1000),t);
+        }
+        public static void Artista()
+        {
+            int niveles = 3;
+            ArbolGeneral<char> tree = Crear<char>(niveles, 'G', 4, 'N'
+                , (x, y) =>
+                {
+                    char[] colores = new char[] { 'G', 'B', 'N' };
+                    int min = (y == 1) ? 1 : 0;
+                    int c = new Random().Next(min, niveles);
+                    return colores[c];
+                });
+            Console.WriteLine(tree);
+            Console.WriteLine(tree.SumHojas(1024, 'N'));
+        }
         public static void Niveles(int stop)
         {
             ArbolGeneral<int> raiz = Crear(3, 1, 2, stop, (x, y) => { return y * 10 + x; });

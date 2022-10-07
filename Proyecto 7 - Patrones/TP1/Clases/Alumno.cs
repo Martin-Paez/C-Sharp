@@ -7,7 +7,7 @@ using TP.TP1.Interfaces;
 
 namespace TP.TP1.Clases
 {
-    internal class Alumno : Persona
+    public class Alumno : Persona
     {
         private int? leg;
         private int prom;
