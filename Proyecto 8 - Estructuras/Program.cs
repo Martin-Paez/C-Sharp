@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq.Expressions;
 using TP1_Arbol_Binario.Arboles;
+using TP1_Arbol_Binario.Arboles.Arbol_Binario;
 using TP1_Arbol_Binario.Hash;
 using TP1_Arbol_Binario.Heap;
 using TP1_Arbol_Binario.Utiles;
@@ -11,9 +12,42 @@ namespace TP1_Arbol_Binario
     {
         public static void Main(string[] args)
         {
+            agregarAVL();
         }
 
-        public static void ConSinHashTest()
+        public static void agregarAVL()
+        {
+            AVL<int> t = new(15);
+            foreach (int i in new int[] { 11, 9, 7, 5, 4, 1 })
+                t = t.Agregar(i);
+            Console.WriteLine(t);
+            t = new(40);
+            foreach (int i in new int[] { 20, 30, 38, 33, 36, 34, 37 })
+                t = t.Agregar(i);
+            Console.WriteLine(t);
+        }
+
+            public static void agregarABB()
+        {
+            ABB<int> t = new(15);
+            foreach (int i in new int[] { 11, 9, 7, 5, 4, 1 })
+                t.Agregar(i);
+            Console.WriteLine(t);
+            t = new(3);
+            foreach (int i in new int[] { 1, 4, 6, 8, 2, 5, 7 })
+                t.Agregar(i);
+            Console.WriteLine("-----------------------");
+            Console.WriteLine(t);
+            Console.WriteLine("Inorden");
+            t.inorden();
+            Console.WriteLine("\nPreorden");
+            t.preorden();
+            Console.WriteLine("\nPostorden");
+            t.postorden();
+            Console.WriteLine("\nIncluye el 4: {0}",t.incluye(4));
+            Console.WriteLine("Incluye el 0: {0}", t.incluye(0));
+        }
+        public static void Hash()
         { 
             Console.WriteLine("Con override de GetHashCode: \n");
             ConGetHashCode();

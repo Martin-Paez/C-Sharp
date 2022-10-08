@@ -68,7 +68,7 @@ namespace TP.TP4
         }
         public static void mixTp1Ejs9y17<T>(Comparador<T>? cmp = null) where T : Comparable<T>
         {
-            Console.WriteLine("Coleccion multiple. Elija el primer tipo : \n");
+            Console.WriteLine("Coleccion multiple. Elija el primer tipo :  \n");
             Coleccionable<T> a = FabColeccionables<T>.PorTeclado();
             Console.WriteLine("Ahora elija el segundo tipo: \n");
             Coleccionable<T> b = FabColeccionables<T>.PorTeclado();
