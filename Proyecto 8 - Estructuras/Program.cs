@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using TP1_Arbol_Binario.Arboles;
 using TP1_Arbol_Binario.Arboles.Arbol_Binario;
+using TP1_Arbol_Binario.Arboles.Arbol_Binario.AVL;
 using TP1_Arbol_Binario.Hash;
 using TP1_Arbol_Binario.Heap;
 using TP1_Arbol_Binario.Utiles;
@@ -12,12 +13,22 @@ namespace TP1_Arbol_Binario
     {
         public static void Main(string[] args)
         {
-            agregarAVL();
+            testIteradorAVL();
+        }
+
+        public static void testIteradorAVL()
+        {
+            AVL<int> t = new(1);
+            foreach (int j in new int[] { 2, 3, 4, 5, 60, 70, 80, 90 })
+                t = t.Agregar(j);
+            IteradorAVL<int> i = new(t);
+            while (i.HasNext())
+                Console.WriteLine(i.Next());
         }
 
         public static void agregarAVL()
         {
-            AVL<int> t = new(15);
+            AVL<int> t = new(1);
             foreach (int i in new int[] { 11, 9, 7, 5, 4, 1 })
                 t = t.Agregar(i);
             Console.WriteLine(t);
