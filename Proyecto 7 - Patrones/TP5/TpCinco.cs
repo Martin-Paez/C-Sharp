@@ -18,18 +18,16 @@ using TP.TP5.Command.ComandosAula;
 
 namespace TP.TP5
 {
-    public class TpCuatro
+    public class TpCinco
     {
         // TODO, cmp override, Alumno ( saltea el new ? )
         public static void TpMenu()
         {
-            Action[] f = { Ej4y5, Ej6_7y9, Ej10Tp5 };
+            Action[] f = { Ej10Tp5 };
             FabMenu.Crear(f,
                   "Ejercicios:                \n"
                 + "-----------                \n"
-                + "  1) Ejercicios 4 y 5      \n"
-                + "  2) Prueba                \n"
-                + "  3) Ej 10 TP 5            \n"
+                + "  1) Ej 10 TP 5            \n"
                 + "  s) Salir                 \n"
                 ).Ejecutar();
         }
