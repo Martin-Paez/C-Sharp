@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TP.TP2.Clases;
-using TP.TP4.Interfaces.Comparar;
+using TP.TP5.Interfaces.Comparar;
 
 namespace TP.TP2.Interfaces.Comparar
 {
