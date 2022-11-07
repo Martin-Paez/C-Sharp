@@ -11,11 +11,11 @@ using TP.TP5.Interfaces.Oberservar;
 
 namespace TP.TP5.Clases.Comparables.VendedorNS
 {
-    public class Vendedor : Persona, Comparable<Vendedor>, StrategyComparable<Vendedor>, Suscribible<Notificable<Vendedor, int>, int>
+    public class Vendedor : Persona, Comparable<Vendedor>, StrategyComparable<Vendedor>, Observable<Observador<Vendedor, int>, int>
     {
         public double? SueldoBasico { get; set; }
         protected new Comparador<Vendedor>? Cmp { get; set; }
-        public Notificable<Vendedor, int>? UnicoGerente { get; set; }
+        public Observador<Vendedor, int>? UnicoGerente { get; set; }
         public double Bonus { get { return _bonus; } }
         private double _bonus = 1;
 
@@ -55,7 +55,7 @@ namespace TP.TP5.Clases.Comparables.VendedorNS
         {
             UnicoGerente!.RecibirNotificacion(this, venta);
         }
-        public void Suscribir(Notificable<Vendedor, int> g)
+        public void Suscribir(Observador<Vendedor, int> g)
         {
             UnicoGerente = g;
         }

@@ -13,7 +13,11 @@ namespace TP1_Arbol_Binario
     {
         public static void Main(string[] args)
         {
-            testIteradorAVL();
+            ArbolGeneral<int> a = Crear(4, 1, 2, -1, (x,y) => { return new Random().Next(); }, false);
+            Console.WriteLine(a);
+            a.printPre();
+            a.printIn();
+            a.printPos();
         }
 
         public static void testIteradorAVL()

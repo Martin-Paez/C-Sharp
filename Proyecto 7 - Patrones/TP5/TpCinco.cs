@@ -15,6 +15,8 @@ using TP.TP5.Clases.Comparables.Tipos;
 using TP.TP5.Clases.Comparables.AlumnoNS.Decoradores.HijoAlumno;
 using TP.TP5.Command;
 using TP.TP5.Command.ComandosAula;
+using System;
+using TP.TP5.Colecciones.ProxyColeccionableNS;
 
 namespace TP.TP5
 {
@@ -23,11 +25,13 @@ namespace TP.TP5
         // TODO, cmp override, Alumno ( saltea el new ? )
         public static void TpMenu()
         {
-            Action[] f = { Ej10Tp5 };
+            Action[] f = { Ej2Tp5, Ej10Tp5, Ej12_13y14Tp5 };
             FabMenu.Crear(f,
                   "Ejercicios:                \n"
                 + "-----------                \n"
-                + "  1) Ej 10 TP 5            \n"
+                + "  1) Ej 2 TP 5             \n"
+                + "  2) Ej 10 TP 5            \n"
+                + "  3) Opcionales 11,13 y 15 TP 5\n"
                 + "  s) Salir                 \n"
                 ).Ejecutar();
         }
@@ -45,7 +49,7 @@ namespace TP.TP5
                 p.Agregar(new AdapterAlumno(new AlumnoEstudioso(a)));
             }
         }
-        public static void Ej4y5()
+        public static void Ej2Tp5()
         {
             Teacher t = new();
             Pila<AdapterAlumno> p = new();
@@ -61,6 +65,56 @@ namespace TP.TP5
             t.setStudents(c);
             t.teachingAClass();
         }
+
+        public static void Ej12_13y14Tp5()
+        {
+            Coleccionable<Numero> coleccionable = new ProxyColeccionable<Numero>();
+            Console.WriteLine("Imprime cero: " + coleccionable.Cuantos().ToString());
+            Console.Write("Imprime null: ");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.Write("Imprime null: ");
+            Console.WriteLine(coleccionable.Maximo());
+            Console.WriteLine("Agrego un 5");
+            Console.WriteLine("Se crea la pila real");
+            coleccionable.Agregar(new Numero(5)); //se crea la Pila real
+            Console.WriteLine("Agrego un 3");
+            coleccionable.Agregar(new Numero(3));
+            Console.WriteLine("Agrego un 8");
+            coleccionable.Agregar(new Numero(8));
+            Console.WriteLine("Imprime 3: " + coleccionable.Cuantos().ToString());
+            Console.WriteLine("Imprime 3. Se le pide el minimo a la Pila.El proxy “cachea” el Numero 3 como mínimo.");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.WriteLine("Imprime 8.Se le pide el maximo a la Pila.El proxy “cachea” el Numero 8 como máximo.");
+            Console.WriteLine(coleccionable.Maximo());
+            Console.WriteLine("Imprime 3: " + coleccionable.Cuantos().ToString());
+            Console.WriteLine("Imprime 3.El proxy devolvió el valor “cacheado”");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.WriteLine("Imprime 8.El proxy devolvió el valor “cacheado”");
+            Console.WriteLine(coleccionable.Maximo());
+            Numero num = new Numero(15);
+            Console.WriteLine("Agrego un num = 15");
+            coleccionable.Agregar(num);
+            Console.WriteLine("Imprime 3.Se le pide el minimo a la Pila.El proxy “cachea” el Numero 3 como mínimo.");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.WriteLine("Imprime 15.Se le pide el maximo a la Pila.El proxy “cachea” el Numero 15 como máximo.");
+            Console.WriteLine(coleccionable.Maximo());
+            Console.WriteLine("Imprime 3.El proxy devolvió el valor “cacheado”");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.WriteLine(" Imprime 15.El proxy devolvió el valor “cacheado”");
+            Console.WriteLine(coleccionable.Maximo());
+            Console.WriteLine("Modifico el valor de num a 1");
+            Console.WriteLine("Se uso Observer , deberia funcionar todo bien");
+            num.Valor = 1;
+            Console.WriteLine("Imprime 1.Se le pide el minimo a la Pila.El proxy “cachea” el Numero 1 como mínimo.");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.WriteLine("Imprime 8.Se le pide el maximo a la Pila.El proxy “cachea” el Numero 15 como máximo.");
+            Console.WriteLine(coleccionable.Maximo());
+            Console.WriteLine("Imprime 1.El proxy devolvió el valor “cacheado”");
+            Console.WriteLine(coleccionable.Minimo());
+            Console.WriteLine(" Imprime 8.El proxy devolvió el valor “cacheado”");
+            Console.WriteLine(coleccionable.Maximo());
+        }
+
         public static void Ej6_7y9()
         {
             Action[] f = { () => { mixTp1Ejs9y17<Numero>(); }

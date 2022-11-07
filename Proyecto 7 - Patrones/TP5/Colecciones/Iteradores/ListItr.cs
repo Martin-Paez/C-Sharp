@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TP.TP5.Interfaces.Comparar;
+using TP.TP5.Interfaces.Oberservar;
 
 namespace TP.TP5.Interfaces.Iterador
 {
     public class ListItr<T> : Iterador<T>
     {
-        List<T> Elems;
+        public List<T> Elems;
         int Index = -1;
 
         public ListItr(List<T> elems)

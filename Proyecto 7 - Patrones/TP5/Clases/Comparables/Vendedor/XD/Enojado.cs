@@ -7,7 +7,7 @@ using TP.TP5.Interfaces.Oberservar;
 
 namespace TP.TP5.Clases.Comparables.XD
 {
-    public abstract class Enojado<T> : Persona, Notificable<T>
+    public abstract class Enojado<T> : Persona, Observador<T>
     {
         public Enojado(string? n, int? d) : base(n, d)
         {

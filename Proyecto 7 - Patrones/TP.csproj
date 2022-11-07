@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="TP6 Python\**" />
+    <EmbeddedResource Remove="TP6 Python\**" />
+    <None Remove="TP6 Python\**" />
+  </ItemGroup>
+
 </Project>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\54911\\Documents\\GitHub\\C-Sharp\\Proyecto 7 - Patrones\\TP.csproj": {}
+    "C:\\Users\\54911\\Documents\\GitHub\\Estudio-Abogados\\Proyecto 7 - Patrones\\TP.csproj": {}
   },
   "projects": {
-    "C:\\Users\\54911\\Documents\\GitHub\\C-Sharp\\Proyecto 7 - Patrones\\TP.csproj": {
+    "C:\\Users\\54911\\Documents\\GitHub\\Estudio-Abogados\\Proyecto 7 - Patrones\\TP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\54911\\Documents\\GitHub\\C-Sharp\\Proyecto 7 - Patrones\\TP.csproj",
+        "projectUniqueName": "C:\\Users\\54911\\Documents\\GitHub\\Estudio-Abogados\\Proyecto 7 - Patrones\\TP.csproj",
         "projectName": "TP",
-        "projectPath": "C:\\Users\\54911\\Documents\\GitHub\\C-Sharp\\Proyecto 7 - Patrones\\TP.csproj",
+        "projectPath": "C:\\Users\\54911\\Documents\\GitHub\\Estudio-Abogados\\Proyecto 7 - Patrones\\TP.csproj",
         "packagesPath": "C:\\Users\\54911\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\54911\\Documents\\GitHub\\C-Sharp\\Proyecto 7 - Patrones\\obj\\",
+        "outputPath": "C:\\Users\\54911\\Documents\\GitHub\\Estudio-Abogados\\Proyecto 7 - Patrones\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

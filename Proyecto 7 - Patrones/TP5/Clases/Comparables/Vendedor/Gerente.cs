@@ -13,7 +13,7 @@ using TP.TP5.Interfaces.Oberservar;
 
 namespace TP.TP5.Clases.Comparables.VendedorNS
 {
-    public class Gerente : Enojado<Gerente>, Notificable<Vendedor, int>
+    public class Gerente : Enojado<Gerente>, Observador<Vendedor, int>
     {
         private Conjunto<Vendedor> Mejores { get; set; } = new Conjunto<Vendedor>();
 

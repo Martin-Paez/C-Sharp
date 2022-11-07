@@ -148,5 +148,28 @@ namespace TP1_Arbol_Binario.Arboles
             while (q.Count > 1);
             return o+"\n";
         }
+        public void printIn()
+        {
+            if (Hijos.Count > 0)
+                Hijos[0].printIn();
+            Console.WriteLine(Dato);
+            int i = 1;
+            while(i < Hijos.Count)
+                Hijos[i++].printIn();
+        }
+        public void printPre()
+        {
+            Console.WriteLine(Dato);
+            int i = 0; 
+            while (i < Hijos.Count)
+                Hijos[i++].printIn();
+        }
+        public void printPos()
+        {
+            int i = 0; 
+            while(i < Hijos.Count)
+                Hijos[i++].printIn();
+            Console.WriteLine(Dato);
+        }
     }
 }

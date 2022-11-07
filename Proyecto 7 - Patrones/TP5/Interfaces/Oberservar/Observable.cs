@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace TP.TP5.Interfaces.Oberservar
 {
-    public interface Suscribible<Suscriptor, Informacion>
+    public interface Observable<Suscriptor, Informacion>
     {
         void Publicar(Informacion info);
         void Suscribir(Suscriptor s);
         //void Desuscribir(Suscriptor s);
     }
-    public interface Suscribible<Suscriptor>
+    public interface Observable<Suscriptor>
     {
         void Publicar();
         void Suscribir(Suscriptor s);

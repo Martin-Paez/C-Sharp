@@ -14,28 +14,40 @@ namespace TP.TP5.Clases.Fabricas
 {
     public abstract class FabColeccionables<T> where T : Comparable<T>
     {
+        public enum TipoCol{ PILA, COLA, CONJUNTO, DICCIONARIO };
+
+        public static Coleccionable<T> Crear(TipoCol coleccion)
+        {
+            switch(coleccion)
+            {
+                case TipoCol.PILA:          return new Pila<T>();
+                case TipoCol.COLA:          return new Cola<T>();
+                case TipoCol.CONJUNTO:      return new Conjunto<T>();
+                case TipoCol.DICCIONARIO:   return new Diccionario<Numero, T>
+                                                { keyGen = new SimpleKeyGen() };
+            }
+            throw new Exception("Tipo de coleccion no soportado: " + coleccion.ToString());
+        }
+        public static TipoCol Seleccionar()
+        {
+            Func<TipoCol>[] f = { () => { return TipoCol.PILA; }
+                                 ,() => { return TipoCol.COLA; }
+                                 ,() => { return TipoCol.CONJUNTO; }
+                                 ,() => { return TipoCol.DICCIONARIO; }
+                                 };
+            return FabMenu.Crear(f,
+                          "Colecciones:     \n"
+                        + "-----------      \n"
+                        + " 1) Pila         \n"
+                        + " 2) Cola         \n"
+                        + " 3) Conjunto     \n"
+                        + " 4) Diccionario  \n"
+                        , limpiarConsola: false
+                        ).Ejecutar();
+        }
         public static Coleccionable<T> PorTeclado()
         {
-            //TODO , no hace falta que sea ref f
-            Func<Coleccionable<T>>[] f = { () => { return new Pila<T>(); }
-                                          ,() => { return new Cola<T>(); }
-                                          ,() => { return new Conjunto<T>(); }
-                                          ,() => { return new Diccionario<Numero,T> {
-                                                            keyGen = new SimpleKeyGen() };
-                                                }
-                                          };
-            Coleccionable<T>? o = FabMenu.Crear(f
-                                            , "Colecciones:     \n"
-                                            + "-----------      \n"
-                                            + " 1) Pila         \n"
-                                            + " 2) Cola         \n"
-                                            + " 3) Conjunto     \n"
-                                            + " 4) Diccionario  \n"
-                                            , limpiarConsola : false
-                                          ).Ejecutar();
-            if (o is null)
-                throw new Exception("Tipo no soportado. No se puede fabricar un " + typeof(T));
-            return o;
+            return Crear(Seleccionar());
         }
     }
 }
