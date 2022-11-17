@@ -11,35 +11,38 @@ namespace TP1_Arbol_Binario
 		protected virtual ArbolBinario<T>? HijoIzquierdo { get; set; }
 		protected virtual ArbolBinario<T>? HijoDerecho { get; set; }
 
-        public static ArbolBinario<T> Crear(List<T> datos)
-		{
-			if (datos.Count == 0)
-				throw new Exception("No hay elementos");
-			int i = 0;
-			ArbolBinario<T> tree = new ArbolBinario<T>(datos[i++]);
-			ArbolBinario<T> o = tree;
-            Queue<ArbolBinario<T>> q = new();
-			q.Enqueue(tree);
-			while (i < datos.Count)
-			{
-				tree = q.Dequeue();
-				if (i < datos.Count)
-				{
-					tree.agregarHijoIzquierdo(new ArbolBinario<T>(datos[i++]));
-					q.Enqueue(tree.getHijoIzquierdo()!);
-				}
-				if (i < datos.Count)
-				{
-					tree.agregarHijoDerecho(new ArbolBinario<T>(datos[i++]));
-					q.Enqueue(tree.getHijoDerecho()!);
-				}
-			}
-			return o;
-		}
 		public ArbolBinario(T dato) {
 			this.Dato = dato;
 		}
-		public T getDatoRaiz() {
+        protected virtual ArbolBinario<T> _Crear(T dato)
+        {
+            return new ArbolBinario<T>(dato);
+        }
+        public ArbolBinario(List<T> datos)
+        {
+            if (datos.Count == 0)
+                throw new Exception("No hay elementos");
+            Dato = datos[0]; 
+            int i = 1;
+            ArbolBinario<T> tree;
+            Queue<ArbolBinario<T>> q = new();
+            q.Enqueue(this);
+            while (i < datos.Count)
+            {
+                tree = q.Dequeue();
+                if (i < datos.Count)
+                {
+                    tree.agregarHijoIzquierdo(_Crear(datos[i++]));
+                    q.Enqueue(tree.getHijoIzquierdo()!);
+                }
+                if (i < datos.Count)
+                {
+                    tree.agregarHijoDerecho(_Crear(datos[i++]));
+                    q.Enqueue(tree.getHijoDerecho()!);
+                }
+            }
+        }
+        public T getDatoRaiz() {
 			return this.Dato;
 		}
 		public virtual ArbolBinario<T>? getHijoIzquierdo() {

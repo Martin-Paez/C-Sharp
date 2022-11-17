@@ -218,7 +218,7 @@ namespace TP1_Arbol_Binario
                 Console.WriteLine("\nTenga en cuenta que {0}", e.Message);
             }
         }
-        public static void Profundidad() {
+        public static void SumPorNivel() {
             ArbolBinario<int> tree = CrearArbolB();
             ProfundidadDeArbolBinario prof = new ProfundidadDeArbolBinario(tree);
             for (int i = 0; i <= tree.altura(); i++)
@@ -233,55 +233,14 @@ namespace TP1_Arbol_Binario
             List<int> datos = new();
             for (int i = 0; i < 25; i++)
                 datos.Add(i);
-            ArbolBinario<int> tree = ArbolBinario<int>.Crear(datos);
-            /*
-            RedBinariaLlena<int>? tree = new RedBinariaLlena<int>(1);
-            RedBinariaLlena<int>? hijo = new RedBinariaLlena<int>(2);
-            RedBinariaLlena<int>? nieto = new RedBinariaLlena<int>(4);
-            nieto.agregarHijoIzquierdo(new RedBinariaLlena<int>(8));
-            nieto.agregarHijoDerecho(new RedBinariaLlena<int>(9));
-            hijo.agregarHijoIzquierdo(nieto);
-            /*branchita = new RedBinariaLlena<int>(5);
-            branchita.agregarHijoIzquierdo(new RedBinariaLlena<int>(10));
-            branchita.agregarHijoDerecho(new RedBinariaLlena<int>(11));
-            branch.agregarHijoDerecho(branchita);*/
-           /* tree.agregarHijoIzquierdo(hijo);
-            hijo = new RedBinariaLlena<int>(3);
-            nieto = new RedBinariaLlena<int>(6);
-            //branchita.agregarHijoIzquierdo(new RedBinariaLlena<int>(12));
-           /* nieto.agregarHijoDerecho(new RedBinariaLlena<int>(13));
-            hijo.agregarHijoIzquierdo(nieto);
-            nieto = new RedBinariaLlena<int>(7);
-            nieto.agregarHijoIzquierdo(new RedBinariaLlena<int>(14));
-            nieto.agregarHijoDerecho(new RedBinariaLlena<int>(15));
-            hijo.agregarHijoDerecho(nieto);
-            tree.agregarHijoDerecho(hijo);*/
-            return tree;
+            return new(datos);
         }
         public static RedBinariaLlena<int> CrearRedB()
         {
-            RedBinariaLlena<int>? tree = new RedBinariaLlena<int>(1);
-            RedBinariaLlena<int>? hijo = new RedBinariaLlena<int>(2);
-            RedBinariaLlena<int>? nieto = new RedBinariaLlena<int>(4);
-            nieto.agregarHijoIzquierdo(new RedBinariaLlena<int>(8));
-            nieto.agregarHijoDerecho(new RedBinariaLlena<int>(9));
-            hijo.agregarHijoIzquierdo(nieto);
-            /*branchita = new RedBinariaLlena<int>(5);
-            branchita.agregarHijoIzquierdo(new RedBinariaLlena<int>(10));
-            branchita.agregarHijoDerecho(new RedBinariaLlena<int>(11));
-            branch.agregarHijoDerecho(branchita);*/
-            tree.agregarHijoIzquierdo(hijo);
-            hijo = new RedBinariaLlena<int>(3);
-            nieto = new RedBinariaLlena<int>(6);
-            //branchita.agregarHijoIzquierdo(new RedBinariaLlena<int>(12));
-            nieto.agregarHijoDerecho(new RedBinariaLlena<int>(13));
-            hijo.agregarHijoIzquierdo(nieto);
-            nieto = new RedBinariaLlena<int>(7);
-            nieto.agregarHijoIzquierdo(new RedBinariaLlena<int>(14));
-            nieto.agregarHijoDerecho(new RedBinariaLlena<int>(15));
-            hijo.agregarHijoDerecho(nieto);
-            tree.agregarHijoDerecho(hijo);
-            return tree;
+            List<int> datos = new();
+            for (int i = 0; i < 7; i++)
+                datos.Add(i);
+            return new(datos);
         }
     }
 }

@@ -10,6 +10,13 @@ namespace TP1_Arbol_Binario
     {
         public RedBinariaLlena(T dato) : base(dato) { }
 
+        public RedBinariaLlena(List<T> datos) : base(datos) { }
+
+        protected override RedBinariaLlena<T> _Crear(T dato)
+        {
+            return new RedBinariaLlena<T>(dato);
+        }
+
         // Retorna la altura del arbol ó -1 si no es lleno
         public int RetardoReenvio()
         {
@@ -35,12 +42,12 @@ namespace TP1_Arbol_Binario
 
         public override void agregarHijoIzquierdo(ArbolBinario<T> hijo)
         {
-            throw new NotImplementedException();
+            agregarHijoIzquierdo((RedBinariaLlena<T>)hijo);
         }
 
         public override void agregarHijoDerecho(ArbolBinario<T> hijo)
         {
-            throw new NotImplementedException();
+            agregarHijoDerecho((RedBinariaLlena<T>)hijo);
         }
 
         public void agregarHijoDerecho(RedBinariaLlena<T> hijo)
