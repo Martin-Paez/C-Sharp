@@ -1,4 +1,5 @@
 using tpf;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace WiW
 {
@@ -7,17 +8,23 @@ namespace WiW
         [STAThread]
         static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
-            Backend game = new();
-            try {
-                Application.Run(new FormUser(game));
-            } catch (Exception) {
-                Application.Run(new Inicio(game));
+            Backend game = null!;
+            try
+            {
+                game = new Backend();
+            } catch(Exception)
+            {
+                MessageBox.Show("No se pudo iniciar el juego");
             }
+            if (game != null)
+                Application.Run(FacesForm.NewGame(game));
         }
-        public static void Run(Backend game)
-        {// Carpeta bloqueada, no precisa try catch
-            new FormUser(game);
+        public static void NewGame()
+        {
+            FacesForm.Call().Restart();
         }
     }
 }

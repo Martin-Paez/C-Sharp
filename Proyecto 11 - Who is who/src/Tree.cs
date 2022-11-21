@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using WiW.src.Clasificador;
 using WiW.src.IDato;
 
@@ -27,14 +28,12 @@ namespace tpf
         public bool ChildLess() {
 			return Left==null;
 		}
-        public string Leafs()
-        {
-            return _Leafs(this);
-        }
+
         public string Paths()
         {
-            return _Paths(this, "");
+            return _Paths("");
         }
+
         public string Levels()
         {
             Queue<DTree> a = new();
@@ -44,19 +43,20 @@ namespace tpf
 
         /* ------------------ ALGORITMOS --------------------- */
 
-        private string _Leafs(DTree a)
+        public string Leafs()
         {
-            if (a.ChildLess())
-                return a.Data.ToString()!;
-            return _Leafs(a.Left!) + "\n" + _Leafs(a.Right!);
+            if (ChildLess())
+                return Data.ToString()!;
+            return Left!.Leafs() + "\n" + Right!.Leafs();
         }
 
-        private string _Paths(DTree a, string paths)
+        public string _Paths(string c)
         {
-            string s = paths + a.Data;
-            if (a.ChildLess())
-                return s + "\n";
-            return _Paths(a.Left!, s + " | ") + _Paths(a.Right!, s + " | ");
+            if (ChildLess())
+                return c + Data + "\n";
+            string left = c + Data + " | si | ";
+            string right = c + Data + " | no | ";
+            return  Left!._Paths(left) + "\n" + Right!._Paths(right);
         }
 
         private string _Levels(Queue<DTree> q, int n)
@@ -65,7 +65,22 @@ namespace tpf
             string s = "Nivel: " + n + "\n  | ";
             while (q.Count > 0)
                 s += Next(q, c) + (q.Count % 2 == 1 ? " , " : " | ");
-            return s + "\n" + (c.Count > 0 ? _Levels(c, n + 1) : "");
+            return s + "\n" + (c.Count > 0 ? _Levels(c, ++n) : "");
+        }
+
+        private string Basico()
+        {
+            Queue<DTree> c = new(), q = new();
+            q.Enqueue(this);
+            int n = 1;
+            string s = "";
+            do {
+                s = "Nivel: " + n++ + "\n  | ";
+                while (q.Count > 0)
+                    s += Next(q, c) + (q.Count % 2 == 1 ? " , " : " | ");
+                s += "\n";
+            } while (c.Count > 0);
+            return s;
         }
 
         private IData Next(Queue<DTree> a, Queue<DTree> b)

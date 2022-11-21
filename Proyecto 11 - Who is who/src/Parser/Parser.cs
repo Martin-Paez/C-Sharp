@@ -7,109 +7,36 @@ namespace WiW.src.Parse
 {
     public static class Parser
     {
-        public static Tuple<IList<string>, IEnumerable<IList<string>>> ParseHeadAndTail(TextReader reader, char delimiter, char qualifier)
+        const char delimiter = ',';
+        public static List<List<string>> Parse(TextReader reader)
         {
-            return Parse(reader, delimiter, qualifier).HeadAndTail();
+            List<List<string>> list = new();
+            List<string>  field = new();
+            StringBuilder s = new();
+            char c = '1';
+            while (c != '\uffff')
+                switch (c = (char)reader.Read())
+                {
+                    case delimiter: Record(s, field); break;
+                    case '\r': reader.Read(); break;
+                    case '\n':
+                    case '\uffff':
+                        list.Add(Record(s, field));
+                        field = new();
+                        break;
+                    case '"': while ((c = (char)reader.Read()) != '"') ;break;
+                    default: s.Append(c); break;
+                }
+            return list;
         }
-        private static Tuple<T, IEnumerable<T>> HeadAndTail<T>(this IEnumerable<T> source)
+        private static List<string> Record(StringBuilder sb, List<string> record)
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            var en = source.GetEnumerator();
-            en.MoveNext();
-            return Tuple.Create(en.Current, EnumerateTail(en));
-        }
-        private static IEnumerable<T> EnumerateTail<T>(IEnumerator<T> en)
-        {
-            while (en.MoveNext())
-                yield return en.Current;
-        }
-        private static IEnumerable<IList<string>> Parse(TextReader reader, char delimiter, char qualifier)
-        {
-            var inQuote = false;
-            var record = new List<string>();
-            var sb = new StringBuilder();
-
-            while (reader.Peek() != -1)
+            if ( sb.Length != 0)
             {
-                var readChar = (char)reader.Read();
-
-                if (readChar == '\n' || readChar == '\r' && (char)reader.Peek() == '\n')
-                {
-                    // If it's a \r\n combo consume the \n part and throw it away.
-                    if (readChar == '\r')
-                        reader.Read();
-
-                    if (inQuote)
-                    {
-                        if (readChar == '\r')
-                            sb.Append('\r');
-                        sb.Append('\n');
-                    }
-                    else
-                    {
-                        if (record.Count > 0 || sb.Length > 0)
-                        {
-                            record.Add(sb.ToString());
-                            sb.Clear();
-                        }
-
-                        if (record.Count > 0)
-                            yield return record;
-
-                        record = new List<string>(record.Count);
-                    }
-                }
-                else if (sb.Length == 0 && !inQuote)
-                {
-                    if (readChar == qualifier)
-                        inQuote = true;
-                    else if (readChar == delimiter)
-                    {
-                        record.Add(sb.ToString());
-                        sb.Clear();
-                    }
-                    else if (char.IsWhiteSpace(readChar))
-                    {
-                        // Ignore leading whitespace
-                    }
-                    else
-                        sb.Append(readChar);
-                }
-                else if (readChar == delimiter)
-                {
-                    if (inQuote)
-                        sb.Append(delimiter);
-                    else
-                    {
-                        record.Add(sb.ToString());
-                        sb.Clear();
-                    }
-                }
-                else if (readChar == qualifier)
-                {
-                    if (inQuote)
-                    {
-                        if ((char)reader.Peek() == qualifier)
-                        {
-                            reader.Read();
-                            sb.Append(qualifier);
-                        }
-                        else
-                            inQuote = false;
-                    }
-                    else
-                        sb.Append(readChar);
-                }
-                else
-                    sb.Append(readChar);
+                record.Add(sb.ToString().Trim());
+                sb.Clear();
             }
-
-            if (record.Count > 0 || sb.Length > 0)
-                record.Add(sb.ToString());
-
-            if (record.Count > 0)
-                yield return record;
+            return record;
         }
     }
 }

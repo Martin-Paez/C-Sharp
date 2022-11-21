@@ -7,31 +7,27 @@ namespace tpf
 	{
 		private HashSet<string> Faces { get; }
 		public double Potluck { get; }
+		private string toString = "";
 		public Result(HashSet<string> results)
 		{
+			if (results.Count == 0)
+				return;
 			Faces = results;
 			Potluck = 100 / Faces.Count;
+            foreach (string name in Faces)
+                toString += " " + name + " , ";
+            toString = toString.Substring(0, toString.Length - 2);
+            if (Faces.Count > 1)
+                toString = "(" + toString + ") : " + Potluck.ToString() + "%";
         }
         public (string, double) Rand()
 		{
             int i = new Random().Next(Faces.Count);
             return (Faces.ElementAt(i), Potluck);
         }
-        private string? Face(string name)
-		{
-			if (!Faces.Contains(name))
-				return null;
-			return name + " : " + Potluck.ToString() + "%";
-		}
 		public override string ToString()
 		{
-			string s = "";
-			foreach (string name in Faces)
-				s += " " + Face(name) + " , ";
-			s = s.Substring(0, s.Length - 2);
-            if (Faces.Count > 1)
-                s = "(" + s + ")";
-			return s;
+			return toString;
 		}
 
 	}

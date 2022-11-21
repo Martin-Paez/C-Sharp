@@ -27,9 +27,9 @@ namespace WiW.src.Clasificador
 
         private RawData[] Split(RawData child, int col, Query p)
         {
-            RawData[] res = { new(), new() };
+            RawData[] res = { new(null), new(null) };
             for (int i = 0; i < child.Ylen; i++)
-                if ( p.coincide(child.Elem(i,col)) )
+                if ( p.answer(child.Val(i,col)) )
                     res[0].Add(child.Row(i));
                 else
                     res[1].Add(child.Row(i));
@@ -43,9 +43,9 @@ namespace WiW.src.Clasificador
             for (int j = 0; j < rd.Xlen - 1; j++)
             {
                 HashSet<string> hs = new();
-                for (int i = 0; i < rd.Ylen && hs.Add(rd.Elem(i,j)) ; i++)
+                for (int i = 0; i < rd.Ylen && hs.Add(rd.Val(i,j)) ; i++)
                 {
-                    Query p = new(rd.Elem(i, j), RawData.Header![j]);
+                    Query p = new(rd.Val(i, j), rd.Query![j]);
                     var res = Split(rd, j, p);
                     if (res[0].Ylen != 0 && res[1].Ylen != 0)
                     {
@@ -59,9 +59,7 @@ namespace WiW.src.Clasificador
                     }
                 }
             }
-            if (best > 0)
-                return o;
-             return default;
+            return best > 0 ? o : default ;
         }
     }
 }
