@@ -37,11 +37,11 @@ namespace WiW
             this.pictureBoxNo = new System.Windows.Forms.PictureBox();
             this.pictureBoxSi = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.btn_consulta3 = new System.Windows.Forms.Button();
+            this.btnLevels = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btn_consulta2 = new System.Windows.Forms.Button();
+            this.btnPaths = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btn_consulta1 = new System.Windows.Forms.Button();
+            this.btnLeafs = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.requestLabel = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -49,10 +49,10 @@ namespace WiW
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnNo = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnsi = new System.Windows.Forms.Button();
+            this.btnYes = new System.Windows.Forms.Button();
             this.caras = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.userQuery = new System.Windows.Forms.ComboBox();
+            this.userQuerys = new System.Windows.Forms.ComboBox();
             this.userFace = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.btnAsk = new System.Windows.Forms.Button();
@@ -92,7 +92,6 @@ namespace WiW
             this.btnclose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnclose.TabIndex = 0;
             this.btnclose.TabStop = false;
-            this.btnclose.Click += new System.EventHandler(this.BtnClose);
             // 
             // controles
             // 
@@ -100,11 +99,11 @@ namespace WiW
             this.controles.Controls.Add(this.pictureBoxNo);
             this.controles.Controls.Add(this.pictureBoxSi);
             this.controles.Controls.Add(this.panel6);
-            this.controles.Controls.Add(this.btn_consulta3);
+            this.controles.Controls.Add(this.btnLevels);
             this.controles.Controls.Add(this.panel5);
-            this.controles.Controls.Add(this.btn_consulta2);
+            this.controles.Controls.Add(this.btnPaths);
             this.controles.Controls.Add(this.panel3);
-            this.controles.Controls.Add(this.btn_consulta1);
+            this.controles.Controls.Add(this.btnLeafs);
             this.controles.Controls.Add(this.panel1);
             this.controles.Controls.Add(this.requestLabel);
             this.controles.Controls.Add(this.pictureBox2);
@@ -112,7 +111,7 @@ namespace WiW
             this.controles.Controls.Add(this.panel4);
             this.controles.Controls.Add(this.btnNo);
             this.controles.Controls.Add(this.panel2);
-            this.controles.Controls.Add(this.btnsi);
+            this.controles.Controls.Add(this.btnYes);
             this.controles.Dock = System.Windows.Forms.DockStyle.Left;
             this.controles.Location = new System.Drawing.Point(0, 59);
             this.controles.Margin = new System.Windows.Forms.Padding(5);
@@ -155,24 +154,23 @@ namespace WiW
             this.panel6.Size = new System.Drawing.Size(10, 44);
             this.panel6.TabIndex = 19;
             // 
-            // btn_consulta3
+            // btnLevels
             // 
-            this.btn_consulta3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
-            this.btn_consulta3.FlatAppearance.BorderSize = 0;
-            this.btn_consulta3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.btn_consulta3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_consulta3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_consulta3.ForeColor = System.Drawing.Color.White;
-            this.btn_consulta3.Image = ((System.Drawing.Image)(resources.GetObject("btn_consulta3.Image")));
-            this.btn_consulta3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_consulta3.Location = new System.Drawing.Point(73, 695);
-            this.btn_consulta3.Margin = new System.Windows.Forms.Padding(5);
-            this.btn_consulta3.Name = "btn_consulta3";
-            this.btn_consulta3.Size = new System.Drawing.Size(300, 44);
-            this.btn_consulta3.TabIndex = 18;
-            this.btn_consulta3.Text = "Profundidad";
-            this.btn_consulta3.UseVisualStyleBackColor = false;
-            this.btn_consulta3.Click += new System.EventHandler(this.btn_consulta3_Click);
+            this.btnLevels.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.btnLevels.FlatAppearance.BorderSize = 0;
+            this.btnLevels.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnLevels.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLevels.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnLevels.ForeColor = System.Drawing.Color.White;
+            this.btnLevels.Image = ((System.Drawing.Image)(resources.GetObject("btnLevels.Image")));
+            this.btnLevels.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLevels.Location = new System.Drawing.Point(73, 695);
+            this.btnLevels.Margin = new System.Windows.Forms.Padding(5);
+            this.btnLevels.Name = "btnLevels";
+            this.btnLevels.Size = new System.Drawing.Size(300, 44);
+            this.btnLevels.TabIndex = 18;
+            this.btnLevels.Text = "Profundidad";
+            this.btnLevels.UseVisualStyleBackColor = false;
             // 
             // panel5
             // 
@@ -183,24 +181,23 @@ namespace WiW
             this.panel5.Size = new System.Drawing.Size(10, 44);
             this.panel5.TabIndex = 17;
             // 
-            // btn_consulta2
+            // btnPaths
             // 
-            this.btn_consulta2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
-            this.btn_consulta2.FlatAppearance.BorderSize = 0;
-            this.btn_consulta2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.btn_consulta2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_consulta2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_consulta2.ForeColor = System.Drawing.Color.White;
-            this.btn_consulta2.Image = ((System.Drawing.Image)(resources.GetObject("btn_consulta2.Image")));
-            this.btn_consulta2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_consulta2.Location = new System.Drawing.Point(73, 626);
-            this.btn_consulta2.Margin = new System.Windows.Forms.Padding(5);
-            this.btn_consulta2.Name = "btn_consulta2";
-            this.btn_consulta2.Size = new System.Drawing.Size(300, 44);
-            this.btn_consulta2.TabIndex = 16;
-            this.btn_consulta2.Text = "Camino";
-            this.btn_consulta2.UseVisualStyleBackColor = false;
-            this.btn_consulta2.Click += new System.EventHandler(this.btn_consulta2_Click);
+            this.btnPaths.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.btnPaths.FlatAppearance.BorderSize = 0;
+            this.btnPaths.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnPaths.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPaths.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnPaths.ForeColor = System.Drawing.Color.White;
+            this.btnPaths.Image = ((System.Drawing.Image)(resources.GetObject("btnPaths.Image")));
+            this.btnPaths.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPaths.Location = new System.Drawing.Point(73, 626);
+            this.btnPaths.Margin = new System.Windows.Forms.Padding(5);
+            this.btnPaths.Name = "btnPaths";
+            this.btnPaths.Size = new System.Drawing.Size(300, 44);
+            this.btnPaths.TabIndex = 16;
+            this.btnPaths.Text = "Camino";
+            this.btnPaths.UseVisualStyleBackColor = false;
             // 
             // panel3
             // 
@@ -211,24 +208,23 @@ namespace WiW
             this.panel3.Size = new System.Drawing.Size(10, 44);
             this.panel3.TabIndex = 15;
             // 
-            // btn_consulta1
+            // btnLeafs
             // 
-            this.btn_consulta1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
-            this.btn_consulta1.FlatAppearance.BorderSize = 0;
-            this.btn_consulta1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.btn_consulta1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_consulta1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btn_consulta1.ForeColor = System.Drawing.Color.White;
-            this.btn_consulta1.Image = ((System.Drawing.Image)(resources.GetObject("btn_consulta1.Image")));
-            this.btn_consulta1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_consulta1.Location = new System.Drawing.Point(73, 554);
-            this.btn_consulta1.Margin = new System.Windows.Forms.Padding(5);
-            this.btn_consulta1.Name = "btn_consulta1";
-            this.btn_consulta1.Size = new System.Drawing.Size(300, 44);
-            this.btn_consulta1.TabIndex = 14;
-            this.btn_consulta1.Text = "Predicciones";
-            this.btn_consulta1.UseVisualStyleBackColor = false;
-            this.btn_consulta1.Click += new System.EventHandler(this.btn_consulta1_Click);
+            this.btnLeafs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.btnLeafs.FlatAppearance.BorderSize = 0;
+            this.btnLeafs.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnLeafs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLeafs.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnLeafs.ForeColor = System.Drawing.Color.White;
+            this.btnLeafs.Image = ((System.Drawing.Image)(resources.GetObject("btnLeafs.Image")));
+            this.btnLeafs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLeafs.Location = new System.Drawing.Point(73, 554);
+            this.btnLeafs.Margin = new System.Windows.Forms.Padding(5);
+            this.btnLeafs.Name = "btnLeafs";
+            this.btnLeafs.Size = new System.Drawing.Size(300, 44);
+            this.btnLeafs.TabIndex = 14;
+            this.btnLeafs.Text = "Predicciones";
+            this.btnLeafs.UseVisualStyleBackColor = false;
             // 
             // panel1
             // 
@@ -309,7 +305,6 @@ namespace WiW
             this.btnNo.TabIndex = 9;
             this.btnNo.Text = "No";
             this.btnNo.UseVisualStyleBackColor = false;
-            this.btnNo.Click += new System.EventHandler(this.BtnNo);
             // 
             // panel2
             // 
@@ -320,24 +315,23 @@ namespace WiW
             this.panel2.Size = new System.Drawing.Size(16, 50);
             this.panel2.TabIndex = 7;
             // 
-            // btnsi
+            // btnYes
             // 
-            this.btnsi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
-            this.btnsi.FlatAppearance.BorderSize = 0;
-            this.btnsi.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.btnsi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnsi.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnsi.ForeColor = System.Drawing.Color.White;
-            this.btnsi.Image = ((System.Drawing.Image)(resources.GetObject("btnsi.Image")));
-            this.btnsi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnsi.Location = new System.Drawing.Point(14, 312);
-            this.btnsi.Margin = new System.Windows.Forms.Padding(5);
-            this.btnsi.Name = "btnsi";
-            this.btnsi.Size = new System.Drawing.Size(279, 42);
-            this.btnsi.TabIndex = 6;
-            this.btnsi.Text = "Si";
-            this.btnsi.UseVisualStyleBackColor = false;
-            this.btnsi.Click += new System.EventHandler(this.BtnSi);
+            this.btnYes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.btnYes.FlatAppearance.BorderSize = 0;
+            this.btnYes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
+            this.btnYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnYes.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnYes.ForeColor = System.Drawing.Color.White;
+            this.btnYes.Image = ((System.Drawing.Image)(resources.GetObject("btnYes.Image")));
+            this.btnYes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnYes.Location = new System.Drawing.Point(14, 312);
+            this.btnYes.Margin = new System.Windows.Forms.Padding(5);
+            this.btnYes.Name = "btnYes";
+            this.btnYes.Size = new System.Drawing.Size(279, 42);
+            this.btnYes.TabIndex = 6;
+            this.btnYes.Text = "Si";
+            this.btnYes.UseVisualStyleBackColor = false;
             // 
             // caras
             // 
@@ -354,7 +348,7 @@ namespace WiW
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
-            this.panel7.Controls.Add(this.userQuery);
+            this.panel7.Controls.Add(this.userQuerys);
             this.panel7.Controls.Add(this.userFace);
             this.panel7.Controls.Add(this.panel12);
             this.panel7.Controls.Add(this.btnAsk);
@@ -367,15 +361,15 @@ namespace WiW
             this.panel7.Size = new System.Drawing.Size(401, 775);
             this.panel7.TabIndex = 5;
             // 
-            // btnUserQuery
+            // userQuerys
             // 
-            this.userQuery.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.userQuery.FormattingEnabled = true;
-            this.userQuery.Location = new System.Drawing.Point(5, 299);
-            this.userQuery.Margin = new System.Windows.Forms.Padding(5);
-            this.userQuery.Name = "btnUserQuery";
-            this.userQuery.Size = new System.Drawing.Size(391, 45);
-            this.userQuery.TabIndex = 13;
+            this.userQuerys.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.userQuerys.FormattingEnabled = true;
+            this.userQuerys.Location = new System.Drawing.Point(5, 299);
+            this.userQuerys.Margin = new System.Windows.Forms.Padding(5);
+            this.userQuerys.Name = "userQuerys";
+            this.userQuerys.Size = new System.Drawing.Size(391, 45);
+            this.userQuerys.TabIndex = 13;
             // 
             // userFace
             // 
@@ -415,7 +409,6 @@ namespace WiW
             this.btnAsk.TabIndex = 9;
             this.btnAsk.Text = "Preguntar";
             this.btnAsk.UseVisualStyleBackColor = false;
-            this.btnAsk.Click += new System.EventHandler(this.BtnAsk);
             // 
             // panel13
             // 
@@ -443,7 +436,6 @@ namespace WiW
             this.btnGuess.TabIndex = 6;
             this.btnGuess.Text = "Arriesgar";
             this.btnGuess.UseVisualStyleBackColor = false;
-            this.btnGuess.Click += new System.EventHandler(this.BtnGuess);
             // 
             // Board
             // 
@@ -469,6 +461,7 @@ namespace WiW
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.userFace)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -481,16 +474,16 @@ namespace WiW
         private Panel panel4;
         private Button btnNo;
         private Panel panel2;
-        private Button btnsi;
+        private Button btnYes;
         private Panel caras;
         private Panel panel1;
         private Button requestLabel;
         private Panel panel3;
-        private Button btn_consulta1;
+        private Button btnLeafs;
         private Panel panel6;
-        private Button btn_consulta3;
+        private Button btnLevels;
         private Panel panel5;
-        private Button btn_consulta2;
+        private Button btnPaths;
         public PictureBox pictureBoxSi;
         public PictureBox pictureBoxNo;
         private Panel panel7;
@@ -499,6 +492,6 @@ namespace WiW
         private Button btnAsk;
         private Panel panel13;
         private Button btnGuess;
-        private ComboBox userQuery;
+        private ComboBox userQuerys;
     }
 }

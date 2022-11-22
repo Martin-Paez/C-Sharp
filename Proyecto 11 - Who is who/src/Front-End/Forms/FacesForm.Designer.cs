@@ -1,6 +1,8 @@
-﻿namespace WiW
+﻿using System.Windows.Forms;
+
+namespace WiW
 {
-    partial class Output
+    partial class FacesForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +30,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Output));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FacesForm));
             this.barra = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnclose = new System.Windows.Forms.PictureBox();
             this.caras = new System.Windows.Forms.Panel();
-            this.txt = new System.Windows.Forms.RichTextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.answerPanel = new System.Windows.Forms.Panel();
             this.barra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnclose)).BeginInit();
             this.caras.SuspendLayout();
@@ -43,37 +44,36 @@
             // barra
             // 
             this.barra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.barra.Controls.Add(this.textBox1);
+            this.barra.Controls.Add(this.label1);
             this.barra.Controls.Add(this.btnclose);
             this.barra.Dock = System.Windows.Forms.DockStyle.Top;
             this.barra.Location = new System.Drawing.Point(0, 0);
             this.barra.Margin = new System.Windows.Forms.Padding(5);
             this.barra.Name = "barra";
-            this.barra.Size = new System.Drawing.Size(1257, 58);
+            this.barra.Size = new System.Drawing.Size(429, 58);
             this.barra.TabIndex = 0;
             this.barra.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
-            // textBox1
+            // label1
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(14, 10);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(126, 22);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Consultas";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(5, 10);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(262, 30);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Seleccione su Personaje...";
             // 
             // btnclose
             // 
             this.btnclose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnclose.Image = ((System.Drawing.Image)(resources.GetObject("btnclose.Image")));
-            this.btnclose.Location = new System.Drawing.Point(1199, 7);
+            this.btnclose.Location = new System.Drawing.Point(390, 10);
             this.btnclose.Margin = new System.Windows.Forms.Padding(5);
             this.btnclose.Name = "btnclose";
-            this.btnclose.Size = new System.Drawing.Size(39, 42);
+            this.btnclose.Size = new System.Drawing.Size(34, 33);
             this.btnclose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnclose.TabIndex = 0;
             this.btnclose.TabStop = false;
@@ -83,50 +83,33 @@
             // 
             this.caras.AutoScroll = true;
             this.caras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-            this.caras.Controls.Add(this.txt);
-            this.caras.Controls.Add(this.button2);
+            this.caras.Controls.Add(this.answerPanel);
             this.caras.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.caras.Location = new System.Drawing.Point(0, 58);
+            this.caras.Location = new System.Drawing.Point(0, 0);
             this.caras.Margin = new System.Windows.Forms.Padding(5);
             this.caras.Name = "caras";
-            this.caras.Size = new System.Drawing.Size(1257, 859);
-            this.caras.TabIndex = 3;
+            this.caras.Size = new System.Drawing.Size(429, 487);
+            this.caras.TabIndex = 2;
             // 
-            // txt
+            // answerPanel
             // 
-            this.txt.Location = new System.Drawing.Point(19, 35);
-            this.txt.Margin = new System.Windows.Forms.Padding(5);
-            this.txt.Name = "txt";
-            this.txt.Size = new System.Drawing.Size(1217, 716);
-            this.txt.TabIndex = 3;
-            this.txt.Text = "";
-            this.txt.WordWrap = false;
+            this.answerPanel.Location = new System.Drawing.Point(2, 59);
+            this.answerPanel.Margin = new System.Windows.Forms.Padding(5);
+            this.answerPanel.Name = "answerPanel";
+            this.answerPanel.Size = new System.Drawing.Size(424, 424);
+            this.answerPanel.TabIndex = 4;
             // 
-            // button2
-            // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(1175, 782);
-            this.button2.Margin = new System.Windows.Forms.Padding(5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(63, 57);
-            this.button2.TabIndex = 2;
-            this.button2.Text = " ";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.BtnClose);
-            // 
-            // Output
+            // SelectFace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1257, 917);
-            this.Controls.Add(this.caras);
+            this.ClientSize = new System.Drawing.Size(429, 487);
             this.Controls.Add(this.barra);
+            this.Controls.Add(this.caras);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(5);
-            this.Name = "Output";
+            this.Name = "SelectFace";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Resultado";
             this.barra.ResumeLayout(false);
             this.barra.PerformLayout();
@@ -138,11 +121,10 @@
 
         #endregion
         private Panel barra;
-        private PictureBox btnclose;
-        private TextBox textBox1;
-        private Board Parent;
         private Panel caras;
-        private RichTextBox txt;
-        private Button button2;
+        private PictureBox btnclose;
+        //private Button button2;
+        private Panel answerPanel;
+        private Label label1;
     }
 }

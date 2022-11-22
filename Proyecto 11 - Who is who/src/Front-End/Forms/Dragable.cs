@@ -4,7 +4,6 @@ namespace WiW
 {
     public class Dragable : Form
     {
-
         protected FileMgr fileMgr;
 
         public Dragable()

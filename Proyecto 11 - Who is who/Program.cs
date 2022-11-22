@@ -1,4 +1,5 @@
 using tpf;
+using WiW.src;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace WiW
@@ -8,23 +9,13 @@ namespace WiW
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            ApplicationConfiguration.Initialize();
-            Backend game = null!;
             try
             {
-                game = new Backend();
-            } catch(Exception)
+                new src.WiW();
+            } catch(Exception e)
             {
-                MessageBox.Show("No se pudo iniciar el juego");
+                MessageBox.Show("No se pudo iniciar el juego. \n \nDetalles : " + e);
             }
-            if (game != null)
-                Application.Run(FacesForm.NewGame(game));
-        }
-        public static void NewGame()
-        {
-            FacesForm.Call().Restart();
         }
     }
 }

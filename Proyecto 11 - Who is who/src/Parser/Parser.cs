@@ -8,10 +8,12 @@ namespace WiW.src.Parse
     public static class Parser
     {
         const char delimiter = ',';
+
         public static List<List<string>> Parse(TextReader reader)
         {
             List<List<string>> list = new();
             List<string>  field = new();
+            
             StringBuilder s = new();
             char c = '1';
             while (c != '\uffff')
@@ -24,11 +26,13 @@ namespace WiW.src.Parse
                         list.Add(Record(s, field));
                         field = new();
                         break;
-                    case '"': while ((c = (char)reader.Read()) != '"') ;break;
+                    case '"': while ((c = (char)reader.Read()) != '"' && c != '\uffff');
+                              break;
                     default: s.Append(c); break;
                 }
             return list;
         }
+
         private static List<string> Record(StringBuilder sb, List<string> record)
         {
             if ( sb.Length != 0)
