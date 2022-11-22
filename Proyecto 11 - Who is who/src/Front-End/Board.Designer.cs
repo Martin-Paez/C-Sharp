@@ -52,7 +52,7 @@ namespace WiW
             this.btnsi = new System.Windows.Forms.Button();
             this.caras = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.btnUserQuery = new System.Windows.Forms.ComboBox();
+            this.userQuery = new System.Windows.Forms.ComboBox();
             this.userFace = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
             this.btnAsk = new System.Windows.Forms.Button();
@@ -79,7 +79,7 @@ namespace WiW
             this.barra.Name = "barra";
             this.barra.Size = new System.Drawing.Size(1509, 59);
             this.barra.TabIndex = 0;
-            this.barra.Click += new System.EventHandler(Drag);
+            this.barra.Click += new System.EventHandler(this.Drag);
             // 
             // btnclose
             // 
@@ -354,7 +354,7 @@ namespace WiW
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
-            this.panel7.Controls.Add(this.btnUserQuery);
+            this.panel7.Controls.Add(this.userQuery);
             this.panel7.Controls.Add(this.userFace);
             this.panel7.Controls.Add(this.panel12);
             this.panel7.Controls.Add(this.btnAsk);
@@ -369,13 +369,13 @@ namespace WiW
             // 
             // btnUserQuery
             // 
-            this.btnUserQuery.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnUserQuery.FormattingEnabled = true;
-            this.btnUserQuery.Location = new System.Drawing.Point(12, 302);
-            this.btnUserQuery.Margin = new System.Windows.Forms.Padding(5);
-            this.btnUserQuery.Name = "btnUserQuery";
-            this.btnUserQuery.Size = new System.Drawing.Size(405, 45);
-            this.btnUserQuery.TabIndex = 13;
+            this.userQuery.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.userQuery.FormattingEnabled = true;
+            this.userQuery.Location = new System.Drawing.Point(5, 299);
+            this.userQuery.Margin = new System.Windows.Forms.Padding(5);
+            this.userQuery.Name = "btnUserQuery";
+            this.userQuery.Size = new System.Drawing.Size(391, 45);
+            this.userQuery.TabIndex = 13;
             // 
             // userFace
             // 
@@ -469,7 +469,6 @@ namespace WiW
             this.panel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.userFace)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -500,6 +499,6 @@ namespace WiW
         private Button btnAsk;
         private Panel panel13;
         private Button btnGuess;
-        private ComboBox btnUserQuery;
+        private ComboBox userQuery;
     }
 }

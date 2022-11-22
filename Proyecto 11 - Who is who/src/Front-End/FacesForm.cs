@@ -5,7 +5,8 @@ namespace WiW
 {
     public partial class FacesForm : Dragable
     {
-        private Backend Game;
+        private Backend Game { get; set; }
+
         private List<PictureBox> faces;
         private Action<string> BtnStrategy;
         private static FacesForm? singleton;
@@ -15,7 +16,6 @@ namespace WiW
             InitializeComponent();
             Game = game;
             faces = drawFaces();
-            Restart();
         }
 
         public static FacesForm NewGame(Backend game)
@@ -24,7 +24,7 @@ namespace WiW
                 singleton.Game = game;
             else
                 singleton = new FacesForm(game);
-            singleton.ShowForm();
+            singleton.Restart();
             return singleton;
         }
 

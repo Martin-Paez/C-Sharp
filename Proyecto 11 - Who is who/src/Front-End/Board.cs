@@ -37,12 +37,12 @@ namespace WiW
             }
             foreach (var item in userQuerys)
             {
-                this.btnUserQuery.Items.Add(item.ToString());
+                this.userQuery.Items.Add(item.ToString());
             }
-            this.btnUserQuery.SelectedIndex = 0;
-            this.btnUserQuery.Enabled = false;
+            this.userQuery.SelectedIndex = 0;
+            this.userQuery.Enabled = false;
             this.btnAsk.Enabled = false;
-            this.btnGuess.Enabled = false;
+            this.btnGuess.Enabled = true;
         }
         void MarkFace(object? sender, EventArgs e)
         {
@@ -77,9 +77,8 @@ namespace WiW
             if (Game.Answer(valor))
             {
                 txtPregunta.Text = Game.Query();
-                btnUserQuery.Enabled = true;
+                userQuery.Enabled = true;
                 btnAsk.Enabled = true;
-                btnGuess.Enabled = true;
                 pictureBox2.Visible = true;
                 pictureBoxSi.Visible = false;
                 pictureBoxNo.Visible = false;
@@ -125,14 +124,13 @@ namespace WiW
 
         private void BtnAsk(object sender, EventArgs e)
         {
-            btnUserQuery.Enabled = false;
+            userQuery.Enabled = false;
             btnAsk.Enabled = false;
-            btnGuess.Enabled = false;
             btnNo.Enabled = true;
             btnsi.Enabled = true;
             txtPregunta.Enabled = true;
 
-            string reply = Game.Ask(btnUserQuery.SelectedIndex);
+            string reply = Game.Ask(userQuery.SelectedIndex);
             pictureBoxSi.Visible = reply.Equals("si");
             pictureBoxNo.Visible = !pictureBoxSi.Visible;
             pictureBox2.Visible = false;

@@ -1,34 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using WiW.src.Clasificador;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WiW.src.IDato
 {
-    public class Query : IData
+    public class Query
     {
-        private string Phrase { get; }
-        private string Reply { get; set; }
+        protected string _Phrase;
 
         public Query(string feature, string txt)
         {
-            Reply = feature;
             if (txt.StartsWith("¿{0}"))
             {
                 txt = txt.Substring(5);
-                Phrase = "¿" + char.ToUpper(txt[0]) + txt.Substring(1);
+                _Phrase = "¿" + char.ToUpper(txt[0]) + txt.Substring(1);
             }
             else
-                Phrase = string.Format(txt, Reply);
+                _Phrase = string.Format(txt, feature);
         }
-        public bool answer(string txt)
+
+        public string Phrase { get { return _Phrase; } }
+        public override int GetHashCode()
         {
-            if (Reply == "no")
-                return txt.Equals("si");
-            return txt.Equals(Reply);
+            return Phrase.GetHashCode();
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Query)
+                return false;
+            Query q = (Query)obj;
+            return Phrase == q.Phrase;
         }
         public override string ToString()
         {
             return Phrase;
         }
     }
+
 }

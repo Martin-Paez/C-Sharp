@@ -49,7 +49,7 @@ namespace WiW.src.Clasificador
         {
             Rows.Add(row);
         }
-        public (Query, RawData[]) BestQuery()
+        public (Choice, RawData[]) BestQuery()
         {
             return strategy.BestSplit(this);
         }
@@ -60,9 +60,9 @@ namespace WiW.src.Clasificador
                 h.Add(Name(i));
             return h;
         }
-        public Dictionary<string, int> Names()
+        public Dictionary<string, int> NamesDic()
         {   
-            Dictionary<string, int> dic = new Dictionary<string, int>();
+            Dictionary<string, int> dic = new();
             for (int i = 0; i < Ylen; i++)
             {
                 string name = Name(i);
@@ -72,7 +72,5 @@ namespace WiW.src.Clasificador
             }
             return dic;
         }
-
-
     }
 }

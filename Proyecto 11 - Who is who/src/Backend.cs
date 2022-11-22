@@ -28,12 +28,12 @@ namespace tpf
             HashSet<Query> hs = new();
             for (int j = 0; j < d.Xlen - 1; j++)
                 for (int i = 0; i < d.Ylen; i++)
-                    if (hs.Add(new Query(d.Val(i, j), d.Query![j])))
+                    if (hs.Add( new Query(d.Val(i,j),d.Query![j]) ))
                         Replys.Add(d.Val(i, j) == d.Val(sel, j) ? "si" : "no");
             return hs.ToList();
         }
         public bool Ends()
-        {
+        {   
             return Node.ChildLess();
         }
         public string Query()

@@ -15,8 +15,6 @@ namespace WiW
 {
     public partial class GameOver : Dragable
     {
-        private Backend Game;
-
         public GameOver(Image predictedFace, string titulo, Color backColor)
         {
             InitializeComponent();

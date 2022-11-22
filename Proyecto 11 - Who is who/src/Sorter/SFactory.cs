@@ -12,7 +12,7 @@ namespace tpf
 
         public static ISorter New(RawData data)
 		{
-			(Query, RawData[]) i = data.BestQuery();
+			(Choice, RawData[]) i = data.BestQuery();
 			if (i == default)
 				return new SLeaf(data.ToHashSet());
 			return new SParent(i.Item1, i.Item2);

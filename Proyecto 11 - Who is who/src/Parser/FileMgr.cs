@@ -14,7 +14,6 @@ namespace WiW
         private static FileMgr? instance;
         private string imgPath = "\\imgs";
         
-
         private string dataset { get; set; }
         private string queryPath { get { return dataset + "\\preguntas.csv"; } }
 
@@ -38,7 +37,6 @@ namespace WiW
             dataset = path;
         }
 
-        private Thread trd;
         public Image Img(string nombre)
         {
             int err = 0;

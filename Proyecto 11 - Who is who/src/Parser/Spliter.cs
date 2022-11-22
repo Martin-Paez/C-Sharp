@@ -8,7 +8,7 @@ namespace WiW.src.Clasificador
     {
         private double Gini(RawData child)
         {   // Gini Impurity - https://en.wikipedia.org/wiki/Decision_tree_learning
-            Dictionary<string, int> counts = child.Names();
+            Dictionary<string, int> counts = child.NamesDic();
             double impurity = 1.0;
             foreach (var pair in counts)
             {
@@ -25,7 +25,7 @@ namespace WiW.src.Clasificador
             return parentGini - p * Gini(child[0]) - (1.0 - p) * Gini(child[1]);
         }
 
-        private RawData[] Split(RawData child, int col, Query p)
+        private RawData[] Split(RawData child, int col, Choice p)
         {
             RawData[] res = { new(null), new(null) };
             for (int i = 0; i < child.Ylen; i++)
@@ -35,9 +35,9 @@ namespace WiW.src.Clasificador
                     res[1].Add(child.Row(i));
             return res;
         }
-        public (Query, RawData[]) BestSplit(RawData rd)
+        public (Choice, RawData[]) BestSplit(RawData rd)
         {   //Iteration by feature with gain calculation .
-            (Query, RawData[]) o = new(null!, new RawData[2]);
+            (Choice, RawData[]) o = new(null!, new RawData[2]);
             double best = 0;
             double gini = Gini(rd);
             for (int j = 0; j < rd.Xlen - 1; j++)
@@ -45,7 +45,7 @@ namespace WiW.src.Clasificador
                 HashSet<string> hs = new();
                 for (int i = 0; i < rd.Ylen && hs.Add(rd.Val(i,j)) ; i++)
                 {
-                    Query p = new(rd.Val(i, j), rd.Query![j]);
+                    Choice p = new(rd.Val(i, j), rd.Query![j]);
                     var res = Split(rd, j, p);
                     if (res[0].Ylen != 0 && res[1].Ylen != 0)
                     {

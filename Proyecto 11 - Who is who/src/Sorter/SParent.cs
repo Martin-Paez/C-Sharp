@@ -10,9 +10,9 @@ namespace WiW.src.Clasificador
 {
     internal class SParent : ISorter
     {
-        private Query Query;
+        private Choice Query;
         private RawData[] Dataset;
-        public SParent(Query p, RawData[] data)
+        public SParent(Choice p, RawData[] data)
         {
             if (data.Length != 2)
                 throw new Exception("Se esperaban dos ParsedData");
