@@ -1,4 +1,5 @@
 ﻿using tpf;
+using WiW.src.Game;
 using WiW.src.IViews;
 using WiW.src.Views;
 
@@ -120,18 +121,17 @@ namespace WiW.src
 
         private void InitBoardView(object? sender, ImgArg e)
         {
-            Board board = new Board(Pc.startGame(), Pc.Query(), VFaces.Imgs);
-            board.userFace.Image = e.Face;
+            Board board = new Board(Pc.startGame(), Pc.Query(), VFaces.Imgs,e.Face);
             VFaces.Hide();
             VFaces.ImgSelected -= InitBoardView;
             VFaces.NameSelected += Guess;
-            VBoard.Yes += BtnYes;
-            VBoard.No += BtnNo;
-            VBoard.Paths += BtnPaths;
-            VBoard.Levels += BtnLevels;
-            VBoard.Leafs += BtnLeafs;
-            VBoard.Guess += BtnGuess;
-            VBoard.Ask += BtnAsk;
+            VBoard.BtnYes += BtnYes;
+            VBoard.BtnNo += BtnNo;
+            VBoard.BtnPaths += BtnPaths;
+            VBoard.BtnLevels += BtnLevels;
+            VBoard.BtnLeafs += BtnLeafs;
+            VBoard.BtnGuess += BtnGuess;
+            VBoard.BtnAsk += BtnAsk;
             board.Show();
         }
 
