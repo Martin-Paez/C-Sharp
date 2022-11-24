@@ -39,18 +39,15 @@ namespace WiW
             PictureBox face = new();
             face.Size = new System.Drawing.Size(w, h);
             Image file = fileMgr.Img(name);
-            if (null != file)
-            {
-                face.Cursor = Cursors.Hand;
-                face.BackColor = Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
-                face.Image = file;
-                face.Location = new Point(x * w + 3, y * h + 3);
-                face.SizeMode = PictureBoxSizeMode.StretchImage;
-                face.Name = name;
-                face.Click += new EventHandler(delegate { ImgSelected(this, new ImgArg(file)); });
-                face.Click += new EventHandler(delegate { NameSelected(this, new NameArg(name)); });
-                answerPanel.Controls.Add(face);
-            }
+            face.Cursor = Cursors.Hand;
+            face.BackColor = Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
+            face.Image = file;
+            face.Location = new Point(x * w + 3, y * h + 3);
+            face.SizeMode = PictureBoxSizeMode.StretchImage;
+            face.Name = name;
+            face.Click += new EventHandler(delegate { ImgSelected?.Invoke(this, new ImgArg(file)); });
+            face.Click += new EventHandler(delegate { NameSelected?.Invoke(this, new NameArg(name)); });
+            answerPanel.Controls.Add(face);
             return face;
         }
 

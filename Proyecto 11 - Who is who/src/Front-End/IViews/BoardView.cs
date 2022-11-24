@@ -6,13 +6,15 @@ namespace WiW.src.Views
     {
         public int SelectedQuery { get; }
 
-        public event EventHandler Yes;
-        public event EventHandler No;
-        public event EventHandler Paths;
-        public event EventHandler Levels;
-        public event EventHandler Leafs;
-        public event EventHandler Guess;
-        public event EventHandler Ask;
+        public event EventHandler BtnYes;
+        public event EventHandler BtnNo;
+        public event EventHandler BtnPaths;
+        public event EventHandler BtnLevels;
+        public event EventHandler BtnLeafs;
+        public event EventHandler BtnGuess;
+        public event EventHandler BtnAsk;
+        public event EventHandler BtnClose;
+        public event EventHandler BtnNewGame;
 
         public void UserTurn(string pcQuery);
         public void PcTurn();

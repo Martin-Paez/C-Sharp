@@ -15,8 +15,8 @@ namespace WiW.src.Clasificador
         private List<List<string>> Rows { get; set; }
         public int Ylen { get { return Rows.Count; } }
         public int Xlen { get { return Rows.Count == 0 ? 0 : Rows[0].Count; } }
-        private Spliter strategy = new Spliter();
-
+        
+        private static Spliter strategy = new Spliter();
         public RawData(List<List<string>>? rows = null)
         {
             Rows = rows != null ? rows : new List<List<string>>();
@@ -29,8 +29,8 @@ namespace WiW.src.Clasificador
                     Rows = Parser.Parse(reader);
             query = Rows[0];
             Rows.RemoveAt(0);
-
         }
+
         public string Name(int Fila)
         {
             if (Rows.Count <= Fila || Rows[Fila].Count == 0)
@@ -61,7 +61,7 @@ namespace WiW.src.Clasificador
             return h;
         }
         public Dictionary<string, int> NamesDic()
-        {   
+        {
             Dictionary<string, int> dic = new();
             for (int i = 0; i < Ylen; i++)
             {

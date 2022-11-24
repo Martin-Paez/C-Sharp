@@ -57,14 +57,15 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBox1.Font = new System.Drawing.Font("Segoe UI Black", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(14, 10);
             this.textBox1.Margin = new System.Windows.Forms.Padding(5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(126, 22);
+            this.textBox1.Size = new System.Drawing.Size(126, 33);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Consultas";
+            this.textBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // btnclose
             // 
@@ -77,7 +78,6 @@
             this.btnclose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnclose.TabIndex = 0;
             this.btnclose.TabStop = false;
-            this.btnclose.Click += new System.EventHandler(this.BtnClose);
             // 
             // caras
             // 
@@ -107,7 +107,6 @@
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.Location = new System.Drawing.Point(1175, 782);
             this.button2.Margin = new System.Windows.Forms.Padding(5);
             this.button2.Name = "button2";
@@ -115,7 +114,6 @@
             this.button2.TabIndex = 2;
             this.button2.Text = " ";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.BtnClose);
             // 
             // Output
             // 

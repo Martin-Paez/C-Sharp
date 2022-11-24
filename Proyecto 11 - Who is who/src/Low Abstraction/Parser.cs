@@ -7,7 +7,7 @@ namespace WiW.src.Parse
 {
     public static class Parser
     {
-        const char delimiter = ',';
+        const char delimiter = ','; // es const por el switch
 
         public static List<List<string>> Parse(TextReader reader)
         {
@@ -20,7 +20,7 @@ namespace WiW.src.Parse
                 switch (c = (char)reader.Read())
                 {
                     case delimiter: Record(s, field); break;
-                    case '\r': reader.Read(); break;
+                    case '\r': break;
                     case '\n':
                     case '\uffff':
                         list.Add(Record(s, field));
@@ -35,11 +35,8 @@ namespace WiW.src.Parse
 
         private static List<string> Record(StringBuilder sb, List<string> record)
         {
-            if ( sb.Length != 0)
-            {
-                record.Add(sb.ToString().Trim());
-                sb.Clear();
-            }
+            record.Add(sb.ToString().Trim());
+            sb.Clear();
             return record;
         }
     }

@@ -21,7 +21,7 @@ namespace WiW.src.Clasificador
         private double InfoGain(RawData[] child, double parentGini)
         {   //Information Gain.
             // Uncertainty of parent, minus the weighted impurity of children.
-            double p = child[0].Ylen/ (child[0].Ylen + (double)child[1].Ylen);
+            double p = (double) child[0].Ylen/ (double) (child[0].Ylen + child[1].Ylen);
             return parentGini - p * Gini(child[0]) - (1.0 - p) * Gini(child[1]);
         }
 

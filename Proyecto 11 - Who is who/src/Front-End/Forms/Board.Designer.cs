@@ -32,7 +32,7 @@ namespace WiW
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Board));
             this.barra = new System.Windows.Forms.Panel();
-            this.btnclose = new System.Windows.Forms.PictureBox();
+            this.btnClose = new System.Windows.Forms.PictureBox();
             this.controles = new System.Windows.Forms.Panel();
             this.pictureBoxNo = new System.Windows.Forms.PictureBox();
             this.pictureBoxSi = new System.Windows.Forms.PictureBox();
@@ -52,6 +52,7 @@ namespace WiW
             this.btnYes = new System.Windows.Forms.Button();
             this.caras = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.btnNewGame = new System.Windows.Forms.Label();
             this.userQuerys = new System.Windows.Forms.ComboBox();
             this.userFace = new System.Windows.Forms.PictureBox();
             this.panel12 = new System.Windows.Forms.Panel();
@@ -59,7 +60,7 @@ namespace WiW
             this.panel13 = new System.Windows.Forms.Panel();
             this.btnGuess = new System.Windows.Forms.Button();
             this.barra.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnclose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
             this.controles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSi)).BeginInit();
@@ -72,26 +73,26 @@ namespace WiW
             // barra
             // 
             this.barra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(80)))), ((int)(((byte)(200)))));
-            this.barra.Controls.Add(this.btnclose);
+            this.barra.Controls.Add(this.btnClose);
             this.barra.Dock = System.Windows.Forms.DockStyle.Top;
             this.barra.Location = new System.Drawing.Point(0, 0);
             this.barra.Margin = new System.Windows.Forms.Padding(5);
             this.barra.Name = "barra";
             this.barra.Size = new System.Drawing.Size(1509, 59);
             this.barra.TabIndex = 0;
-            this.barra.Click += new System.EventHandler(this.Drag);
+            this.barra.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
-            // btnclose
+            // btnClose
             // 
-            this.btnclose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnclose.Image = ((System.Drawing.Image)(resources.GetObject("btnclose.Image")));
-            this.btnclose.Location = new System.Drawing.Point(1459, 8);
-            this.btnclose.Margin = new System.Windows.Forms.Padding(5);
-            this.btnclose.Name = "btnclose";
-            this.btnclose.Size = new System.Drawing.Size(39, 41);
-            this.btnclose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnclose.TabIndex = 0;
-            this.btnclose.TabStop = false;
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
+            this.btnClose.Location = new System.Drawing.Point(1459, 8);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(5);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(39, 41);
+            this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnClose.TabIndex = 0;
+            this.btnClose.TabStop = false;
             // 
             // controles
             // 
@@ -348,6 +349,7 @@ namespace WiW
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(32)))), ((int)(((byte)(40)))));
+            this.panel7.Controls.Add(this.btnNewGame);
             this.panel7.Controls.Add(this.userQuerys);
             this.panel7.Controls.Add(this.userFace);
             this.panel7.Controls.Add(this.panel12);
@@ -360,6 +362,17 @@ namespace WiW
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(401, 775);
             this.panel7.TabIndex = 5;
+            // 
+            // btnNewGame
+            // 
+            this.btnNewGame.AutoSize = true;
+            this.btnNewGame.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnNewGame.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnNewGame.Location = new System.Drawing.Point(163, 708);
+            this.btnNewGame.Name = "btnNewGame";
+            this.btnNewGame.Size = new System.Drawing.Size(184, 40);
+            this.btnNewGame.TabIndex = 14;
+            this.btnNewGame.Text = "Nuevo Juego";
             // 
             // userQuerys
             // 
@@ -451,7 +464,7 @@ namespace WiW
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "¿Quien es?";
             this.barra.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btnclose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnClose)).EndInit();
             this.controles.ResumeLayout(false);
             this.controles.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNo)).EndInit();
@@ -459,6 +472,7 @@ namespace WiW
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.caras.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.userFace)).EndInit();
             this.ResumeLayout(false);
 
@@ -467,7 +481,7 @@ namespace WiW
         #endregion
 
         private Panel barra;
-        private PictureBox btnclose;
+        private PictureBox btnClose;
         private Panel controles;
         public PictureBox pictureBox2;
         private TextBox txtPregunta;
@@ -493,5 +507,6 @@ namespace WiW
         private Panel panel13;
         private Button btnGuess;
         private ComboBox userQuerys;
+        private Label btnNewGame;
     }
 }

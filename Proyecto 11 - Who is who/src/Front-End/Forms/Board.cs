@@ -10,36 +10,43 @@ namespace WiW
     {
         public int SelectedQuery { get { return userQuerys.SelectedIndex; } }
 
-        public event EventHandler Yes;
-        public event EventHandler No;
-        public event EventHandler Paths;
-        public event EventHandler Levels;
-        public event EventHandler Leafs;
-        public event EventHandler Guess;
-        public event EventHandler Ask;
+        public event EventHandler BtnYes;
+        public event EventHandler BtnNo;
+        public event EventHandler BtnPaths;
+        public event EventHandler BtnLevels;
+        public event EventHandler BtnLeafs;
+        public event EventHandler BtnGuess;
+        public event EventHandler BtnAsk;
+        public event EventHandler BtnClose;
+        public event EventHandler BtnNewGame;
 
-        public Board(List<Query> querys, string pcQuery, List<PictureBox> faces) : base()
+        public Board(List<Query> querys, string pcQuery, List<PictureBox> faces
+            , Image playerFace) : base()
         {
             InitializeComponent();
             InitEvents();
-            LocalInit(querys, faces, pcQuery);
+            LocalInit(querys, faces, pcQuery, playerFace);
 		}
 
         private void InitEvents()
         {
-            btnYes.Click += delegate { Yes?.Invoke(this, EventArgs.Empty); };
-            btnNo.Click += delegate { No?.Invoke(this, EventArgs.Empty); };
-            btnPaths.Click += delegate { Paths?.Invoke(this, EventArgs.Empty); };
-            btnLevels.Click += delegate { Levels?.Invoke(this, EventArgs.Empty); };
-            btnLeafs.Click += delegate { Leafs?.Invoke(this, EventArgs.Empty); };
-            btnGuess.Click += delegate { Guess?.Invoke(this, EventArgs.Empty); };
-            btnAsk.Click += delegate { Ask?.Invoke(this, EventArgs.Empty); };
+            btnYes.Click += delegate { BtnYes?.Invoke(this, EventArgs.Empty); };
+            btnNo.Click += delegate { BtnNo?.Invoke(this, EventArgs.Empty); };
+            btnPaths.Click += delegate { BtnPaths?.Invoke(this, EventArgs.Empty); };
+            btnLevels.Click += delegate { BtnLevels?.Invoke(this, EventArgs.Empty); };
+            btnLeafs.Click += delegate { BtnLeafs?.Invoke(this, EventArgs.Empty); };
+            btnGuess.Click += delegate { BtnGuess?.Invoke(this, EventArgs.Empty); };
+            btnAsk.Click += delegate { BtnAsk?.Invoke(this, EventArgs.Empty); };
+            btnClose.Click += delegate { BtnClose?.Invoke(this, EventArgs.Empty); };
+            btnNewGame.Click += delegate { BtnNewGame?.Invoke(this, EventArgs.Empty); };
         }
 
-        private void LocalInit(List<Query> querys, List<PictureBox> faces, string pcQuery)
+        private void LocalInit(List<Query> querys, List<PictureBox> faces
+            , string pcQuery, Image playerFace)
         {
-            userQuerys.DataSource = userQuerys;
+            userQuerys.DataSource = querys;
             txtPregunta.Text = pcQuery;
+            userFace.Image = playerFace;
             int x = 0, y = 0, i = 0, w = 125, h = 192;
             foreach (PictureBox f in faces)
             {

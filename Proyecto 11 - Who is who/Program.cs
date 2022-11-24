@@ -1,5 +1,6 @@
 using tpf;
 using WiW.src;
+using WiW.src.Game;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace WiW
@@ -11,10 +12,10 @@ namespace WiW
         {
             try
             {
-                new src.WiW();
+                new Wiw();
             } catch(Exception e)
             {
-                MessageBox.Show("No se pudo iniciar el juego. \n \nDetalles : " + e);
+                MessageBox.Show("No se pudo iniciar el juego. \n \n DETALLES : \n \n " + e);
             }
         }
     }

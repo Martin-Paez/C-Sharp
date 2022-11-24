@@ -1,35 +1,36 @@
-﻿using WiW;
+﻿using tpf;
+using WiW;
 using WiW.src.Clasificador;
 using WiW.src.IDato;
-    
-namespace tpf
+
+namespace WiW.src.Game
 {
     public class Machine
-	{
+    {
         private DTree Node { get; set; }
         private DTree Root { get; set; }
         public RawData Data { get; set; }
         private List<string>? Replys { get; set; }
         private string? character;
 
-        public Machine() 
+        public Machine()
         {
             Data = new RawData();
             Node = Root = new(SFactory.New(Data));
         }
 
         public bool Ends()
-        {   
-            return Node.ChildLess();
+        {
+            return character == null || Node.ChildLess();
         }
 
         public string Query()
         {
             return Node.Data.ToString();
-		}
+        }
 
-		public (string, double)? Answer(bool valor)
-		{
+        public (string, double)? Answer(bool valor)
+        {
             if (Ends())
                 throw new Exception("El juego ya terminó.");
             Node = valor ? Node.Left! : Node.Right!;
@@ -69,7 +70,7 @@ namespace tpf
 
         public string Levels()
         {
-			return Node.Levels();
+            return Node.Levels();
         }
 
         public List<Query> startGame()

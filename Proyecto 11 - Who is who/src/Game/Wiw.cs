@@ -1,10 +1,9 @@
-﻿using tpf;
-using WiW.src.IViews;
+﻿using WiW.src.IViews;
 using WiW.src.Views;
 
-namespace WiW.src
+namespace WiW.src.Game
 {
-    public class WiW
+    public class Wiw
     {
         public Machine Pc;
         private FileMgr fileMgr;
@@ -12,14 +11,17 @@ namespace WiW.src
         private FacesView VFaces;
         private OutputView output;
         private GameOverView VGameOver;
-        
-        public WiW()
+
+        public Wiw()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            ApplicationConfiguration.Initialize();
             CreateObjects();
             InitEvents();
-            RunApp();
+            Application.Run(VFaces!.GetForm());
         }
-        
+
         // Turno de la PC
 
         private void BtnYes(object? sender, EventArgs e)
@@ -74,12 +76,15 @@ namespace WiW.src
         private void BtnAsk(object? sender, EventArgs e)
         {
             VBoard.PcTurn();
-            VBoard.PcReply(Pc.Ask(VBoard.SelectedQuery));            
+            VBoard.PcReply(Pc.Ask(VBoard.SelectedQuery));
         }
 
         private void BtnGuess(object? sender, EventArgs e)
         {
             VFaces.Show();
+            VFaces.NameSelected += Guess;
+            VFaces.BtnClose -= ExitApp; 
+            VFaces.BtnClose += VFacesHide;
             VBoard.Hide();
         }
 
@@ -112,46 +117,50 @@ namespace WiW.src
         private void InitEvents()
         {
             VFaces.ImgSelected += InitBoardView;
-            VFaces.BtnClose += delegate { Application.Exit(); };
+            VFaces.BtnClose += ExitApp;
             VGameOver.BtnNewGame += BtnNewGame;
-            VGameOver.BtnClose += delegate { Application.Exit(); };
-            output.BtnClose += delegate { output.Hide(); };
+            VGameOver.BtnClose += ExitApp;
+            output.BtnClose += delegate { output.Hide(); VBoard.Show(); };
         }
 
         private void InitBoardView(object? sender, ImgArg e)
         {
-            Board board = new Board(Pc.startGame(), Pc.Query(), VFaces.Imgs);
-            board.userFace.Image = e.Face;
+            VBoard = new Board(Pc.startGame(), Pc.Query(), VFaces.Imgs, e.Face);
             VFaces.Hide();
+            VFaces.BtnClose += VFacesHide;
+            VFaces.BtnClose -= ExitApp;
             VFaces.ImgSelected -= InitBoardView;
-            VFaces.NameSelected += Guess;
-            VBoard.Yes += BtnYes;
-            VBoard.No += BtnNo;
-            VBoard.Paths += BtnPaths;
-            VBoard.Levels += BtnLevels;
-            VBoard.Leafs += BtnLeafs;
-            VBoard.Guess += BtnGuess;
-            VBoard.Ask += BtnAsk;
-            board.Show();
+            VBoard.BtnYes += BtnYes;
+            VBoard.BtnNo += BtnNo;
+            VBoard.BtnPaths += BtnPaths;
+            VBoard.BtnLevels += BtnLevels;
+            VBoard.BtnLeafs += BtnLeafs;
+            VBoard.BtnGuess += BtnGuess;
+            VBoard.BtnAsk += BtnAsk;
+            VBoard.BtnClose += ExitApp;
+            VBoard.BtnNewGame += BtnNewGame;
+            VBoard.Show();
         }
 
         private void BtnNewGame(object? sender, EventArgs e)
         {
+            VBoard.Hide();
             VGameOver.Hide();
-            VFaces.ImgSelected += InitBoardView;
             VFaces.NameSelected -= Guess;
+            VFaces.ImgSelected += InitBoardView;
+            VFaces.BtnClose += ExitApp;
+            VFaces.BtnClose -= VFacesHide;
             VFaces.Show();
         }
 
-        // Iniciar Aplicacion
-
-        private void RunApp()
+        public void ExitApp(object? sender, EventArgs e)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            ApplicationConfiguration.Initialize();
-            Application.Run(VFaces!.GetForm());
+            Application.Exit();
         }
-
+        public void VFacesHide(object? sender, EventArgs e)
+        {
+            VFaces.Hide();
+            VBoard.Show();
+        }
     }
 }

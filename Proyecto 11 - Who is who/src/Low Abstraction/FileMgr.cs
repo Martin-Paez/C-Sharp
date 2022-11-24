@@ -11,6 +11,7 @@ namespace WiW
 {
     public class FileMgr
     {
+        private Form bringToFront = new Form();
         private static FileMgr? instance;
         private string imgPath = "\\imgs";
         
@@ -19,8 +20,8 @@ namespace WiW
 
         private FileMgr()
         {
-            dataset = System.IO.Directory.GetCurrentDirectory();
-            DirectoryInfo? d = System.IO.Directory.GetParent(dataset);
+            dataset = Directory.GetCurrentDirectory();
+            DirectoryInfo? d = Directory.GetParent(dataset);
             d = d.Parent!.Parent;
             dataset = d.FullName + "\\datasets";
         }
@@ -76,17 +77,15 @@ namespace WiW
                     }
                 }
             }
-            Application.Exit();
-            return null!;
+            throw new Exception("No se pudo cargar el archivo");
         }
 
         private bool ReadDatasetPath()
         {
             OpenFileDialog folder = new OpenFileDialog();
             folder.CheckPathExists = true;
-            Form f = new Form();
-            f.TopMost= true;
-            if (folder.ShowDialog(f) == DialogResult.OK)
+            bringToFront.TopMost= true;
+            if (folder.ShowDialog(bringToFront) == DialogResult.OK)
             {
                 string? path = Path.GetDirectoryName(folder.FileName);
                 if (path != null)
@@ -94,7 +93,6 @@ namespace WiW
                 else
                     return false;
             }
-            f = null;
             return true;
         }
     }

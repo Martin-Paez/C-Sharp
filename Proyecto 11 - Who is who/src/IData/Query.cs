@@ -8,6 +8,7 @@ namespace WiW.src.IDato
     public class Query
     {
         protected string _Phrase;
+        public string Phrase { get { return _Phrase; } }
 
         public Query(string feature, string txt)
         {
@@ -20,7 +21,6 @@ namespace WiW.src.IDato
                 _Phrase = string.Format(txt, feature);
         }
 
-        public string Phrase { get { return _Phrase; } }
         public override int GetHashCode()
         {
             return Phrase.GetHashCode();

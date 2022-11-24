@@ -65,6 +65,7 @@ namespace WiW
             this.label1.Size = new System.Drawing.Size(262, 30);
             this.label1.TabIndex = 9;
             this.label1.Text = "Seleccione su Personaje...";
+            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Drag);
             // 
             // btnclose
             // 
@@ -77,7 +78,6 @@ namespace WiW
             this.btnclose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.btnclose.TabIndex = 0;
             this.btnclose.TabStop = false;
-            this.btnclose.Click += new System.EventHandler(this.BtnClose);
             // 
             // caras
             // 
@@ -99,7 +99,7 @@ namespace WiW
             this.answerPanel.Size = new System.Drawing.Size(424, 424);
             this.answerPanel.TabIndex = 4;
             // 
-            // SelectFace
+            // FacesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -108,7 +108,7 @@ namespace WiW
             this.Controls.Add(this.caras);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(5);
-            this.Name = "SelectFace";
+            this.Name = "FacesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Resultado";
             this.barra.ResumeLayout(false);
