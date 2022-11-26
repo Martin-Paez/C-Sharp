@@ -92,12 +92,14 @@ namespace WiW.src.Game
         {
             if (VFaces.AreYouShure("¿ Seguro queres elegir a " + e.Name + "?"))
             {
-                VBoard.Close();
+                VBoard.Hide();
                 Image img = fileMgr.Img(Pc.Name());
                 if (Pc.Guess(e.Name))
                     VGameOver.PlayerHit(img);
                 else
                     VGameOver.PlayerMiss(img);
+                VFaces.BtnClose -= VFacesHide;
+                VFaces.NameSelected -= Guess;
             }
         }
 
@@ -138,7 +140,11 @@ namespace WiW.src.Game
             VBoard.BtnGuess += BtnGuess;
             VBoard.BtnAsk += BtnAsk;
             VBoard.BtnClose += ExitApp;
-            VBoard.BtnNewGame += BtnNewGame;
+            VBoard.BtnNewGame += (s, e) =>
+            {
+                if (VFaces.AreYouShure("Se terminara la partida, ¿ Desea continuar ?"))
+                    BtnNewGame(s, e);
+            };
             VBoard.Show();
         }
 
@@ -155,12 +161,16 @@ namespace WiW.src.Game
 
         public void ExitApp(object? sender, EventArgs e)
         {
-            Application.Exit();
+            if (VFaces.AreYouShure("Se cerrara la aplicacion, ¿ Desea continuar ?"))
+                Application.Exit();
         }
+
         public void VFacesHide(object? sender, EventArgs e)
         {
             VFaces.Hide();
             VBoard.Show();
+            VFaces.BtnClose -= VFacesHide;
+            VFaces.NameSelected -= Guess;
         }
     }
 }

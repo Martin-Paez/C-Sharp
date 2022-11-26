@@ -25,7 +25,7 @@ namespace WiW
         {
             InitializeComponent();
             InitEvents();
-            LocalInit(querys, faces, pcQuery, playerFace);
+            InitForm(querys, faces, pcQuery, playerFace);
 		}
 
         private void InitEvents()
@@ -41,7 +41,7 @@ namespace WiW
             btnNewGame.Click += delegate { BtnNewGame?.Invoke(this, EventArgs.Empty); };
         }
 
-        private void LocalInit(List<Query> querys, List<PictureBox> faces
+        public BoardView InitForm(List<Query> querys, List<PictureBox> faces
             , string pcQuery, Image playerFace)
         {
             userQuerys.DataSource = querys;
@@ -66,6 +66,7 @@ namespace WiW
             userQuerys.SelectedIndex = 0;
             btnGuess.Enabled = true;
             PcTurn();
+            return this;
         }
 
         public void UserTurn(string pcQuery)
@@ -112,5 +113,6 @@ namespace WiW
                 pictureBox.Name = "No_" + pictureBox.Name;
             pictureBox.Image = fileMgr.Img(pictureBox.Name);
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using WiW;
 using WiW.src.Clasificador;
 using WiW.src.IDato;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WiW.src.Game
 {
@@ -79,13 +80,21 @@ namespace WiW.src.Game
             RawData d = Data;
             int sel = new Random().Next(0, d.Ylen);
             HashSet<Query> hs = new();
+            List<Query> querys = new();
+            Query q;
+            string rta;
+            character = d.Name(sel);
             for (int j = 0; j < d.Xlen - 1; j++)
                 for (int i = 0; i < d.Ylen; i++)
-                    if (hs.Add(new Query(d.Val(i, j), d.Query![j])))
-                        Replys.Add(d.Val(i, j) == d.Val(sel, j) ? "si" : "no");
+                    if (hs.Add( q = new Query(d.Val(i, j), d.Query![j]) ))
+                    {
+                        if ( (rta=d.Val(sel, j)) != "si" && rta != "no")
+                            rta = d.Val(i, j) == rta ? "si" : "no";
+                        Replys.Add(rta);
+                        querys.Add(q);
+                    }
             Node = Root;
-            character = d.Name(sel);
-            return hs.ToList();
+            return querys;
         }
 
     }

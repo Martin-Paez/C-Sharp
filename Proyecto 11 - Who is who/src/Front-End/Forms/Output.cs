@@ -25,7 +25,9 @@ namespace WiW
         public Output()
         {
             InitializeComponent();
-            btnclose.Click += delegate { BtnClose?.Invoke(this, EventArgs.Empty); } ;
+            EventHandler d = delegate { BtnClose?.Invoke(this, EventArgs.Empty); };
+            btnclose.Click += d;
+            btnBack.Click += d;
         }
 
         public Form GetForm()
