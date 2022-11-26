@@ -24,8 +24,8 @@ namespace TP.TP3
         {
             Action[] f = { Ej6_7y9, Ej14y15 };
             FabMenu.Crear(f,
-                  "Ejercicios:                \n"
-                + "-----------                \n"
+                  "Ejercicios (con opcionales):\n"
+                + "-----------------------------\n"
                 + "  1) Ejercicios 6, 7 y 9   \n"
                 + "  2) Ejercicio 14 y 15     \n"
                 + "  s) Salir                 \n"
