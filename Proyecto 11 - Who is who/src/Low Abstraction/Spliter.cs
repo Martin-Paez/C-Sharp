@@ -18,7 +18,7 @@ namespace WiW.src.Clasificador
             return impurity;
         }
             
-        private double InfoGain(RawData[] child, double parentGini)
+        private double InfoGain(RawData [] child, double parentGini)
         {   //Information Gain.
             // Uncertainty of parent, minus the weighted impurity of children.
             double p = (double) child[0].Ylen/ (double) (child[0].Ylen + child[1].Ylen);
@@ -35,6 +35,7 @@ namespace WiW.src.Clasificador
                     res[1].Add(child.Row(i));
             return res;
         }
+
         public (Choice, RawData[]) BestSplit(RawData rd)
         {   //Iteration by feature with gain calculation .
             (Choice, RawData[]) o = new(null!, new RawData[2]);
